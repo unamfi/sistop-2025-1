@@ -1,5 +1,10 @@
+import java.util.Scanner;
+
 public class Hello {
 	public static void main(String args[]) {
-		System.out.println("Hola bienvenido a Sistop25-1");
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Teclea tu nombre: ");
+		String nombre = scan.next();
+		System.out.println("Hola " + nombre + " bienvenido a Sistop25-1");
 	}
 }
