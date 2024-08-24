@@ -1,0 +1,2 @@
+Hola, Mi nombre es Gonzalez Cuellar Pablo Arturo
+Este archivo se esta escribiendo desde la rama "practica2b"
