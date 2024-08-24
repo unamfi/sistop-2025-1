@@ -30,7 +30,7 @@ void solve() {
     cin>>n;
     vector<ll> v(n);
     vector<ll> p;
-   ll max=1;
+   ll max=0;
    ll pos=0;
     for (int i = 0; i < n; i++)
     {
