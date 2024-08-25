@@ -1,4 +1,3 @@
 A = "Hola"
-B = "Mundo"
-C =  :D
+B = "Mundo :D"
 print(A,B,C)
