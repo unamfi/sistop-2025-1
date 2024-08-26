@@ -1,0 +1,6 @@
+#Lenguaje Python
+
+def HolaMundo():
+	print("Hola Mundo\n")
+
+HolaMundo()
