@@ -1,5 +1,9 @@
 #include <stdio.h>
 int main(){   
-    printf("hola mundo"); 
+    char nombre[50];
+    printf("hola mundo\n");
+    printf("Ingrese su nombre: ");
+    scanf("%s", nombre);
+    printf("Hola, %s\n", nombre);
     return 0;
 }
