@@ -1,0 +1,401 @@
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 0
+cpu cores	: 8
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 0
+cpu cores	: 8
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 4
+cpu cores	: 8
+apicid		: 8
+initial apicid	: 8
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 4
+cpu cores	: 8
+apicid		: 9
+initial apicid	: 9
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 4
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 8
+cpu cores	: 8
+apicid		: 16
+initial apicid	: 16
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 5
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 8
+cpu cores	: 8
+apicid		: 17
+initial apicid	: 17
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 6
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 12
+cpu cores	: 8
+apicid		: 24
+initial apicid	: 24
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 7
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 12
+cpu cores	: 8
+apicid		: 25
+initial apicid	: 25
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 8
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 16
+cpu cores	: 8
+apicid		: 32
+initial apicid	: 32
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 9
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 16
+cpu cores	: 8
+apicid		: 33
+initial apicid	: 33
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 10
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 20
+cpu cores	: 8
+apicid		: 40
+initial apicid	: 40
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 11
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 20
+cpu cores	: 8
+apicid		: 41
+initial apicid	: 41
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 12
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 24
+cpu cores	: 8
+apicid		: 48
+initial apicid	: 48
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 13
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 25
+cpu cores	: 8
+apicid		: 50
+initial apicid	: 50
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 14
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 26
+cpu cores	: 8
+apicid		: 52
+initial apicid	: 52
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+processor	: 15
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 186
+model name	: 13th Gen Intel(R) Core(TM) i7-13620H
+stepping	: 2
+microcode	: 0x4114
+cpu MHz		: 2920.000
+cache size	: 24576 KB
+physical id	: 0
+siblings	: 16
+core id		: 27
+cpu cores	: 8
+apicid		: 54
+initial apicid	: 54
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 24
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush acpi mmx fxsr sse sse2 ss ht tm pbe constant_tsc arch_perfmon rep_good nopl xtopology cpuid aperfmperf tsc_known_freq pni pclmuldq monitor est tm2 ssse3 fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm epb fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni dtherm ida pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+bogomips	: 5840.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
