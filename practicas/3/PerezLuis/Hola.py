@@ -1,4 +1,4 @@
 import getpass
-from time import gmtime, strftime
+from time import localtime, strftime
 
-print(f"Hola %s, son las %s"% (getpass.getuser(), strftime("%H:%M:%S", gmtime())))
+print(f"Hola %s, son las %s"% (getpass.getuser(), strftime("%H:%M:%S", localtime())))
