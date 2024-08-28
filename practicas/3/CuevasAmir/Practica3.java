@@ -1,6 +1,9 @@
+
 public class Practica3{
 
     public static void main(String[] args) {
-        System.out.println("Esta es mi practica 3");
+
+        String cadena = "Segundo commit Practica 3";
+        System.out.println("La cadena es" + " " + cadena);
     }
 }
