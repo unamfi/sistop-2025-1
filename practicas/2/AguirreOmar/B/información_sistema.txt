@@ -1,0 +1,53 @@
+Nombre de host:                            LAPTOP-PDP9G1UB
+Nombre del sistema operativo:              Microsoft Windows 11 Home Single Language
+Versión del sistema operativo:             10.0.22631 N/D Compilación 22631
+Fabricante del sistema operativo:          Microsoft Corporation
+Configuración del sistema operativo:       Estación de trabajo independiente
+Tipo de compilación del sistema operativo: Multiprocessor Free
+Propiedad de:                              omargabagu@gmail.com
+Organización registrada:                   HP
+Id. del producto:                          00342-41397-33605-AAOEM
+Fecha de instalación original:             14/04/2023, 06:52:05
+Tiempo de arranque del sistema:            15/08/2024, 14:46:24
+Fabricante del sistema:                    HP
+Modelo el sistema:                         HP Pavilion Gaming Laptop 15-dk0xxx
+Tipo de sistema:                           x64-based PC
+Procesador(es):                            1 Procesadores instalados.
+                                           [01]: Intel64 Family 6 Model 158 Stepping 10 GenuineIntel ~2400 Mhz
+Versión del BIOS:                          Insyde F.04, 03/05/2019
+Directorio de Windows:                     C:\windows
+Directorio de sistema:                     C:\windows\system32
+Dispositivo de arranque:                   \Device\HarddiskVolume6
+Configuración regional del sistema:        es-mx;Español (México)
+Idioma de entrada:                         es-mx;Español (México)
+Zona horaria:                              (UTC-06:00) Guadalajara, Ciudad de México, Monterrey
+Cantidad total de memoria física:          16,234 MB
+Memoria física disponible:                 5,255 MB
+Memoria virtual: tamaño máximo:            20,202 MB
+Memoria virtual: disponible:               3,642 MB
+Memoria virtual: en uso:                   16,560 MB
+Ubicación(es) de archivo de paginación:    C:\pagefile.sys
+Dominio:                                   WORKGROUP
+Servidor de inicio de sesión:              \\LAPTOP-PDP9G1UB
+Revisión(es):                              6 revisión(es) instaladas.
+                                           [01]: KB5042099
+                                           [02]: KB5012170
+                                           [03]: KB5027397
+                                           [04]: KB5041585
+                                           [05]: KB5039338
+                                           [06]: KB5041584
+Tarjeta(s) de red:                         2 Tarjetas de interfaz de red instaladas.
+                                           [01]: Realtek RTL8822BE 802.11ac PCIe Adapter
+                                                 Nombre de conexión: Wi-Fi
+                                                 DHCP habilitado:    Sí
+                                                 Servidor DHCP:      10.204.31.251
+                                                 Direcciones IP
+                                                 [01]: 10.204.0.245
+                                                 [02]: fe80::8275:a38c:28f6:b4d3
+                                           [02]: VirtualBox Host-Only Ethernet Adapter
+                                                 Nombre de conexión: Ethernet 8
+                                                 DHCP habilitado:    No
+                                                 Direcciones IP
+                                                 [01]: 192.168.56.1
+                                                 [02]: fe80::192f:4443:4f39:5c3f
+Requisitos Hyper-V:                        Se detectó un hipervisor. No se mostrarán las características necesarias para Hyper-V.

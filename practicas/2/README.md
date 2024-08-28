@@ -98,10 +98,11 @@ mismo *objeto*, al mismo punto en la historia de nuestro proyecto. Y,
 a pesar de haber creado las dos ramas, la rama activa sigue siendo
 `main`. Vamos a seleccionar, con `checkout`, la práctica 2A, y crear
 un archivo dentro de ésta. Por ejemplo, para obtener la fecha del
-sistema y guardarla en un archivo:
+sistema y guardarla en un archivo, asumiendo que ya está creado el directorio
+`practicas/2/WolfGunnar` (con tu nombre, naturalmente 😉):
 
 	$ git checkout practica2a
-	$ mkdir practicas/2/WolfGunnar
+	$ mkdir practicas/2/WolfGunnar/A
 	$ date > practicas/2/WolfGunnar/A/hora_actual.txt
 
 (Claro, en el directorio que corresponda a tu nombre, no en el mío).
@@ -136,7 +137,7 @@ de tu CPU, según la presenta el sistema operativo (claro, el archivo
 `/proc/cpuinfo` sólo existe en Linux; ponle cualquier contenido que
 elijas en caso de estar usando otro sistema):
 
-	$ mkdir practicas/2/WolfGunnar
+	$ mkdir practicas/2/WolfGunnar/B
 	$ cp /proc/cpuinfo practicas/2/WolfGunnar/B/cpuinfo.txt
 	$ git add practicas/2/WolfGunnar/B/cpuinfo.txt
 	$ git commit -m 'Agrego el archivo de Gunnar Wolf para la práctica 2B'
