@@ -1,7 +1,0 @@
-#Lenguaje Python
-
-def HolaMundo():
-	Nombre = input("Agrega tu nombre de Usuario: \t")
-	print(f'Hola tu nombre es {Nombre}')
-
-HolaMundo()
