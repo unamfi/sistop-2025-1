@@ -34,3 +34,35 @@ de la computación.
 
 Brenda Flores:
 
+Hoy se hablará del fascículo 5 de la revista MIcomputer la cual es la traduccion de la revista británica Home Computer Course en este
+fascículo se abordaron diversos temas desde los programas existentes en la época como una alternativa para el estudio de los más chicos 
+del hogar, hasta el funcionamiento y los tipos de memoria con los que cuentan las computadoras. 
+Se cree que esta revista debió de haber sido un boom en la década que fue pública puesto que abordan temas que, para la época, podrían
+ser algo complejos de comprender cuando no se tiene muchos conocimientos al respecto. Uno de los temas más interesantes y que se pueden 
+relacionar fácilmente con los temas abordados en clase, es la historia de los ordenadores modernos y como estos pudieron empezar a ser 
+desarrollados 100 años antes de los registros actuales por Charles Babbage, este tema se relaciona ampliamente por los temas vistos al 
+inicio del curso junto con el primer ordenador electromecánico del mundo desarrollada por Alan Turing para descifrar. 
+Junto con lo anterior es resaltable como la revista logra ilustrar al lector sobre la diferencia que existe entre lo que es un 
+interpretador y un compilador como con el primero se traduce instrucción por instrucción mientras con el segundo se traduce el programa 
+completo lo que también nos permite relacionarlo con las interrupciones en el programa, tema que fue desarrollado más a fondo dentro 
+de la clase. 
+Por último otro de los temas que se abordaron en la revista que se cree importante de resaltar son los tipos de almacenamiento que 
+tienen los ordenadores. Estos tipos de almacenamiento  se dividen en dos la memoria principal y la secundaria y se cree que haber 
+incluido esta información en la revista debió de haber sido de gran ayuda para los lectores de la época, puesto que así  pudieron 
+comprender, de una mejor forma, por que al apagar el ordenador los datos sin guardar de la manera apropiada se llegaban a perder.
+A lo largo de este fascículo se abordaron temas muy interesantes como los mencionados anteriormente  y se cree que la revista benefició 
+a una gran cantidad de personas que se encontraban interesadas en poder aprender un poco más de lo que hoy en día es tan común como lo 
+es una computadora. Uno de los aspectos más fascinantes es que, a pesar de haber sido escrita en la década de los ochenta, la revista 
+aborda temas que siguen siendo altamente relevantes hoy en día, ya que los principios fundamentales de los sistemas operativos han 
+permanecido casi inalterados.
+
+Conclusión conjunta:
+
+El fascículo 5 de la revista *MIcomputer* nos resultó muy interesante y educativo. Los temas sobre almacenamiento seguro y cómo se 
+ejecutan las instrucciones en el sistema operativo nos permitieron comprender mejor conceptos clave de la computación, como la memoria 
+RAM y ROM. También nos llamó la atención la explicación sobre la diferencia entre compiladores e intérpretes, lo que nos ayudó a 
+entender mejor cómo se procesan los programas.
+
+Además, nos pareció fascinante cómo la revista conecta la historia de los ordenadores, desde Charles Babbage hasta Alan Turing, con 
+temas que aún son relevantes hoy en día. Aunque fue escrita hace tiempo, sigue siendo muy útil para comprender los fundamentos de la 
+computación y los sistemas operativos.
