@@ -1,0 +1,47 @@
+
+Nombre de host:                            PC_TORRES
+Nombre del sistema operativo:              Microsoft Windows 11 Pro
+Versión del sistema operativo:             10.0.22631 N/D Compilación 22631
+Fabricante del sistema operativo:          Microsoft Corporation
+Configuración del sistema operativo:       Estación de trabajo independiente
+Tipo de compilación del sistema operativo: Multiprocessor Free
+Propiedad de:                              angeljoeltorres@hotmail.com
+Organización registrada:                   
+Id. del producto:                          00330-80000-00000-AA494
+Fecha de instalación original:             11/06/2024, 07:34:47 p. m.
+Tiempo de arranque del sistema:            13/08/2024, 02:14:22 p. m.
+Fabricante del sistema:                    Gigabyte Technology Co., Ltd.
+Modelo el sistema:                         A320M-S2H
+Tipo de sistema:                           x64-based PC
+Procesador(es):                            1 Procesadores instalados.
+                                           [01]: AMD64 Family 23 Model 24 Stepping 1 AuthenticAMD ~3600 Mhz
+Versión del BIOS:                          American Megatrends Inc. F2, 03/11/2020
+Directorio de Windows:                     C:\Windows
+Directorio de sistema:                     C:\Windows\system32
+Dispositivo de arranque:                   \Device\HarddiskVolume1
+Configuración regional del sistema:        es-mx;Español (México)
+Idioma de entrada:                         es-mx;Español (México)
+Zona horaria:                              (UTC-06:00) Guadalajara, Ciudad de México, Monterrey
+Cantidad total de memoria física:          14,285 MB
+Memoria física disponible:                 6,452 MB
+Memoria virtual: tamaño máximo:            24,013 MB
+Memoria virtual: disponible:               14,305 MB
+Memoria virtual: en uso:                   9,708 MB
+Ubicación(es) de archivo de paginación:    C:\pagefile.sys
+Dominio:                                   WORKGROUP
+Servidor de inicio de sesión:              \\PC_TORRES
+Revisión(es):                              5 revisión(es) instaladas.
+                                           [01]: KB5042099
+                                           [02]: KB5027397
+                                           [03]: KB5036212
+                                           [04]: KB5041585
+                                           [05]: KB5041584
+Tarjeta(s) de red:                         1 Tarjetas de interfaz de red instaladas.
+                                           [01]: Realtek PCIe GbE Family Controller
+                                                 Nombre de conexión: Ethernet
+                                                 DHCP habilitado:    Sí
+                                                 Servidor DHCP:      192.168.3.1
+                                                 Direcciones IP
+                                                 [01]: 192.168.3.222
+                                                 [02]: fe80::8b0e:b4d8:543:401b
+Requisitos Hyper-V:                        Se detectó un hipervisor. No se mostrarán las características necesarias para Hyper-V.
