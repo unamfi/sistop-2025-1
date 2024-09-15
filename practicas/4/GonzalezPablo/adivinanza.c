@@ -21,7 +21,10 @@ int main() {
             printf("El número es mayor.\n");
         } else if(adivinanza > numero) {
             printf("El número es menor.\n");
-        } else {
+        }else if (intentos == 10){
+		printf("Aun no¿? Jejeje");
+	}
+	else {
             printf("¡Felicidades! Adivinaste el número en %d intentos.\n", intentos);
         }
     } while(adivinanza != numero);
