@@ -2,6 +2,6 @@
 
 int main() {
     // Imprime "Hola, mundo" en la consola
-    printf("Hola, mundo\n");
+    printf("Hola, Ximena\n");
     return 0;
 }
