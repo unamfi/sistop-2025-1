@@ -82,6 +82,6 @@ repitas lo que leíste, resume lo que llamó tu atención.
 Este cuenta como el *primer proyecto* de la materia. Esto es, como si
 fuera un examen parcial.
 
-<!-- ## Calificaciones y comentarios -->
+## Calificaciones y comentarios
 
-<!-- Conforme vaya calificando, [los iré publicando aquí](./calificaciones.org). -->
+¡Ya pueden consultar [las calificaciones obtenidas](./calificaciones.org)!
