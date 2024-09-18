@@ -48,3 +48,4 @@ for i in range(4):
 
 time.sleep(1)
 print('Listo. Sumé cuatro veces. Mi resultado es: %d' % var)
+#Este es solo un comentario para "modificar" el archivo en la practica 4 despues del gitignore
