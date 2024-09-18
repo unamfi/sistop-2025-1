@@ -1,23 +1,23 @@
 #include <stdio.h>
 #include <pthread.h>
 
-// Función que ejecutará el hilo
-void* print_message(void* arg) {
-    char* message = (char*)arg;
-    printf("%s\n", message);
-    return NULL;
+void *saludo_hilo(){
+printf("Hola mundo desde un hilo\n");
 }
 
-int main() {
-    pthread_t thread1, thread2;
+int main(){
+    pthread_t hilo;
+    int resultado;
 
-    pthread_create(&thread1, NULL, print_message, "Hola desde el hilo 1");
-    pthread_create(&thread2, NULL, print_message, "Hola desde el hilo 2");
+    resultado = pthread_create(&hilo,NULL,saludo_hilo,NULL);
 
-    pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
+    if(resultado != 0){
+        perror("Error al crear el hilo");
+        return 1;
+    }
 
-    printf("Hilos completados.\n");
-
+    pthread_join(hilo,NULL);
     return 0;
 }
+
+
