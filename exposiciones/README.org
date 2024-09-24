@@ -11,13 +11,14 @@
   como lo refleja la rúbrica, obtiene una calificación un poco más alta)
   el que ustedes me planteen los temas de su interés.
 
-  |------------+-----------------------------------+----------------------------+----------------+----------------------------------------------+----------------------------------------|
-  |      Fecha | Tema                              | Integrantes                | Video          | Documentos                                   | Evaluación                             |
-  |------------+-----------------------------------+----------------------------+----------------+----------------------------------------------+----------------------------------------|
-  | 2024.09.18 | Algoritmos de compresión de datos | Diego Velázquez Balandra   | [[https://youtu.be/h3jl6v6steE][Liga a YouTube]] | [[./VelazquezDiego/VelazquezBD_Expo.pdf][Presentación]], [[./VelazquezDiego/VelazquezBD_Escrito_expo_SO.pdf][Reporte]] (entrega extemporánea) | [[https://encuestas.iiec.unam.mx/317992?lang=es-MX][Evaluación por parte de los compañeros]] |
-  | 2024.10.01 | Emulación                         | Christian Esquivel Santana |                |                                              |                                        |
-  | 2024.10.01 | El sistema operativo TempleOS     | Daniel Hernández           |                |                                              |                                        |
-  |------------+-----------------------------------+----------------------------+----------------+----------------------------------------------+----------------------------------------|
+  |------------+-----------------------------------------------+----------------------------+----------------+----------------------------------------------+----------------------------------------|
+  |      Fecha | Tema                                          | Integrantes                | Video          | Documentos                                   | Evaluación                             |
+  |------------+-----------------------------------------------+----------------------------+----------------+----------------------------------------------+----------------------------------------|
+  | 2024.09.18 | Algoritmos de compresión de datos             | Diego Velázquez Balandra   | [[https://youtu.be/h3jl6v6steE][Liga a YouTube]] | [[./VelazquezDiego/VelazquezBD_Expo.pdf][Presentación]], [[./VelazquezDiego/VelazquezBD_Escrito_expo_SO.pdf][Reporte]] (entrega extemporánea) | [[https://encuestas.iiec.unam.mx/317992?lang=es-MX][Evaluación por parte de los compañeros]] |
+  | 2024.10.01 | Emulación                                     | Christian Esquivel Santana |                |                                              |                                        |
+  | 2024.10.01 | El sistema operativo TempleOS                 | Daniel Hernández           |                |                                              |                                        |
+  | 2024.10.08 | Esquemas de seguridad en el acceso a archivos | Héctor Hernández Saldívar  |                |                                              |                                        |
+  |------------+-----------------------------------------------+----------------------------+----------------+----------------------------------------------+----------------------------------------|
   #+TBLFM: 
 
 * Rúbrica de evaluación
