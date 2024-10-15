@@ -1,27 +1,19 @@
 # Ejercicios de sincronización
 
-    Tarea creada: 20xx.xx.xx
-	Entrega: 20xx.xx.xx
+    Tarea creada: 2022.10.15
+	Entrega: 2022.10.22
 
 Vimos ya los principales patrones de sincronización empleando
 semáforos, y mencionamos también la existencia de otros (variables de
 condición, señales y manejadores Unix...)
-
-<!-- Resolvimos ya algunos problemas _clásicos_, y desarrollamos el -->
-<!-- problema de *Los alumnos y el asesor* en un 90% (nos faltó únicamente -->
-<!-- que el *profesor* se dé cuenta que no hay ningún alumno esperando y -->
-<!-- vuelva a dormir un rato). Pueden [consultar aquí el código que -->
-<!-- desarrollamos en -->
-<!-- clase](../../ejemplos_en_clase/3.Adm.Procesos/alumnos_y_asesor.py) **⇐ -->
-<!-- ¡Revisar!**. -->
 
 Ahora toca el turno a ustedes: Van a resolver un problema de programación
 concurrente en el que sea necesario emplear algún mecanismo de sincronización.
 
 ## Calificaciones y comentarios
 
-Pueden [consultar aquí las calificaciones y comentarios a sus
-soluciones](./revision.org).
+<!-- Pueden [consultar aquí las calificaciones y comentarios a sus -->
+<!-- soluciones](./revision.org). -->
 
 ## Los problemas
 
