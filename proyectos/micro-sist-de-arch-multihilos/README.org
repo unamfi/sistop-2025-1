@@ -1,8 +1,8 @@
 #+title: Proyecto: (Micro) sistema de archivos multihilos
 
 #+BEGIN_SRC yaml
-Planteamiento: 20xx.xx.xx
-Entrega: 20xx.xx.xx
+Planteamiento: 2024.10.17
+Entrega: 2024.11.05
 #+END_SRC
 
 # ¡Las [[./calificaciones.org][calificaciones y comentarios]] ya están disponibles!
@@ -63,7 +63,7 @@ del /«disco»/?
     sugiero revisar las funciones [[https://linux.die.net/man/3/htons][htons() y ntohs()]]. ¿Java? Si bien no forman
     parte del lenguaje, pueden encontrar [[https://stackoverflow.com/questions/2675957/java-implementing-htonl#15547976][varias]] [[https://coderanch.com/t/366549/java/Java-equivilent-functions-htonl-ntohl][implementaciones]] de =htons()= y
     =ntohs()= en la red.
-- La superficie del disco se divide en sectores de 512 bytes. Cada /cluster/
+- La superficie del disco se divide en sectores de 256 bytes. Cada /cluster/
   mide cuatro sectores.
 - El pseudodispositivo no maneja /tabla de particiones/, sino que hospeda
   directamente un /volumen/ en la totalidad de su espacio.
@@ -75,8 +75,9 @@ del /«disco»/?
     validar nunca modificar un sistema de archivos que no sea el correcto! Debe
     ser la cadena =FiUnamFS=.
   - 10--14 :: Versión de la implementación. Estamos implementando la versión
-    =24-2= (ojo, es una /cadena/, no un número). Deben validar que el sistema de
-    archivos a utilizar sea de esta versión, para evitar la corrupción de datos.
+    =25-1= (ojo, es una /cadena/, no un número). Deben validar que el sistema de
+    archivos a utilizar sea exactamente esta versión, para evitar la corrupción
+    de datos.
   - 20--35 :: Etiqueta del volumen
   - 40--44 :: Tamaño del cluster en bytes
   - 45--49 :: Número de clusters que mide el directorio
@@ -90,8 +91,8 @@ del /«disco»/?
   mide 64 bytes, consistentes en:
   - 0 :: Tipo de archivo. Dado que el sistema de archivos actual no tien soporte
     para directorios, dispositivos, pipes, ni otros archivos especiales, siempre
-    será el caracter =-= (=0x2d=, =45=). Cuando la entrada está vacía, se indica
-    con el caracter =/= (=0x2f=, =47=).
+    será el caracter =.= (=0x2e=, =46=). Cuando la entrada está vacía, se indica
+    con el caracter =#= (=0x23=, =35=).
   - 1--15 :: Nombre del archivo
   - 16--20 :: Tamaño del archivo, en bytes
   - 20--23 :: Cluster inicial
@@ -101,7 +102,7 @@ del /«disco»/?
     AAAAMMDDHHMMSS (p.ej. '20221109182600')
   - 52--64 :: Espacio no utilizado (¿reservado para expansión futura?)
 - Las entradas no utilizadas del directorio se identifican porque en el campo de
-  nombre llevan la cadena =###############=.
+  nombre llevan la cadena =---------------=.
   - Los nombres de archivos pueden componerse de cualquier caracter dentro del
     subconjunto ASCII de 7 bits (no acentuados, no Unicode, sólo el /viejo y
     aburrido/ US-ASCII)
