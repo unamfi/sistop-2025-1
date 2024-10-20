@@ -3,25 +3,17 @@ import time
 import random
 juguetes = 0
 mutex_juguetes = threading.Semaphore(1)
-
-ElfosEnProblemas = 0
+SantaVC = threading.Condition()
 MutexElfos = threading.Lock()
-ElfosP = threading.Condition(MutexElfos)
-ELfosEsperando= threading.Condition(MutexElfos)
-RenosListos = 0
-MutexRenos = threading.Lock()
-RenosCompletos = threading.Condition(MutexRenos)
-RenosALaEspera = threading.Condition(MutexRenos)
-SantaMutex = threading.Lock()
-SantaCV =  threading.Condition(SantaMutex)
-start_barrier = threading.Barrier(20) 
+RenosVC = threading.Condition()
+RenosListos=0
+ElfosEnProblemas = 0
+ElfosVC = threading.Condition()
+ElfosVCSO = threading.Condition()
 SantaLibre = True
-class Elfo(threading.Thread):
+class Elfo():
     def __init__ (self,num):
         self.num = num
-        super().__init__()
-    def run(self):
-        start_barrier.wait()
         while True:
             self.__chambea__()
 
@@ -33,69 +25,60 @@ class Elfo(threading.Thread):
         
         
     def __chambea__(self):
-        time.sleep(2)
         if(random.choice([True, False])):
             self.__problema__()
-            with MutexElfos:
-                global ElfosEnProblemas
-                ElfosEnProblemas +=1
-                print('Somos %d elfos en problemas \n' % ElfosEnProblemas)
-                if(ElfosEnProblemas >=3):
-                    self.__reporta__('Suficientes esperando, llamando a Santa!')
-                    with SantaMutex:
-                        global SantaLibre
+            global ElfosEnProblemas
+            with ElfosVC:
+                ElfosEnProblemas+=1
+                print("Hay %d elfos en problemas\n" %ElfosEnProblemas)
+                if(ElfosEnProblemas==3):
+                    with SantaVC:
                         if(SantaLibre!=True):
-                            ELfosEsperando.wait()
-                        SantaCV.notify_all()
-                else:
-                    ElfosP.wait()  
+                            with ElfosVCSO:
+                                ElfosVCSO.wait()
+                        print("Demasiados elfos |%d| en problemas" % ElfosEnProblemas, "Llamando a Santa!\n")
+                        SantaVC.notify_all()
+                ElfosVC.wait()
+        
         with mutex_juguetes:
             global juguetes
             juguetes +=1
             juguete = juguetes
         self.__reporta__('Termine el juguete, ahora hay %d juguetes. *' % juguete)
 
-class Reno(threading.Thread):    
+class Reno():    
     def __init__(self, num):
         self.num = num
-        super().__init__()
-        
+        while True:
+            self.__vacaciona__() 
             
     def __reporta__(self, msg):
             print('Reno %s%d: %s \n' % (' ' * self.num, self.num, msg))
     
-    def run(self):
-        start_barrier.wait()
-        while True:
-            self.__vacaciona__()
             
     def __vacaciona__(self):
         self.__reporta__('De vacaciones...')
-        time.sleep(random.random() / 1)
+        time.sleep(random.random())
         self.__chambea__()
     
     
     def __chambea__(self):
-        with MutexRenos:
-            global RenosListos
+        global RenosListos
+        with RenosVC:
             RenosListos+=1
-            print(f"Reno listo. Total de renos listos: {RenosListos}")
+            print(f"Reno %d listo. Total de renos listos: {RenosListos} \n" %self.num)
             if(RenosListos==9):
-                if(SantaLibre==False):
-                    RenosCompletos.wait()
-                with SantaMutex:
-                    SantaCV.notify_all()
-                    time.sleep(2)
-            else:
-                RenosALaEspera.wait()
+                with SantaVC:
+                    SantaVC.notify_all()
+            RenosVC.wait()
+                    
+                    
         
         
         
 class Santa():
     def __init__(self):
-        start_barrier.wait()
         while True:
-            self.__duerme__()
             self.__Despertando__()
                             
     def __reporta__(self, msg):
@@ -106,48 +89,39 @@ class Santa():
 
     def __OcupadoConElfos__(self):
         self.__reporta__('Ocupado con los elfos')
-    
+        global ElfosEnProblemas
+        with MutexElfos:
+            ElfosEnProblemas=0
+
     def __FelizNavidad__(self):
         self.__reporta__('JoJoJoJo Feliz Navidad!')
+        global RenosListos
+        with RenosVC:
+            RenosListos=0
+
+        
     def __Despertando__(self):
         global RenosListos
-        global ElfosEnProblemas
-        global SantaLibre
-        with SantaMutex:
-            SantaCV.wait()  # Santa espera ser notificado
-            if RenosListos >= 9:
-                SantaLibre = False
-                with RenosALaEspera:
-                    self.__FelizNavidad__()
-                    RenosListos = 0
-                    RenosALaEspera.notify_all()  # Despertar a los renos
-            if ElfosEnProblemas >= 3:
-                SantaLibre = False
+        global SantaLibre 
+        with SantaVC:
+            self.__duerme__()
+            SantaLibre= True
+            with ElfosVCSO:
+                ElfosVCSO.notify_all()
+            SantaVC.wait()
+            SantaLibre = False
+            if(RenosListos == 9):
+                self.__FelizNavidad__()
+                time.sleep(2)
+                with RenosVC:
+                    RenosVC.notify_all()
+            else:
+                with ElfosVC:
+                    ElfosVC.notify_all()      
                 self.__OcupadoConElfos__()
-                with MutexElfos:
-                    ElfosEnProblemas = 0
-                    ElfosP.notify_all()  # Despertar a los elfos
-            SantaLibre = True
-                
-                
-                
-                
+                    
+
 SantaH = threading.Thread(target=Santa)
-SantaH.start()
-
-ElfosH = [Elfo(i) for i in range(1, 11)]
-RenosH = [Reno(i) for i in range(1, 10)]
-
-for hilo in ElfosH:
-    hilo.start()
-for hilo in RenosH:
-    hilo.start()
-
-
-
-# Unir todos los hilos
-SantaH.join()
-for hilo in ElfosH + RenosH:
-    hilo.join()
-
-
+SantaH.start()               
+Renos = [threading.Thread(target=Reno, args=[i]).start() for i in range(9)]
+Elfos = [threading.Thread(target=Elfo, args=[i]).start() for i in range(11)]
