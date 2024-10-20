@@ -31,15 +31,16 @@ class Elfo():
             with ElfosVC:
                 ElfosEnProblemas+=1
                 print("Hay %d elfos en problemas\n" %ElfosEnProblemas)
-                if(ElfosEnProblemas==3):
+                if(ElfosEnProblemas >=3 and SantaLibre ==True):
                     with SantaVC:
                         if(SantaLibre!=True):
                             with ElfosVCSO:
+                                ElfosVC.wait()
                                 ElfosVCSO.wait()
                         print("Demasiados elfos |%d| en problemas" % ElfosEnProblemas, "Llamando a Santa!\n")
                         SantaVC.notify_all()
                 ElfosVC.wait()
-        
+
         with mutex_juguetes:
             global juguetes
             juguetes +=1
@@ -58,7 +59,7 @@ class Reno():
             
     def __vacaciona__(self):
         self.__reporta__('De vacaciones...')
-        time.sleep(random.random())
+        time.sleep(random.uniform(0, 10))
         self.__chambea__()
     
     
@@ -96,8 +97,13 @@ class Santa():
     def __FelizNavidad__(self):
         self.__reporta__('JoJoJoJo Feliz Navidad!')
         global RenosListos
+        global juguetes
+        global ElfosEnProblemas
         with RenosVC:
             RenosListos=0
+        with mutex_juguetes:
+            juguetes=0
+            print('Jueguetes = %d' % juguetes)
 
         
     def __Despertando__(self):
@@ -112,8 +118,8 @@ class Santa():
             SantaLibre = False
             if(RenosListos == 9):
                 self.__FelizNavidad__()
-                time.sleep(2)
                 with RenosVC:
+                    print("Aqui llego-------------")
                     RenosVC.notify_all()
             else:
                 with ElfosVC:
