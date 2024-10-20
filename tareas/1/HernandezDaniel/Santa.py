@@ -68,7 +68,7 @@ class Elfo():
                         
 
         with mutex_juguetes:
-            #time.sleep(random.uniform(1, 3))
+            time.sleep(0.5)
             global juguetes
             juguetes +=1
             juguete = juguetes
@@ -96,8 +96,10 @@ class Reno():
             RenosListos+=1
             print(f"Reno %d listo. Total de renos listos: {RenosListos} \n" %self.num)
             if(RenosListos==9):
-                with SantaVC:
-                    SantaVC.notify_all()
+                if(SantaLibre):
+                    with SantaVC:
+                        SantaVC.notify_all()
+                    
             RenosVC.wait()
                     
                     
@@ -128,8 +130,9 @@ class Santa():
             juguetes=0
             print('Jueguetes = %d' % juguetes)
         self.__reporta__('JoJoJoJo Feliz Navidad!')
-        with RenosVC:
+        with MutexAccesoSanta:
             RenosListos=0
+
 
         
     def __Despertando__(self):
