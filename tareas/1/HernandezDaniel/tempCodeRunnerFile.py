@@ -1,2 +1,2 @@
 
-    def __Despertando__(self):
+        if(random.choice([True, False])): #Random Choice porque 

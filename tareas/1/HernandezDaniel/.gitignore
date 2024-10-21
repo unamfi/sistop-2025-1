@@ -34,3 +34,9 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+
+#Vscode
+.vscode
+tempCodeRunnerFile.python
+tempCodeRunnerFile.py
