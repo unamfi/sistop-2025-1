@@ -4,13 +4,7 @@ Los alumnos y el asesor
 -Lenguaje y entorno de desarrollo:
 El programa se decidió hacer en Python usando la versión 3.12.5. El entorno de desarrollo fue en un sistema operativo Windows 11 Pro, sin embargo,
 debido a las caracteristicas de Python, este podría ser ejecutado en cualquier otro entorno como MacOS o Linux. Por lo tanto, lo único a tener
-para poder ejecutar el programa es una versión de Python3. Se puede verificar la versión de Python con el siguiente comando en la terminal:
-
-python --version
-
-En caso de no tener Python instalado, se puede descargar desde la página oficial de Python: https://www.python.org/downloads/
-
-Posteriormente, se debe de ejecutar el siguiente comando en la terminal para poder ejecutar el programa:
+para poder ejecutar el programa es una versión de Python3. Posteriormente, se debe de ejecutar el siguiente comando en la terminal para poder ejecutar el programa:
 
 python CalderonVictor-FloresBrenda.py
 
