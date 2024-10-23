@@ -1,0 +1,175 @@
+# CREADO POR:
+# AGUIRRE CÓRDOVA OMAR GABRIEL (421032167)
+# MARTÍNEZ PAVÓN MARÍA GUADALUPE (318071280)
+
+import threading
+import time
+import random
+import heapq
+import tkinter as tk
+from itertools import count
+
+class Elevador:
+    def __init__(self, max_pasajeros=5, pisos=7, gui=None):
+        self.pisos = pisos
+        self.max_pasajeros = max_pasajeros
+        self.piso_actual = 1
+        self.direccion = 1  # 1 para subir, -1 para bajar
+        self.pasajeros = 0
+        self.mutex = threading.Semaphore(1)
+        self.espacio_disponible = threading.Semaphore(max_pasajeros)
+        self.llamadas = []  # Usamos una cola de prioridades
+        self.evento_llamada = threading.Event()
+        self.gui = gui
+        self.counter = count()  # Contador único para evitar comparación de dicts
+
+    def mover(self):
+        while True:
+            self.mutex.acquire()
+            if not self.llamadas:
+                self.mutex.release()
+                self.evento_llamada.wait()  # Espera hasta que haya una llamada
+                self.evento_llamada.clear()
+                continue
+
+            # Obtener la solicitud con mayor prioridad
+            _, _, llamada = heapq.heappop(self.llamadas)
+            origen = llamada['origen']
+            destino = llamada['destino']
+            self.mutex.release()
+
+            # Mover el elevador hacia el origen
+            self.viajar_a(origen)
+
+            # Intentar que el pasajero suba (si hay espacio disponible)
+            if self.espacio_disponible.acquire(blocking=False):
+                self.gui.root.after(0, self.gui.mostrar_evento, f"Sube una persona en el piso {origen}")
+                self.mutex.acquire()
+                self.pasajeros += 1
+                self.gui.root.after(0, self.gui.actualizar_pasajeros, self.pasajeros)
+                self.mutex.release()
+
+                # Mover al destino del usuario
+                self.viajar_a(destino)
+
+                # Bajar al pasajero
+                self.gui.root.after(0, self.gui.mostrar_evento, f"Baja una persona en el piso {destino}")
+                self.mutex.acquire()
+                self.pasajeros -= 1
+                self.gui.root.after(0, self.gui.actualizar_pasajeros, self.pasajeros)
+                self.mutex.release()
+
+                # Liberar espacio en el elevador
+                self.espacio_disponible.release()
+            else:
+                # Mostrar que el elevador está lleno
+                self.gui.root.after(0, self.gui.mostrar_evento, f"Elevador lleno en el piso {origen}, esperando...")
+                time.sleep(2)  # Simula un tiempo de espera antes de intentar nuevamente
+
+    def viajar_a(self, piso):
+        while self.piso_actual != piso:
+            time.sleep(1)  # Simula el tiempo que tarda en moverse entre pisos
+            self.piso_actual += self.direccion
+            if self.piso_actual == 1:
+                self.direccion = 1
+            elif self.piso_actual == self.pisos:
+                self.direccion = -1
+
+            # Actualizar la GUI en el hilo principal
+            self.gui.root.after(0, self.gui.actualizar_elevador, self.piso_actual)
+
+    def solicitar_elevador(self, origen, destino):
+        self.mutex.acquire()
+        prioridad = abs(self.piso_actual - origen)
+        if (self.direccion == 1 and origen > self.piso_actual) or (self.direccion == -1 and origen < self.piso_actual):
+            prioridad -= 1  # Dar más prioridad si está en la misma dirección
+        # Usamos una tupla con la prioridad, contador único y un diccionario con los detalles de la solicitud
+        heapq.heappush(self.llamadas, (prioridad, next(self.counter), {'origen': origen, 'destino': destino}))
+        self.evento_llamada.set()  # Despierta el elevador si está esperando
+        self.mutex.release()
+
+class Persona(threading.Thread):
+    def __init__(self, elevador, origen, destino, id_persona):
+        threading.Thread.__init__(self)
+        self.elevador = elevador
+        self.origen = origen
+        self.destino = destino
+        self.id_persona = id_persona
+
+    def run(self):
+        self.elevador.solicitar_elevador(self.origen, self.destino)
+
+class GUIElevador:
+    def __init__(self, elevador):
+        self.elevador = elevador
+
+        # Configuración de la ventana
+        self.root = tk.Tk()
+        self.root.title("Simulación de Elevador")
+
+        # Crear una lista de etiquetas para los pisos
+        self.labels = []
+        for i in range(self.elevador.pisos, 0, -1):
+            label = tk.Label(self.root, text=f"Piso {i}", width=20, height=2, borderwidth=2, relief="solid")
+            label.grid(row=self.elevador.pisos - i, column=0)
+            self.labels.append(label)
+
+        # Etiqueta del elevador
+        self.elevador_label = tk.Label(self.root, text="Elevador", width=20, height=2, bg="yellow", borderwidth=2, relief="solid")
+        self.elevador_label.grid(row=self.elevador.pisos - self.elevador.piso_actual, column=1)
+
+        # Etiqueta para mostrar cuántas personas hay en el elevador
+        self.pasajeros_label = tk.Label(self.root, text="Pasajeros: 0", width=20, height=2, borderwidth=2, relief="solid")
+        self.pasajeros_label.grid(row=0, column=2)
+
+        # Etiqueta para mostrar eventos (subida y bajada de personas)
+        self.evento_label = tk.Label(self.root, text="", width=40, height=2, borderwidth=2, relief="solid", fg="blue")
+        self.evento_label.grid(row=1, column=2)
+
+    def actualizar_elevador(self, piso_actual):
+        # Mover la etiqueta del elevador a la posición correspondiente
+        self.elevador_label.grid(row=self.elevador.pisos - piso_actual, column=1)
+
+    def actualizar_pasajeros(self, num_pasajeros):
+        # Actualizar la cantidad de pasajeros en el elevador
+        self.pasajeros_label.config(text=f"Pasajeros: {num_pasajeros}")
+
+    def mostrar_evento(self, mensaje):
+        # Mostrar evento de subida o bajada de personas
+        self.evento_label.config(text=mensaje)
+
+    def iniciar(self):
+        self.root.after(100, iniciar_hilos, self.elevador)  # Iniciar los hilos después de 100ms
+        self.root.mainloop()
+
+def iniciar_hilos(elevador):
+    # Crear el hilo del elevador
+    hilo_elevador = threading.Thread(target=elevador.mover)
+    hilo_elevador.start()
+
+    # Crear y lanzar hilos de personas que usan el elevador
+    for i in range(10):
+        origen = random.randint(1, 7)
+        destino = random.randint(1, 7)
+        while destino == origen:
+            destino = random.randint(1, 7)  # Asegurarse de que origen y destino no sean iguales
+        persona = Persona(elevador, origen, destino, i+1)
+        persona.start()
+        time.sleep(random.uniform(0.5, 2))  # Genera usuarios de forma aleatoria
+
+# Función para iniciar el elevador y la GUI en el hilo principal
+def iniciar_simulacion():
+    # Inicializar el elevador con 7 pisos y capacidad para 5 pasajeros
+    elevador = Elevador(max_pasajeros=5, pisos=7)
+
+    # Crear la GUI y pasar el elevador como referencia
+    gui_elevador = GUIElevador(elevador)
+
+    # Asignar la GUI al elevador
+    elevador.gui = gui_elevador
+
+    # Iniciar la interfaz gráfica en el hilo principal
+    gui_elevador.iniciar()
+
+# Iniciar la simulación desde el hilo principal
+iniciar_simulacion()
