@@ -59,6 +59,10 @@ class trabajadores(threading.Thread):
 
 #Clase de jefe
 class jefe:
+    """Clase jefe, se implementa la la logica del jefe en este programa, en primer lugar
+    se inicializa los trabajadores mediante hilos (depende de cuantos se establezcan al
+    incio del codigo.Se implenta la asignacióin de tareas las cuales se guardan en la
+    cola vacía y se activa el semaforo para cambiar de estado)"""
     def __init__(self, num_trabajadores):
         self.num_trabajadores = num_trabajadores
         self.trabajadores = [trabajadores(i+1) for i in range(num_trabajadores)]
