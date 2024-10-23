@@ -1,0 +1,30 @@
+-Problema elegido:
+Los alumnos y el asesor
+
+-Lenguaje y entorno de desarrollo:
+El programa se decidió hacer en Python usando la versión 3.12.5. El entorno de desarrollo fue en un sistema operativo Windows 11 Pro, sin embargo,
+debido a las caracteristicas de Python, este podría ser ejecutado en cualquier otro entorno como MacOS o Linux. Por lo tanto, lo único a tener
+para poder ejecutar el programa es una versión de Python3. Se puede verificar la versión de Python con el siguiente comando en la terminal:
+
+python --version
+
+En caso de no tener Python instalado, se puede descargar desde la página oficial de Python: https://www.python.org/downloads/
+
+Posteriormente, se debe de ejecutar el siguiente comando en la terminal para poder ejecutar el programa:
+
+python CalderonVictor-FloresBrenda.py
+
+Para poder detenerlo se debería ejecutar el comando Ctrl + C en la terminal.
+
+-Estrategia de sincronización usada:
+El mecanismo principal de sincronización que utilizamos son semáforos y locks (mutex) para garantizar un acceso controlado y secuencial al profesor, 
+y para gestionar correctamente el número limitado de alumnos que pueden esperar en el cubículo.
+
+1. Semáforo mutex_cubiculo: Controla cuántos alumnos pueden estar dentro del cubículo al mismo tiempo. Solo 5 alumnos pueden estar en el cubículo a la vez.
+2. Semáforo despertar_profesor: Despierta al profesor cuando hay alumnos esperando para hacer preguntas.
+3. Lock mutex_orden: Garantiza que solo un alumno a la vez pueda hacer preguntas y recibir respuestas del profesor, evitando confusión o accesos concurrentes.
+4. Cola FIFO: Usamos colas (Queue) para almacenar los alumnos y sus dudas, asegurando que sean atendidos en el orden en que llegan (First-In, First-Out).
+
+-Uso de refinamientos:
+1. Fairness (Justicia en los turnos): Aseguramos que los alumnos con múltiples preguntas cedan el turno a otros alumnos entre una pregunta y otra, para evitar que un solo alumno monopolice el tiempo del profesor.
+2. Manejo asíncrono de llegadas: Los alumnos llegan de forma aleatoria y no todos al mismo tiempo, lo que simula una situación realista en la que los alumnos llegan en diferentes momentos para recibir asesoría.
