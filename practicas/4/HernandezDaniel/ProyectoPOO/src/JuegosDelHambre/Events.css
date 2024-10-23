@@ -1,0 +1,4 @@
+#Events {
+    -fx-control-inner-background: black;
+    -fx-text-fill: white; /* Cambia el color del texto para que sea visible en el fondo negro */
+}
