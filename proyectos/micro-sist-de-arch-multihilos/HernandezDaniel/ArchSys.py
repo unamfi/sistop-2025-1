@@ -10,7 +10,9 @@ class FiUnamFS:
     def __init__(self, disk):
         self.disk = disk
         self.lock = threading.Lock()
-
+        self.archivos = None
+        
+        
     def  __validacion__(self,version,nombre):
         if(nombre!="FiUnamFS"):
             messagebox.showerror("Error de nombre", f"Nombre incorrecto: {nombre}. Se esperaba: {"FiUnamFS"}.")
@@ -24,7 +26,6 @@ class FiUnamFS:
         with open(self.disk, 'rb') as f:
             f.seek(0)
             datos = f.read(54)
-            print(f"Datos leídos: {datos} (longitud: {len(datos)})") 
             nombre, version, Eti_volumen, Tam_cluster, dir_clusters, total_clusters = struct.unpack('<9s1x5s5x16s4xIII', datos[:52]) 
             #<: Leer en little-endian, 9s: Leer 9 bytes como string (nombre), 1x: salta  1 byte
             #5s: Lee 5 bytes como cadena (Version), 5x: Salta 5 bytes, 16s: Lee 16 bytes como cadena (Etiqueta de volumen), 4x: Salta 4 bytes
@@ -56,7 +57,6 @@ class FiUnamFS:
                     f.seek(i*1024)
                     for _ in range (15):
                         entry = f.read(64)
-                        print(f"Datos leídos: {entry} (longitud: {len(entry)})") 
                         Tipo_Archivo, nombre, tamaño, clusterInicial, creado, modificado = struct.unpack('<c15sII14s14s12x', entry)
                         #<: Leer en lttle-endian, c: pone un punto si el byte leido representa un archivo valido
                         #15s: Lee 15 bytes como cadena para el nombre del archivo 
@@ -66,20 +66,11 @@ class FiUnamFS:
                         #14s: Lee 14 bytes como cadena para la hora y fecha de la ultima modificacion del archivo
                         #12x: omitir los bytes de posible expansion
                         #Convertir el nombre del archivo para verificar si es "---------------"
-                        print(Tipo_Archivo)
-                        print(nombre)
-                        print(tamaño)
-                        print(clusterInicial)
-                        print(creado)
-                        print(modificado)
-                        
-                        
                         if Tipo_Archivo.decode("ascii") == '#':
                             continue
-                        file_name = nombre.decode("ascii").strip("\x00")
-                        if "---------------" in file_name :
+                        nombre = nombre.decode("ascii").strip("\x00").strip()
+                        if "---------------" in nombre :
                             continue  
-                                
                         Archivos.append({
                             "Nombre": nombre,
                             "Tamaño": tamaño,
@@ -87,8 +78,28 @@ class FiUnamFS:
                             "Modificado": modificado.decode("ascii", errors='ignore').strip("\x00"),
                             "Cluster Inicial": clusterInicial
                         })
+        self.archivos = Archivos
         return Archivos
-
+    def __CopiarDelDisk__(self,NombreArchivoACopiar, DireccionAGuardar):
+        with self.lock:
+            ArchivoACopiar = next((f for f in self.archivos if f["Nombre"] == NombreArchivoACopiar), None)
+            for archivo in self.archivos:
+                print(f"Nombre: {archivo['Nombre']}, Tamaño: {archivo['Tamaño']}, Creado: {archivo['Creado']}")
+            if ArchivoACopiar:
+                Cluster_inicial = ArchivoACopiar["Cluster Inicial"]
+                Tamaño = ArchivoACopiar["Tamaño"]
+                
+                with open(self.disk, 'rb') as Archivo:
+                    Archivo.seek(Cluster_inicial*1024)
+                    DatosArchivo = Archivo.read(Tamaño)
+                    
+                with open(DireccionAGuardar, 'wb') as ArchivoGuardado:
+                    ArchivoGuardado.write(DatosArchivo)
+                messagebox.showinfo("Éxito", f"Archivo '{NombreArchivoACopiar}' copiado exitosamente a '{DireccionAGuardar}'.")
+            else:
+                messagebox.showerror("Error", "Archivo no encontrado en el sistema de archivos.")
+                   
+            
 
 
 
@@ -186,15 +197,19 @@ class FiUnamFSApp:
                     self.tree.insert("", "end", values=(file["Nombre"], file["Tamaño"], datetime.strptime(file["Creado"],"%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S"), file["Cluster Inicial"], datetime.strptime(file["Modificado"],"%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")))
                 self.tree.grid()  
                 self.tree_scroll.grid(row=1, column=2, sticky='ns')
-            
+
             
     def copy_to_pc(self):
         selected_item = self.tree.selection()
         if not selected_item:
             messagebox.showwarning("Atención", "Selecciona un archivo para copiar.")
             return
-        messagebox.showinfo("Info", "Copiar archivo a PC no implementado aún.")
-
+        NombreArchivoACopiar = self.tree.item(selected_item)["values"][0]
+        DireccionAGuardar = filedialog.asksaveasfilename(initialfile=NombreArchivoACopiar)
+        if not DireccionAGuardar:
+            return
+        self.fs.__CopiarDelDisk__(NombreArchivoACopiar,DireccionAGuardar)
+    
     def copy_to_fs(self):
         file_path = filedialog.askopenfilename()
         if not file_path:
