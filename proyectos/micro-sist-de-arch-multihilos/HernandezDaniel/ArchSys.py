@@ -86,8 +86,6 @@ class FiUnamFS:
     def __CopiarDelDisk__(self,NombreArchivoACopiar, DireccionAGuardar):
         with self.lock:
             ArchivoACopiar = next((f for f in self.archivos if f["Nombre"] == NombreArchivoACopiar), None)
-            for archivo in self.archivos:
-                print(f"Nombre: {archivo['Nombre']}, Tamaño: {archivo['Tamaño']}, Creado: {archivo['Creado']}")
             if ArchivoACopiar:
                 Cluster_inicial = ArchivoACopiar["Cluster Inicial"]
                 Tamaño = ArchivoACopiar["Tamaño"]
@@ -105,9 +103,13 @@ class FiUnamFS:
     def __CopiarAlDisk__(self,DireccionArchivoACopiar):
         if self.archivos == None:
             self.archivos = self.__EnlistarDirectorio__()
-            
-        
-        
+        # Obtener el nombre del archivo que se va a copiar
+        Nombre = os.path.basename(DireccionArchivoACopiar).encode("ascii").ljust(15, b'\x00')
+        # Verificar si ya existe un archivo con el mismo nombre
+        for archivo in self.archivos:
+            if archivo["Nombre"].encode("ascii").strip(b'\x00') == Nombre.strip(b'\x00'):
+                messagebox.showerror("Error", "Ya existe un archivo con el mismo nombre en el sistema de archivos.")
+                return
         with open(DireccionArchivoACopiar, 'rb') as ArchivoFuente:
             Nombre = os.path.basename(DireccionArchivoACopiar).encode("ascii").ljust(15,b'\x00')
             Tamaño = os.path.getsize(DireccionArchivoACopiar)   
@@ -116,7 +118,7 @@ class FiUnamFS:
             #Verificar si hay espacio disponible y si es asi devolver el cluster donde hay espacio contiguo libre
             ClusterInicial = self.__HayEspacio__(Tamaño)
             if not ClusterInicial:
-                print("Espacio insuficiente en el disco ")
+                messagebox.showerror("Error", "Espacio insuficiente en el disco")
                 return False
             #Escribir la entrada del archivo en el directorio
             with open(self.disk, 'r+b') as disk_file:
@@ -141,10 +143,10 @@ class FiUnamFS:
                     disk_file.write(data)
                     i+=1
                     if not cluster:
-                        print("Error: Espacio insuficiente al escribir clusters")
+                        messagebox.showerror("Error", "Espacio insuficiente en los clusters")
                         return False
 
-            print("Archivo copiado al disco exitosamente")
+            messagebox.showinfo("Éxito", f"Archivo  copiado exitosamente a el disco.")
             with VCListFiles:
                 VCListFiles.notify_all()
             return True
@@ -178,20 +180,48 @@ class FiUnamFS:
         with open(self.disk, 'rb') as disk_file:
             # Contador para rastrear clusters libres contiguos
             espacios_contiguos = 0
-            for cluster in range(5, 1024):  # Revisa todos los clusters
+            for cluster in range( 1024):  # Revisa todos los clusters
                 data = disk_file.read(cluster_size)
                 if all(b == 0 for b in data):  # Si todos los bytes son cero, el cluster está libre
 
                     espacios_contiguos += 1
                     if espacios_contiguos == clusters_necesarios:  # Se encontro suficiente espacio contiguo
-                        return cluster-clusters_necesarios # Devolvr el cluster inicial
+                        return cluster-clusters_necesarios+1 # Devolvr el cluster inicial
                 else:
 
                     espacios_contiguos = 0  # Reiniciar contador si se encuentra un cluster ocupado
 
         return  None  # No se encontro suficiente espacio contiguo
+    def __EliminarDelDisk__(self,NombreArchivoAEliminar):
+        with self.lock:
+            archivo_a_eliminar= next((f for f in self.archivos if f["Nombre"] == NombreArchivoAEliminar), None)
+            cluster_inicial = archivo_a_eliminar["Cluster Inicial"]
+            tamaño = archivo_a_eliminar["Tamaño"]
+            clusters_necesarios = math.ceil(tamaño / 1024)
+            with open(self.disk, 'r+b') as disk_file:
+                # Actualizar el directorio
+                for i in range(1, 5):  # Solo revisamos los primeros 4 clusters para el directorio
+                    disk_file.seek(i * 1024)
+                    for entry_index in range(15):
+                        entry = disk_file.read(64)
+                        tipo ,nombre = struct.unpack('<1b15s48x', entry)
+                        nombre = nombre.decode("ascii").strip("\x00").strip()
 
-
+                        if nombre == NombreArchivoAEliminar:
+                            # Marcar como libre
+                            disk_file.seek(i * 1024 + entry_index * 64)
+                            disk_file.write(b'#')  # Marca el tipo como libre
+                            break
+                # Liberar el espacio de los clusters
+                for cluster in range(cluster_inicial, cluster_inicial + clusters_necesarios):
+                    disk_file.seek(cluster * 1024)
+                    disk_file.write(b'\x00' * 1024)  # Rellena el cluster con ceros
+                    
+            messagebox.showinfo("Éxito", f"Archivo '{NombreArchivoAEliminar}' eliminado exitosamente.")
+            self.archivos.remove(archivo_a_eliminar)  # Remover de la lista local
+            with VCListFiles:
+                VCListFiles.notify()
+            return True
 
 VCListFiles = threading.Condition()
 
@@ -308,8 +338,11 @@ class FiUnamFSApp:
         if not selected_item:
             messagebox.showwarning("Atención", "Selecciona un archivo para eliminar.")
             return
+        NombreArchivoAEliminar = self.tree.item(selected_item)["values"][0]
+        confirmacion = messagebox.askyesno("Confirmar", f"¿Estás seguro de que deseas eliminar el archivo '{NombreArchivoAEliminar}'?")
+        if confirmacion:
+            self.fs.__EliminarDelDisk__(NombreArchivoAEliminar)
 
-        messagebox.showinfo("Info", "Eliminar archivo no implementado aún.")
 #------------------------------ Interfaz Grafica ----------------------------------
 
 fs = FiUnamFS("../fiunamfs.img")
