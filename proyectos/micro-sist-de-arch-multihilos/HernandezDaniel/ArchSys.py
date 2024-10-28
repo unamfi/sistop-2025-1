@@ -3,9 +3,9 @@ import struct
 import threading
 import time
 import tkinter as tk
+from datetime import datetime
 from tkinter import ttk, messagebox, filedialog
 from tkinter import messagebox, filedialog
-from prettytable import PrettyTable
 class FiUnamFS:
     def __init__(self, disk):
         self.disk = disk
@@ -55,11 +55,9 @@ class FiUnamFS:
                 for i in range(1,5): # Clusters 1-4 
                     f.seek(i*1024)
                     for _ in range (15):
-                        entry = f.read(63)
+                        entry = f.read(64)
                         print(f"Datos leídos: {entry} (longitud: {len(entry)})") 
-                        if entry[0] == 0:
-                            continue
-                        Tipo_Archivo, nombre, tamaño, clusterInicial, creado, modificado = struct.unpack('<c15sII14s14s11x', entry)
+                        Tipo_Archivo, nombre, tamaño, clusterInicial, creado, modificado = struct.unpack('<c15sII14s14s12x', entry)
                         #<: Leer en lttle-endian, c: pone un punto si el byte leido representa un archivo valido
                         #15s: Lee 15 bytes como cadena para el nombre del archivo 
                         #I: Lee 4 bytes como entero que representa el tamaño del archivo
@@ -68,17 +66,26 @@ class FiUnamFS:
                         #14s: Lee 14 bytes como cadena para la hora y fecha de la ultima modificacion del archivo
                         #12x: omitir los bytes de posible expansion
                         #Convertir el nombre del archivo para verificar si es "---------------"
-                        file_name = nombre.decode("ascii").strip()
+                        print(Tipo_Archivo)
+                        print(nombre)
+                        print(tamaño)
+                        print(clusterInicial)
+                        print(creado)
+                        print(modificado)
+                        
+                        
+                        if Tipo_Archivo.decode("ascii") == '#':
+                            continue
+                        file_name = nombre.decode("ascii").strip("\x00")
                         if "---------------" in file_name :
                             continue  
-
+                                
                         Archivos.append({
                             "Nombre": nombre,
                             "Tamaño": tamaño,
-                            "Creado": creado.decode("ascii", errors='ignore').strip(),
-                            "Modificado": modificado.decode("ascii", errors='ignore').strip(),
-                            "Cluster Inicial": clusterInicial,
-                            "Última Modificación": modificado
+                            "Creado": creado.decode("ascii", errors='ignore').strip("\x00"),
+                            "Modificado": modificado.decode("ascii", errors='ignore').strip("\x00"),
+                            "Cluster Inicial": clusterInicial
                         })
         return Archivos
 
@@ -93,7 +100,7 @@ class FiUnamFS:
 
 
 
-
+VCListFiles = threading.Condition()
 
 #------------------------------ Interfaz Grafica ----------------------------------
 class FiUnamFSApp:
@@ -101,21 +108,26 @@ class FiUnamFSApp:
         self.fs = fs
         self.root = root
         self.root.title("FiUnamFS")
-
+        
+        
         #Crear etiquetas para mostrar la información del superbloque
         self.superblock_info = tk.Label(root, text="", justify='left')
         self.superblock_info.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
-        #Crear el Treeview para mostrar archivos
-        self.tree = ttk.Treeview(root, columns=("Nombre", "Tamaño", "Creado"), show='headings')
+        #Crear el Treeview para mostrar archivos en formato de tabla
+        self.tree = ttk.Treeview(root, columns=("Nombre", "Tamaño", "Creado", "Cluster Inicial", "Modificado"), show='headings')
         self.tree.heading("Nombre", text="Nombre")
         self.tree.heading("Tamaño", text="Tamaño (bytes)")
         self.tree.heading("Creado", text="Creado")
+        self.tree.heading("Cluster Inicial", text="Cluster Inicial")
+        self.tree.heading("Modificado", text="Modificado")
 
-        #Ajustar el ancho de las columnas
+        #Ajustar el ancho de las columnas de la tabla
         self.tree.column("Nombre", width=200)
         self.tree.column("Tamaño", width=100, anchor='e')
         self.tree.column("Creado", width=150)
+        self.tree.column("Cluster Inicial", width=100, anchor='e')
+        self.tree.column("Modificado", width=150)
 
         #Añadir Scrollbar
         self.tree_scroll = ttk.Scrollbar(root, orient="vertical", command=self.tree.yview)
@@ -129,7 +141,7 @@ class FiUnamFSApp:
         self.tree.grid_remove()
 
         #Botones para las operaciones
-        self.list_button = tk.Button(root, text="Listar Archivos", command=self.list_files)
+        self.list_button = tk.Button(root, text="Listar Archivos", command=self.notify_list_files)
         self.list_button.grid(row=2, column=0, padx=10, pady=5)
 
         self.copy_to_pc_button = tk.Button(root, text="Copiar a PC", command=self.copy_to_pc)
@@ -140,15 +152,16 @@ class FiUnamFSApp:
 
         self.delete_button = tk.Button(root, text="Eliminar Archivo", command=self.delete_file)
         self.delete_button.grid(row=3, column=1, padx=10, pady=5)
-
         #Leer y mostrar el superbloque
         self.show_superblock_info()
-
-    def show_superblock_info(self):
-
-        superblock_data = self.fs.__LeerSuperBloque__()
+        # Iniciar el hilo para listar archivos
+        self.list_thread = threading.Thread(target=self.list_files)
+        self.list_thread.start()
         
-  
+        
+        
+    def show_superblock_info(self):
+        superblock_data = self.fs.__LeerSuperBloque__()
         superblock_text = (
             f"Nombre: {superblock_data['Nombre']}\n"
             f"Versión: {superblock_data['Versión']}\n"
@@ -158,14 +171,23 @@ class FiUnamFSApp:
             f"Total de Clusters: {superblock_data['Total de Clusters']}"
         )
         self.superblock_info.config(text=superblock_text)
+   
+    def notify_list_files(self):
+        with VCListFiles:
+            VCListFiles.notify()      
+    
     def list_files(self):
-            self.tree.delete(*self.tree.get_children())  
-            files = self.fs.__EnlistarDirectorio__()  
-            for file in files:
-                self.tree.insert("", "end", values=(file["Nombre"], file["Tamaño"], file["Creado"], file["Cluster Inicial"], file["Última Modificación"]))
+        while True:
+            with VCListFiles:
+                VCListFiles.wait()
+                self.tree.delete(*self.tree.get_children())  
+                files = self.fs.__EnlistarDirectorio__()  
+                for file in files:
+                    self.tree.insert("", "end", values=(file["Nombre"], file["Tamaño"], datetime.strptime(file["Creado"],"%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S"), file["Cluster Inicial"], datetime.strptime(file["Modificado"],"%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")))
+                self.tree.grid()  
+                self.tree_scroll.grid(row=1, column=2, sticky='ns')
             
-            self.tree.grid()  
-            self.tree_scroll.grid(row=1, column=2, sticky='ns')
+            
     def copy_to_pc(self):
         selected_item = self.tree.selection()
         if not selected_item:
