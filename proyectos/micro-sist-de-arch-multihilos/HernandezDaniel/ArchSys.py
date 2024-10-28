@@ -1,6 +1,7 @@
 import os
 import struct
 import threading
+import math
 import time
 import tkinter as tk
 from datetime import datetime
@@ -80,6 +81,8 @@ class FiUnamFS:
                         })
         self.archivos = Archivos
         return Archivos
+    
+    
     def __CopiarDelDisk__(self,NombreArchivoACopiar, DireccionAGuardar):
         with self.lock:
             ArchivoACopiar = next((f for f in self.archivos if f["Nombre"] == NombreArchivoACopiar), None)
@@ -99,15 +102,94 @@ class FiUnamFS:
             else:
                 messagebox.showerror("Error", "Archivo no encontrado en el sistema de archivos.")
                    
+    def __CopiarAlDisk__(self,DireccionArchivoACopiar):
+        if self.archivos == None:
+            self.archivos = self.__EnlistarDirectorio__()
             
+        
+        
+        with open(DireccionArchivoACopiar, 'rb') as ArchivoFuente:
+            Nombre = os.path.basename(DireccionArchivoACopiar).encode("ascii").ljust(15,b'\x00')
+            Tamaño = os.path.getsize(DireccionArchivoACopiar)   
+            Creado = datetime.now().strftime('%Y%m%d%H%M%S').encode('ascii')
+            Modificado = Creado
+            #Verificar si hay espacio disponible y si es asi devolver el cluster donde hay espacio contiguo libre
+            ClusterInicial = self.__HayEspacio__(Tamaño)
+            if not ClusterInicial:
+                print("Espacio insuficiente en el disco ")
+                return False
+            #Escribir la entrada del archivo en el directorio
+            with open(self.disk, 'r+b') as disk_file:
+                disk_file.seek(self.__PosicionDeDirectorioLibre__())
+                disk_file.write(b'.')  
+                disk_file.write(struct.pack('<15s', Nombre))
+                disk_file.write(struct.pack('<I', Tamaño))
+                disk_file.write(struct.pack('<I', ClusterInicial))
+                disk_file.write(struct.pack('<14s', Creado))
+                disk_file.write(struct.pack('<14s', Modificado))
+                disk_file.write(b'\x00' * 12)  # Espacio reservado
 
+            #Escribir el contenido del archivo en los clusters
+            with open(self.disk, 'r+b') as disk_file:
+                cluster = ClusterInicial*1024
+                i=0
+                while True:
+                    data = ArchivoFuente.read(1024)  #Leer un bloque (tamaño de un cluster)
+                    if not data:
+                        break
+                    disk_file.seek(cluster + i * 1024)
+                    disk_file.write(data)
+                    i+=1
+                    if not cluster:
+                        print("Error: Espacio insuficiente al escribir clusters")
+                        return False
 
+            print("Archivo copiado al disco exitosamente")
+            with VCListFiles:
+                VCListFiles.notify_all()
+            return True
+    
+    
+    def __PosicionDeDirectorioLibre__(self):
+        with self.lock:
+            with open(self.disk,'rb') as f:
+                for i in range(1,5): # Clusters 1-4 
+                    f.seek(i*1024)
+                    for entry_index in range (15):
+                        entry = f.read(64)
+                        tipo, nombre = struct.unpack('<c15s48x', entry)
+                        nombre = nombre.decode("ascii").strip("\x00").strip()
+                        #Comprobar si el tipo o el nombre indica que está libre
+                        if tipo == b'#' or nombre == "---------------":
+                            return i*1024+entry_index*64  # Retorna la posicion de la entrada libre
+        return None  #Si no hay entradas de directorio libres
+    
+    def __HayEspacio__(self, Tamaño):
+        # Calcular el número de clusters necesarios
+        cluster_size = 1024  # Tamaño de cada cluster en bytes
+        clusters_necesarios = math.ceil((Tamaño) / cluster_size)  # Redondear hacia arriba
+        # Verificar el espacio ocupado por los archivos existentes
+        espacio_ocupado = sum(archivo["Tamaño"] for archivo in self.archivos)
+        # Verificar si hay espacio suficiente en el disco
+        if espacio_ocupado + Tamaño > 1440 * 1024:
+            return False  # No hay espacio total disponible
 
+        # Ahora buscar si hay suficiente espacio contiguo
+        with open(self.disk, 'rb') as disk_file:
+            # Contador para rastrear clusters libres contiguos
+            espacios_contiguos = 0
+            for cluster in range(5, 1024):  # Revisa todos los clusters
+                data = disk_file.read(cluster_size)
+                if all(b == 0 for b in data):  # Si todos los bytes son cero, el cluster está libre
 
+                    espacios_contiguos += 1
+                    if espacios_contiguos == clusters_necesarios:  # Se encontro suficiente espacio contiguo
+                        return cluster-clusters_necesarios # Devolvr el cluster inicial
+                else:
 
+                    espacios_contiguos = 0  # Reiniciar contador si se encuentra un cluster ocupado
 
-
-
+        return  None  # No se encontro suficiente espacio contiguo
 
 
 
@@ -214,8 +296,12 @@ class FiUnamFSApp:
         file_path = filedialog.askopenfilename()
         if not file_path:
             return
+        NombreArchivo = os.path.basename(file_path)
+        if len(NombreArchivo) > 15:
+            messagebox.showerror("Error", "El nombre del archivo es demasiado largo (máx. 15 caracteres).")
+            return
+        fs.__CopiarAlDisk__(file_path)
 
-        messagebox.showinfo("Info", "Copiar archivo a FiUnamFS no implementado aún.")
 
     def delete_file(self):
         selected_item = self.tree.selection()
