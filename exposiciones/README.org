@@ -30,7 +30,7 @@
   | 2024.11.12 | Estudio de caso: Ecualización de histogramas de imágenes secuencial vs. paralelo | Sebastián Emiliano Gayosso Rosillo y Erandy Pérez Delgado       |                |                                              |                                              |
   | 2024.11.12 | El papel de los sistemas opeativos en la retrocompatibilidad de videojuegos      | Aarón Rodrigo León Pérez                                        |                |                                              |                                              |
   | 2024.11.19 | El papel de la criptografía en la protección de la información                   | Gabriela Aquino Lozada                                          |                |                                              |                                              |
-  | 2024.11.19 |                                                                                  |                                                                 |                |                                              |                                              |
+  | 2024.11.19 | Inteligencia Artificial implementada en sistemas operativos                      | Joel Ángel López Ramírez y Héctor Guerrero Gutiérrez            |                |                                              |                                              |
   |------------+----------------------------------------------------------------------------------+-----------------------------------------------------------------+----------------+----------------------------------------------+----------------------------------------------|
   #+TBLFM: 
 
