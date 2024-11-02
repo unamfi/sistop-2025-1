@@ -4,6 +4,7 @@ from fuse import Fuse
 
 class FSsistop():
     def __init__(self,path):
+
         self.path=path
         self.superblock=self.read_superblock(path)
 
@@ -23,7 +24,7 @@ class FSsistop():
         self.directory=self.read_directory(path)
 
     def read_superblock(self,path):
-        with open(path, 'rb') as f:
+        with open(path, 'rb+') as f:
             data = f.read(64)
             id_fs, version = struct.unpack('<9s5s', data[:14])
             print(data)
@@ -42,11 +43,20 @@ class FSsistop():
                 return data
 
     def read_directory(self,path):
-        with open(path, 'rb') as f:
+        with open(path, 'rb+') as f:
             f.seek(self.cluster_size)
-            print(self.cluster_size)
-            print(f.read(16))
-            data=f.read()
-        pass
+            #print(self.cluster_size)
+            data=[]
+            #prueba lectura del directorio
+            for i in range(64):
+                data.append(f.read(64))
+                print(data[i])
+            # print("Estado: ",data[0])
+            # print('nombre:',data[1:16].decode('ascii'))
+            # print('tamaño en bytes:',struct.unpack('<i',data[16:20])[0])
+            # print('cluster inicial:',struct.unpack('<i',data[20:24])[0])
+            # print('Hora y fecha de creacion:',struct.unpack('<4s2s2s2s2s2s',data[24:38]))
+            return data
+
 
 testfs=FSsistop('fi.img')
