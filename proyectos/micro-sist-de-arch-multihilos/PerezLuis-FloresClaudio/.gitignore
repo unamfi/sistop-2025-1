@@ -1,2 +1,5 @@
 *.img
 testASCII.py
+*.jpg
+*.png
+*.org
