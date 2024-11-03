@@ -60,6 +60,36 @@ def montaje(fiunamfs):
         Numunit = struct.unpack('<I', disco.read(struct.calcsize('<I')))[0]
         print(f"\n numero de cluster de la unidad completa: {Numunit}")
 
+def mostrarArchivos(fiunamfs):
+
+    print("Mode                 LastWriteTime         Length Name")
+    print("----                 -------------         ------ ----")
+
+    for i in range(4 * ((4*256) // 64)):  # Cada entrada del directorio ocupa 64 bytes
+        entry = fiunamfs.read(64)
+        
+        # Tipo de archivo
+        tipo = entry[0]
+        if tipo == ord('#'):  # Entrada vacía
+            continue
+            
+        # Leer nombre del archivo
+        nombre = entry[1:16].decode('ascii').strip('-')
+            
+            # Leer tamaño del archivo
+        tamano = struct.unpack('<I', entry[16:20])[0]
+            
+            # Leer cluster inicial
+        cluster = struct.unpack('<I', entry[20:24])[0]
+            
+            # Leer fechas de creación y modificación
+        fecha_creacion = entry[24:37].decode('ascii')
+
+        fecha_modificacion = entry[38:52].decode('ascii', errors='replace')
+
+            # Imprimir los detalles del archivo
+        if tamano != 0:
+            print(f"-a---l     {fecha_modificacion[0:4]}\{fecha_modificacion[4:6]}\{fecha_modificacion[6:8]}   {fecha_modificacion[8:10]}:{fecha_modificacion[10:12]}:{fecha_modificacion[12:14]}        {tamano} {nombre}")
 
 def main():
 
@@ -68,7 +98,17 @@ def main():
 
     while True:
         #simulamos la terminal de windows
-        entrda = input(f"{os.getcwd()}\\FiunamFS> ")
+        entrada = input(f"{os.getcwd()}\\FiunamFS> ")
+        print("\n")
+        #Si la entrada fue ls entonces el usuario quiere ver los archivos
+        if entrada == "ls":
+            with open("fiunamfs.img",'rb') as disco:
+                mostrarArchivos(disco)
+        elif entrada == "exit" or entrada =="cd ..":
+            print("Desmontando FiunamFs...\n")
+            break
+        else: 
+            print("Por el momento la entrada anterior no es valida\n")
 
 
 main()
