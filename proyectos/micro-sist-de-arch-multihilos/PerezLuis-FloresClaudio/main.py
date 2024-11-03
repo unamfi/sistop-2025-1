@@ -1,6 +1,7 @@
-import os, stat, errno, fuse, sys, struct
+import os, stat, errno, fuse, sys, struct,math
 from fuse import Fuse
 from prettytable import PrettyTable
+from datetime import datetime
 
 
 class FSsistop():
@@ -60,6 +61,7 @@ class FSsistop():
                     'modified':temp[38:52].decode('ascii')
                 })
                 print(data[i])
+
             # data = f.read(64)
             # print("Estado: ",data[0])
             # print('nombre:',data[1:16].decode('ascii'))
@@ -83,12 +85,64 @@ class FSsistop():
                 f.write(data)
 
 
+    def copytoFS(self,src_path,filename):
+        index=None
+        used_clusters=[]
+        for content in self.directory:
+            if content['state'] == 46:
+                # for i in range(content['start_cluster'], 
+                #             math.ceil(content['start_cluster']+content['size']/self.cluster_size)):
+                #     used_clusters.append(i)
+                used_clusters.append((content['start_cluster'],
+                                    math.ceil(content['start_cluster']+content['size']/self.cluster_size)-1))
+                
+            elif not index:
+                index=self.directory.index(content)
+                print(index)
+
+        used_clusters=sorted(used_clusters,key=lambda tup: tup[1])     
+        print(used_clusters)
+
+        if not index:
+            print('El directorio está lleno')
+            return
+            #self.directory[i]
+            #print(self.directory[i])
+        else:
+            size=None
+            create=None
+            mod=None
+            try:
+                stat = os.stat(src_path)
+
+                local_time = datetime.fromtimestamp(stat.st_ctime)
+                print(local_time.strftime("%Y%m%d%H%M%S"))
+                create=local_time.strftime("%Y%m%d%H%M%S")
+
+                local_time = datetime.fromtimestamp(stat.st_mtime)
+                print(local_time.strftime("%Y%m%d%H%M%S"))
+                create=local_time.strftime("%Y%m%d%H%M%S")
+
+                size=stat.st_size
+                # print(os.stat(src_path).st_size)
+                # size=os.stat(src_path).st_size
+                # print(os.stat(src_path).st_ctime)
+                # create=os.stat(src_path).st_ctime
+                # create=datetime.utcfromtimestamp(create).strftime('%Y%m%d%H%M%S')
+                # print(create)
+                # print(os.stat(src_path).st_mtime)
+                # mod=os.stat(src_path).st_mtime
+                
+            except FileNotFoundError:
+                print('FileNotFoundError: El archivo especificado no existe')
+                return
+            req_clusters=math.ceil(size/self.cluster_size)
+            print(req_clusters)
+
+            print('start cluster:',used_clusters[-1][1]+1)
+            start_cluster=used_clusters[-1][1]+1
 
 
-
-            
-
-    def copytoFS(self,path,filename):
         pass
 
     def delete(self,filename):
@@ -120,4 +174,7 @@ class FSsistop():
 
 testfs=FSsistop('fi.img')
 testfs.list_dir()
-testfs.copyfromFS('README.org','README.org')
+testfs.copyfromFS('lol','lol')
+testfs.copytoFS('migu.png','migu.png')
+
+#print(os.stat('lol.png').st_size)
