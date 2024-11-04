@@ -7,6 +7,7 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import ttk, messagebox, filedialog
 from tkinter import messagebox, filedialog
+VCListFiles = threading.Condition()
 class FiUnamFS:
     def __init__(self, disk):
         self.disk = disk
@@ -27,13 +28,12 @@ class FiUnamFS:
         with open(self.disk, 'rb') as f:
             f.seek(0)
             datos = f.read(54)
-            nombre, version, Eti_volumen, Tam_cluster, dir_clusters, total_clusters = struct.unpack('<9s1x5s5x16s4xIII', datos[:52]) 
+            nombre, version, Eti_volumen, Tam_cluster, dir_clusters, total_clusters = struct.unpack('<9s1x5s5x16s4xI1xI1xI', datos[:54]) 
             #<: Leer en little-endian, 9s: Leer 9 bytes como string (nombre), 1x: salta  1 byte
             #5s: Lee 5 bytes como cadena (Version), 5x: Salta 5 bytes, 16s: Lee 16 bytes como cadena (Etiqueta de volumen), 4x: Salta 4 bytes
             #I: Lee 4 bytes como un entero sin signo de 32 bits (Tamaño del clusterr)
             #I: Lee otros 4 bytes como entero sin signo de 32 birs (Cluster totales)
             #I: Lee el numero de clusters totales que mide la unidad
-
             # Procesar los datos
             nombre = nombre.decode('ascii').strip('\x00')
             version = version.decode('ascii').strip('\x00')
@@ -101,69 +101,74 @@ class FiUnamFS:
                 messagebox.showerror("Error", "Archivo no encontrado en el sistema de archivos.")
                    
     def __CopiarAlDisk__(self,DireccionArchivoACopiar):
-        if self.archivos == None:
-            self.archivos = self.__EnlistarDirectorio__()
+        with self.lock:
+            if self.archivos == None:
+                self.archivos = self.__EnlistarDirectorio__()
         # Obtener el nombre del archivo que se va a copiar
         Nombre = os.path.basename(DireccionArchivoACopiar).encode("ascii").ljust(15, b'\x00')
         # Verificar si ya existe un archivo con el mismo nombre
         for archivo in self.archivos:
             if archivo["Nombre"].encode("ascii").strip(b'\x00') == Nombre.strip(b'\x00'):
-                messagebox.showerror("Error", "Ya existe un archivo con el mismo nombre en el sistema de archivos.")
+                messagebox.showerror("Error", f"Ya existe un archivo con el mismo nombre en el sistema de archivos: {os.path.basename(DireccionArchivoACopiar)}")
                 return
         with open(DireccionArchivoACopiar, 'rb') as ArchivoFuente:
             Nombre = os.path.basename(DireccionArchivoACopiar).encode("ascii").ljust(15,b'\x00')
             Tamaño = os.path.getsize(DireccionArchivoACopiar)   
             Creado = datetime.now().strftime('%Y%m%d%H%M%S').encode('ascii')
             Modificado = Creado
-            #Verificar si hay espacio disponible y si es asi devolver el cluster donde hay espacio contiguo libre
-            ClusterInicial = self.__HayEspacio__(Tamaño)
-            if not ClusterInicial:
-                messagebox.showerror("Error", "Espacio insuficiente en el disco")
-                return False
-            #Escribir la entrada del archivo en el directorio
-            with open(self.disk, 'r+b') as disk_file:
-                disk_file.seek(self.__PosicionDeDirectorioLibre__())
-                disk_file.write(b'.')  
-                disk_file.write(struct.pack('<15s', Nombre))
-                disk_file.write(struct.pack('<I', Tamaño))
-                disk_file.write(struct.pack('<I', ClusterInicial))
-                disk_file.write(struct.pack('<14s', Creado))
-                disk_file.write(struct.pack('<14s', Modificado))
-                disk_file.write(b'\x00' * 12)  # Espacio reservado
-
-            #Escribir el contenido del archivo en los clusters
-            with open(self.disk, 'r+b') as disk_file:
-                cluster = ClusterInicial*1024
-                i=0
-                while True:
-                    data = ArchivoFuente.read(1024)  #Leer un bloque (tamaño de un cluster)
-                    if not data:
-                        break
-                    disk_file.seek(cluster + i * 1024)
-                    disk_file.write(data)
-                    i+=1
-                    if not cluster:
-                        messagebox.showerror("Error", "Espacio insuficiente en los clusters")
+            with self.lock:
+                #Verificar si hay espacio disponible y si es asi devolver el cluster donde hay espacio contiguo libre
+                ClusterInicial = self.__HayEspacio__(Tamaño)
+                if not ClusterInicial:
+                    messagebox.showerror("Error", f"Espacio insuficiente en el disco: '{os.path.basename(DireccionArchivoACopiar)}'")
+                    return False
+                #Escribir la entrada del archivo en el directorio
+                with open(self.disk, 'r+b') as disk_file:
+                    PosicionDirectorio = self.__PosicionDeDirectorioLibre__()
+                    if not PosicionDirectorio:
+                        messagebox.showerror("Error", f"No hay espacios en el directorio disponibles: '{os.path.basename(DireccionArchivoACopiar)}'")
                         return False
+                    disk_file.seek(PosicionDirectorio)
+                    disk_file.write(b'.')  
+                    disk_file.write(struct.pack('<15s', Nombre))
+                    disk_file.write(struct.pack('<I', Tamaño))
+                    disk_file.write(struct.pack('<I', ClusterInicial))
+                    disk_file.write(struct.pack('<14s', Creado))
+                    disk_file.write(struct.pack('<14s', Modificado))
+                    disk_file.write(b'\x00' * 12)  # Espacio reservado
 
-            messagebox.showinfo("Éxito", f"Archivo  copiado exitosamente a el disco.")
+                #Escribir el contenido del archivo en los clusters
+                with open(self.disk, 'r+b') as disk_file:
+                    cluster = ClusterInicial*1024
+                    i=0
+                    while True:
+                        data = ArchivoFuente.read(1024)  #Leer un bloque (tamaño de un cluster)
+                        if not data:
+                            break
+                        disk_file.seek(cluster + i * 1024)
+                        disk_file.write(data)
+                        i+=1
+                        if not cluster:
+                            messagebox.showerror("Error", f"Espacio insuficiente en los clusters'{os.path.basename(DireccionArchivoACopiar)}'")
+                            return False
+
+            messagebox.showinfo("Éxito", f"Archivo  copiado exitosamente a el disco.'{os.path.basename(DireccionArchivoACopiar)}'")
             with VCListFiles:
                 VCListFiles.notify_all()
             return True
     
     
     def __PosicionDeDirectorioLibre__(self):
-        with self.lock:
-            with open(self.disk,'rb') as f:
-                for i in range(1,5): # Clusters 1-4 
-                    f.seek(i*1024)
-                    for entry_index in range (15):
-                        entry = f.read(64)
-                        tipo, nombre = struct.unpack('<c15s48x', entry)
-                        nombre = nombre.decode("ascii").strip("\x00").strip()
-                        #Comprobar si el tipo o el nombre indica que está libre
-                        if tipo == b'#' or nombre == "---------------":
-                            return i*1024+entry_index*64  # Retorna la posicion de la entrada libre
+        with open(self.disk,'rb') as f:
+            for i in range(1,5): # Clusters 1-4 
+                f.seek(i*1024)
+                for entry_index in range (15):
+                    entry = f.read(64)
+                    tipo, nombre = struct.unpack('<c15s48x', entry)
+                    nombre = nombre.decode("ascii").strip("\x00").strip()
+                    #Comprobar si el tipo o el nombre indica que está libre
+                    if tipo == b'#' or nombre == "---------------":
+                        return i*1024+entry_index*64  # Retorna la posicion de la entrada libre
         return None  #Si no hay entradas de directorio libres
     
     def __HayEspacio__(self, Tamaño):
@@ -193,11 +198,11 @@ class FiUnamFS:
 
         return  None  # No se encontro suficiente espacio contiguo
     def __EliminarDelDisk__(self,NombreArchivoAEliminar):
+        archivo_a_eliminar= next((f for f in self.archivos if f["Nombre"] == NombreArchivoAEliminar), None)
+        cluster_inicial = archivo_a_eliminar["Cluster Inicial"]
+        tamaño = archivo_a_eliminar["Tamaño"]
+        clusters_necesarios = math.ceil(tamaño / 1024)
         with self.lock:
-            archivo_a_eliminar= next((f for f in self.archivos if f["Nombre"] == NombreArchivoAEliminar), None)
-            cluster_inicial = archivo_a_eliminar["Cluster Inicial"]
-            tamaño = archivo_a_eliminar["Tamaño"]
-            clusters_necesarios = math.ceil(tamaño / 1024)
             with open(self.disk, 'r+b') as disk_file:
                 # Actualizar el directorio
                 for i in range(1, 5):  # Solo revisamos los primeros 4 clusters para el directorio
@@ -219,11 +224,11 @@ class FiUnamFS:
                     
             messagebox.showinfo("Éxito", f"Archivo '{NombreArchivoAEliminar}' eliminado exitosamente.")
             self.archivos.remove(archivo_a_eliminar)  # Remover de la lista local
-            with VCListFiles:
-                VCListFiles.notify()
-            return True
+        with VCListFiles:
+            VCListFiles.notify()
+        return True
 
-VCListFiles = threading.Condition()
+
 
 #------------------------------ Interfaz Grafica ----------------------------------
 class FiUnamFSApp:
@@ -316,33 +321,56 @@ class FiUnamFSApp:
         if not selected_item:
             messagebox.showwarning("Atención", "Selecciona un archivo para copiar.")
             return
-        NombreArchivoACopiar = self.tree.item(selected_item)["values"][0]
-        DireccionAGuardar = filedialog.asksaveasfilename(initialfile=NombreArchivoACopiar)
-        if not DireccionAGuardar:
-            return
-        self.fs.__CopiarDelDisk__(NombreArchivoACopiar,DireccionAGuardar)
-    
-    def copy_to_fs(self):
-        file_path = filedialog.askopenfilename()
-        if not file_path:
-            return
-        NombreArchivo = os.path.basename(file_path)
-        if len(NombreArchivo) > 15:
-            messagebox.showerror("Error", "El nombre del archivo es demasiado largo (máx. 15 caracteres).")
-            return
-        fs.__CopiarAlDisk__(file_path)
+        def CopiarAPC(NombreArchivoACopiar,DireccionAGuardar):
+            self.fs.__CopiarDelDisk__(NombreArchivoACopiar,DireccionAGuardar)
+        for item in selected_item:
+            NombreArchivoACopiar = self.tree.item(item)["values"][0]
+            DireccionAGuardar = filedialog.asksaveasfilename(initialfile=NombreArchivoACopiar)
+            if not DireccionAGuardar:
+                continue        
+            hilo = threading.Thread(target=CopiarAPC, args=(NombreArchivoACopiar,DireccionAGuardar))
+            hilo.start()
 
+            
+        
+    def copy_to_fs(self):
+        hilos = []
+        file_paths= filedialog.askopenfilenames()
+        def CopiarAFS(file_path):
+            fs.__CopiarAlDisk__(file_path)
+            
+        if not file_paths:
+            return
+        for file_path in file_paths:
+            NombreArchivo = os.path.basename(file_path)
+            if len(NombreArchivo) > 15:
+                messagebox.showerror("Error", f"El nombre del archivo es demasiado largo '{NombreArchivo}' (máx. 15 caracteres).")
+                continue
+            hilo = threading.Thread(target=CopiarAFS, args=(file_path,))
+            hilos.append(hilo)
+        for hilo in hilos:
+            hilo.start()   
+        hilos.clear()
 
     def delete_file(self):
+        hilos = []
         selected_item = self.tree.selection()
         if not selected_item:
             messagebox.showwarning("Atención", "Selecciona un archivo para eliminar.")
             return
-        NombreArchivoAEliminar = self.tree.item(selected_item)["values"][0]
-        confirmacion = messagebox.askyesno("Confirmar", f"¿Estás seguro de que deseas eliminar el archivo '{NombreArchivoAEliminar}'?")
-        if confirmacion:
+        def EliminarArchivo(NombreArchivoAEliminar):
             self.fs.__EliminarDelDisk__(NombreArchivoAEliminar)
 
+        for item in selected_item:
+            NombreArchivoAEliminar = self.tree.item(item)["values"][0]
+            confirmacion = messagebox.askyesno("Confirmar", f"¿Estás seguro de que deseas eliminar el archivo '{NombreArchivoAEliminar}'?")
+            if confirmacion:
+                hilo = threading.Thread(target=EliminarArchivo, args=(NombreArchivoAEliminar,))
+                hilos.append(hilo)
+        for hilo in hilos:
+            hilo.start()    
+        hilos.clear()
+                
 #------------------------------ Interfaz Grafica ----------------------------------
 
 fs = FiUnamFS("../fiunamfs.img")
