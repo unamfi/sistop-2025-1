@@ -10,16 +10,16 @@ class FSsistop():
         self.img_path=img_path
         self.superblock=self.read_superblock(img_path)
 
-        print(self.superblock[40:44])
-        print("tamaño de cluster:",struct.unpack('<i',self.superblock[40:44])[0])
+        #print(self.superblock[40:44])
+        #print("tamaño de cluster:",struct.unpack('<i',self.superblock[40:44])[0])
         self.cluster_size=struct.unpack('<i',self.superblock[40:44])[0]
 
-        print(self.superblock[45:49])
-        print("tamaño del directorio en clusters:",struct.unpack('<i',self.superblock[45:49])[0])
+        #print(self.superblock[45:49])
+        #print("tamaño del directorio en clusters:",struct.unpack('<i',self.superblock[45:49])[0])
         self.directory_size=struct.unpack('<i',self.superblock[45:49])[0]
 
-        print(self.superblock[50:54])
-        print("numero de clusters en la unidad:",struct.unpack('<i',self.superblock[50:54])[0])
+        #print(self.superblock[50:54])
+        #print("numero de clusters en la unidad:",struct.unpack('<i',self.superblock[50:54])[0])
         self.size=struct.unpack('<i',self.superblock[50:54])[0]
 
 
@@ -29,15 +29,15 @@ class FSsistop():
         with open(path, 'rb+') as f:
             data = f.read(64)
             id_fs, version = struct.unpack('<9s5s', data[:14])
-            print(data)
+            #print(data)
 
-            print(id_fs)
+            #print(id_fs)
             id_fs=id_fs[0:-1]
-            print(id_fs)
+            #print(id_fs)
 
-            print(version)
+            #print(version)
             version=version[1:]
-            print(version)
+            #print(version)
             
             if id_fs.decode('ascii') != 'FiUnamFS' or version.decode('ascii') != '25-1':
                 raise ValueError("El archivo no es un sistema de archivos FiUnamFS o la versión es incorrecta.")
@@ -60,7 +60,7 @@ class FSsistop():
                     'created':temp[24:38].decode('ascii'),
                     'modified':temp[38:52].decode('ascii')
                 })
-                print(data[i])
+                #print(data[i])
 
             # data = f.read(64)
             # print("Estado: ",data[0])
@@ -93,15 +93,19 @@ class FSsistop():
                 # for i in range(content['start_cluster'], 
                 #             math.ceil(content['start_cluster']+content['size']/self.cluster_size)):
                 #     used_clusters.append(i)
+                if content['name'] == filename:
+                    print(f'Ya existe un archivo \'{filename}\' en el sistema de archivos')
+                    return
+
                 used_clusters.append((content['start_cluster'],
                                     math.ceil(content['start_cluster']+content['size']/self.cluster_size)))
                 
             elif not index:
                 index=self.directory.index(content)
-                print(index)
+                #print(index)
 
         used_clusters=sorted(used_clusters,key=lambda tup: tup[1])     
-        print(used_clusters)
+        #print(used_clusters)
 
         if not index:
             print('El directorio está lleno')
@@ -116,11 +120,11 @@ class FSsistop():
                 stat = os.stat(src_path)
 
                 local_time = datetime.fromtimestamp(stat.st_ctime)
-                print(local_time.strftime("%Y%m%d%H%M%S"))
+                #print(local_time.strftime("%Y%m%d%H%M%S"))
                 create=local_time.strftime("%Y%m%d%H%M%S")
 
                 local_time = datetime.fromtimestamp(stat.st_mtime)
-                print(local_time.strftime("%Y%m%d%H%M%S"))
+                #print(local_time.strftime("%Y%m%d%H%M%S"))
                 mod=local_time.strftime("%Y%m%d%H%M%S")
 
                 size=stat.st_size
@@ -139,18 +143,16 @@ class FSsistop():
             # req_clusters=math.ceil(size/self.cluster_size)
             # print('req clusters',req_clusters)
             start_cluster=self.allocate(used_clusters,size)
-            print('start cluster:',start_cluster)
+            #print('start cluster:',start_cluster)
             if not start_cluster:
                 print('No hay espacio en el sistema para este archivo')
             else:
                 self.write(src_path,filename,size,start_cluster,index,create,mod)
 
 
-        pass
-
     def allocate(self,used_clusters,size):
         req_clusters=math.ceil(size/self.cluster_size)
-        print(req_clusters)
+        #print(req_clusters)
         start_cluster = 5
 
         # if (used_clusters[1][0]-start_cluster<req_clusters):
@@ -207,21 +209,18 @@ class FSsistop():
             }
             # for i in self.directory:
             #     print(i)
-            # pass
-
-
-
-
 
 
     def delete(self,filename):
         pass
+
 
     def find(self,filename) -> dict:
         for content in self.directory:
             if(content['name']==filename):
                 return content
         return None
+
 
     def list_dir(self):
         table = PrettyTable()
