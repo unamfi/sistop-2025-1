@@ -38,13 +38,15 @@ class FiUnamFS:
             f.seek(0)
             #Leemos los datos del disco
             datos = f.read(54)
+            #Desempaquetar los datos
             #<: Leer en little-endian, 9s: Leer 9 bytes como string (nombre), 1x: salta  1 byte
             #5s: Lee 5 bytes como cadena (Version), 5x: Salta 5 bytes, 16s: Lee 16 bytes como cadena (Etiqueta de volumen), 4x: Salta 4 bytes
             #I: Lee 4 bytes como un entero sin signo de 32 bits (Tamaño del clusterr), 1x: salta un byte,
             #I: Lee otros 4 bytes como entero sin signo de 32 birs (Cluster totales), 1x: salta un byte,
             #I: Lee el numero de clusters totales que mide la unidad
-            # Procesar los datos (decodificar)
+
             nombre, version, Eti_volumen, Tam_cluster, dir_clusters, total_clusters = struct.unpack('<9s1x5s5x16s4xI1xI1xI', datos[:54]) 
+            # Procesar los datos (decodificar)
             nombre = nombre.decode('ascii').strip('\x00')
             version = version.decode('ascii').strip('\x00')
             self.__validacion__(version,nombre)
@@ -164,7 +166,8 @@ class FiUnamFS:
                     disk_file.write(struct.pack('<I', ClusterInicial))
                     disk_file.write(struct.pack('<14s', Creado))
                     disk_file.write(struct.pack('<14s', Modificado))
-                    disk_file.write(b'\x00' * 12)  # Espacio reservado
+                    # Espacio reservado
+                    disk_file.write(b'\x00' * 12)  
 
                 #Escribir el contenido del archivo en los clusters
                 with open(self.disk, 'r+b') as disk_file:
@@ -186,10 +189,10 @@ class FiUnamFS:
                             messagebox.showerror("Error", f"Espacio insuficiente en los clusters'{os.path.basename(DireccionArchivoACopiar)}'")
                             return False
 
-            messagebox.showinfo("Éxito", f"Archivo  copiado exitosamente a el disco.'{os.path.basename(DireccionArchivoACopiar)}'")
             #Despertamos al hilo "enlistador" para que muestre los cambios en la GUI y actualice los archivos locales
             with VCListFiles: 
                 VCListFiles.notify_all()
+            messagebox.showinfo("Éxito", f"Archivo  copiado exitosamente a el disco.'{os.path.basename(DireccionArchivoACopiar)}'")
             return True
     
     #Esta funcion se encarga de encontrar una entrada disponible en el directorio y devolver la posicion para poder escribir en ella
@@ -220,7 +223,8 @@ class FiUnamFS:
         # Verificar el espacio ocupado por los archivos existentes
         espacio_ocupado = sum(archivo["Tamaño"] for archivo in self.archivos)
         # Verificar si hay espacio suficiente en el disco
-        if espacio_ocupado + Tamaño > 1440 * 1024:
+        #1024*5 es el espacio del directorio
+        if espacio_ocupado + Tamaño + 1024*5 > 1440 * 1024:
             # No hay espacio total disponible
             return False  
 
@@ -229,7 +233,7 @@ class FiUnamFS:
             # Contador para rastrear clusters libres contiguos
             espacios_contiguos = 0
              # Revisa todos los clusters
-            for cluster in range( 1024): 
+            for cluster in range(1440): 
                 data = disk_file.read(cluster_size)
                 # Si todos los bytes son cero, el cluster está libre
                 if all(b == 0 for b in data):  
@@ -275,19 +279,19 @@ class FiUnamFS:
                 for cluster in range(cluster_inicial, cluster_inicial + clusters_necesarios):
                     disk_file.seek(cluster * 1024)
                     disk_file.write(b'\x00' * 1024)  
-                    
-            messagebox.showinfo("Éxito", f"Archivo '{NombreArchivoAEliminar}' eliminado exitosamente.")
             # Remover de la lista local
             self.archivos.remove(archivo_a_eliminar)  
         
         with VCListFiles:
             VCListFiles.notify()
+        messagebox.showinfo("Éxito", f"Archivo '{NombreArchivoAEliminar}' eliminado exitosamente.")
         return True
 
 
 
 #------------------------------ Interfaz Grafica  -------------------------------------------------
 class FiUnamFSApp:
+    #Constructor
     def __init__(self, root, fs):
         self.fs = fs
         self.root = root
@@ -348,21 +352,6 @@ class FiUnamFSApp:
         with VCListFiles:
             VCListFiles.notify()              
         
-    #Esta funcion muestra los datos del super bloque en la GUI  
-    def show_superblock_info(self):
-        #Obtener los datos del superbloque
-        superblock_data = self.fs.__LeerSuperBloque__() 
-        #Mostrar datos
-        superblock_text = (
-            f"Nombre: {superblock_data['Nombre']}\n"
-            f"Versión: {superblock_data['Versión']}\n"
-            f"Etiqueta de Volumen: {superblock_data['Etiqueta de Volumen']}\n"
-            f"Tamaño de Cluster: {superblock_data['Tamaño de Cluster']}\n"
-            f"Número de Clusters de Directorio: {superblock_data['Número de Clusters de Directorio']}\n"
-            f"Total de Clusters: {superblock_data['Total de Clusters']}"
-        )
-        self.superblock_info.config(text=superblock_text)
-
     #Funcion enlistadora de archivos
     def list_files(self):
         #While para que pueda ser llamada cuando se necesite
@@ -379,6 +368,20 @@ class FiUnamFSApp:
                     self.tree.insert("", "end", values=(file["Nombre"], file["Tamaño"], datetime.strptime(file["Creado"],"%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S"), file["Cluster Inicial"], datetime.strptime(file["Modificado"],"%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")))
                 self.tree.grid()  
                 self.tree_scroll.grid(row=1, column=2, sticky='ns')
+    #Esta funcion muestra los datos del super bloque en la GUI  
+    def show_superblock_info(self):
+        #Obtener los datos del superbloque
+        superblock_data = self.fs.__LeerSuperBloque__() 
+        #Mostrar datos
+        superblock_text = (
+            f"Nombre: {superblock_data['Nombre']}\n"
+            f"Versión: {superblock_data['Versión']}\n"
+            f"Etiqueta de Volumen: {superblock_data['Etiqueta de Volumen']}\n"
+            f"Tamaño de Cluster: {superblock_data['Tamaño de Cluster']}\n"
+            f"Número de Clusters de Directorio: {superblock_data['Número de Clusters de Directorio']}\n"
+            f"Total de Clusters: {superblock_data['Total de Clusters']}"
+        )
+        self.superblock_info.config(text=superblock_text)
 
     #Funcion que se ejecuta al presionar el boton "Copiar a PC"        
     def copy_to_pc(self):
@@ -402,7 +405,8 @@ class FiUnamFSApp:
                 continue
             #Creamos el hilo que iniciara la funcion de copiar, de este modo cada archivo que se quiera copiar sucedera al mismo tiempo        
             hilo = threading.Thread(target=CopiarAPC, args=(NombreArchivoACopiar,DireccionAGuardar)) 
-            hilo.start() #Iniciamos el hilo
+            #Iniciamos el hilo
+            hilo.start() 
 
             
     #Funcion que se ejecuta al presionar el boton "Copiar a FiUnamFS"
@@ -434,6 +438,7 @@ class FiUnamFSApp:
             hilo.start()
         # Limpiamos la lista de hilos utilizados   
         hilos.clear() 
+        
     #Funcion que se ejecuta al presionar el boton "Eliminar Archivo"
     def delete_file(self):
         #Lista de hilos para ejecutarlos "Al mismo tiempo"
