@@ -20,6 +20,7 @@ import struct
 import threading
 from ReconocerEntradas import Reconocer
 from pathlib import Path
+from datetime import datetime
 
 #definicion para listar los archivos
 def montaje(fiunamfs):
@@ -131,7 +132,111 @@ def copiar_archivo(disco, nombre_archivo, destino):
     with Ruta_destino.open('wb') as salida:
         salida.write(datos)
         
-    print(f"Archivo '{nombre_archivo}' copiado a '{destino}'.")
+    print(f"\nArchivo '{nombre_archivo}' copiado a '{destino}'\n")
+
+
+
+class FiUnamFS:
+    DIRECTORY_CLUSTERS = range(1, 5)
+    CLUSTER_SIZE = 1024  # Cada cluster tiene 1024 bytes (4 sectores de 256 bytes)
+    ENTRY_SIZE = 64  # Cada entrada en el directorio mide 64 bytes
+
+    def __init__(self, disk_file):
+        self.disk_file = disk_file
+
+    def read_cluster(self, cluster_number):
+        with open(self.disk_file, 'rb') as f:
+            f.seek(cluster_number * self.CLUSTER_SIZE)
+            return f.read(self.CLUSTER_SIZE)
+
+    def write_cluster(self, cluster_number, data):
+        with open(self.disk_file, 'r+b') as f:
+            f.seek(cluster_number * self.CLUSTER_SIZE)
+            f.write(data)
+
+    def find_free_entry(self):
+        """Busca una entrada libre en el directorio."""
+        for cluster_number in self.DIRECTORY_CLUSTERS:
+            cluster_data = self.read_cluster(cluster_number)
+            for i in range(0, self.CLUSTER_SIZE, self.ENTRY_SIZE):
+                entry_data = cluster_data[i:i + self.ENTRY_SIZE]
+                if entry_data[0] == 0x23:  # Entrada vacía ('#')
+                    return cluster_number, i  # Retorna el cluster y el offset
+        return None, None
+
+    def find_free_cluster(self, file_size):
+        """Encuentra un cluster libre que pueda almacenar el archivo."""
+        total_clusters = (file_size + self.CLUSTER_SIZE - 1) // self.CLUSTER_SIZE
+        data_start_cluster = max(self.DIRECTORY_CLUSTERS) + 1
+        with open(self.disk_file, 'rb') as f:
+            for cluster in range(data_start_cluster, 1440):
+                f.seek(cluster * self.CLUSTER_SIZE)
+                if f.read(1) == b'\x00':
+                    return cluster
+        return None
+
+    def write_file_direct(self, file_name, file_content):
+        if len(file_name) > 15:
+            raise ValueError("El nombre del archivo es demasiado largo.")
+        
+        file_size = len(file_content)
+        start_cluster = self.find_free_cluster(file_size)
+        if start_cluster is None:
+            raise RuntimeError("No hay espacio libre en el sistema de archivos.")
+        
+        cluster_number, entry_offset = self.find_free_entry()
+        if cluster_number is None:
+            raise RuntimeError("No hay entradas libres en el directorio.")
+
+        # Escribir contenido del archivo en el cluster
+        self.write_cluster(start_cluster, file_content.ljust(self.CLUSTER_SIZE, b'\x00'))
+
+        # Crear la entrada del archivo en el directorio
+        creation_date = datetime.now().strftime('%Y%m%d%H%M%S')
+        modification_date = creation_date
+
+        entry_data = bytearray(self.ENTRY_SIZE)
+        entry_data[0] = 0x2e  # Tipo de archivo regular
+        entry_data[1:16] = file_name.encode('ascii').ljust(15, b'\x00')
+        entry_data[16:20] = struct.pack('<I', file_size)
+        entry_data[20:24] = struct.pack('<I', start_cluster)
+        entry_data[24:37] = creation_date.encode('ascii')
+        entry_data[38:51] = modification_date.encode('ascii')
+
+        # Escribir la entrada en el directorio
+        cluster_data = self.read_cluster(cluster_number)
+        cluster_data = (cluster_data[:entry_offset] + entry_data + 
+                        cluster_data[entry_offset + self.ENTRY_SIZE:])
+        self.write_cluster(cluster_number, cluster_data)
+
+        print(f"Archivo '{file_name}' escrito en fiunamfs.img")
+    
+def eliminar_archivo(disco, nombre_archivo):
+    cluster_size = 1024  # Tamaño del cluster
+    inicio_directorio = 1024  # Offset donde comienza el directorio
+    encontrado = False
+
+    # Recorrer cada entrada en el directorio para encontrar el archivo
+    for i in range(4 * (cluster_size // 64)):  # 4 clusters de directorio, cada entrada ocupa 64 bytes
+        disco.seek(inicio_directorio + i * 64)
+        entry = disco.read(64)
+        
+        # Leer el tipo de archivo y nombre
+        tipo = entry[0]
+        nombre = entry[1:14].decode('ascii').strip()
+        
+        # Verificar si es el archivo que queremos eliminar
+        if tipo == ord('.') and nombre == nombre_archivo:
+            # Marcamos la entrada como vacía, sobrescribiendo el tipo
+            disco.seek(inicio_directorio + i * 64)
+            disco.write(b'#')  # Indicador de entrada vacía
+            encontrado = True
+            print(f"Archivo '{nombre_archivo}' eliminado exitosamente.")
+            break
+
+    if not encontrado:
+        print(f"Archivo '{nombre_archivo}' no encontrado en FiUnamFS.")
+
 
 def main():
 
@@ -140,7 +245,7 @@ def main():
     print("Montando FiUnamFs\n")
     montaje("fiunamfs.img")
 
-    with open("fiunamfs.img",'rb') as disco:
+    with open("fiunamfs.img",'r+b') as disco:
         while True:
 
             #simulamos la terminal de widows
@@ -155,20 +260,26 @@ def main():
                 print("Desmontando FiunamFs...\n")
                 break
 
-            elif entrada[0:4] == "copy":
+            elif entrada.startswith("copy "):
 
                 NameFiles = mostrarArchivos(disco)
                 os.system('cls')
                 
                 ruta_origen, ruta_destino = Reconocer(entrada)
-
-                print(ruta_origen)
                 
                 for nombre in NameFiles:
 
                     if(os.getcwd()+'\\FiunamFS\\'+nombre==ruta_origen.strip()):
                         
                         copiar_archivo(disco,nombre,ruta_destino+"\\"+nombre)
+                        break
+                
+                    if(os.getcwd()+'\\FiunamFS\\'==ruta_destino.strip()):
+                        fs = FiUnamFS('fiunamfs.img')
+                        fs.write_file_direct('Reconocer.py',b"contenido")
+                        break
+            elif entrada.startswith("delete "):
+                eliminar_archivo(disco, entrada.split(" ")[1])
 
             else: 
                 print("Por el momento la entrada anterior no es valida\n")
