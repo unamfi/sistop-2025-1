@@ -1,5 +1,5 @@
-import os, stat, errno, fuse, sys, struct,math
-from fuse import Fuse
+import os,struct,math
+from simple_term_menu import TerminalMenu
 from prettytable import PrettyTable
 from datetime import datetime
 
@@ -15,7 +15,7 @@ class FSsistop():
         self.cluster_size=struct.unpack('<i',self.superblock[40:44])[0]
 
         #print(self.superblock[45:49])
-        #print("tamaño del directorio en clusters:",struct.unpack('<i',self.superblock[45:49])[0])
+        print("tamaño del directorio en clusters:",struct.unpack('<i',self.superblock[45:49])[0])
         self.directory_size=struct.unpack('<i',self.superblock[45:49])[0]
 
         #print(self.superblock[50:54])
@@ -60,7 +60,7 @@ class FSsistop():
                     'created':temp[24:38].decode('ascii'),
                     'modified':temp[38:52].decode('ascii')
                 })
-                print(data[i])
+                #print(data[i])
 
             # data = f.read(64)
             # print("Estado: ",data[0])
@@ -267,8 +267,34 @@ class FSsistop():
         #table.reversesort=True
         print(table.get_string(sortby="Nombre"))
 
+def main():
+    
+    options = ["Listar contenido", "Copiar archivo de FIunamFS", "Agregar archivo a FIunamFS", "Eliminar archivo", "Salir"]
+    terminal_menu = TerminalMenu(options)
+    fs=FSsistop('fi.img')
+    while(True):
+        print("Opciones FIunamFS:")
+        opt_idx = terminal_menu.show()
+        print('->'+options[opt_idx]+'\n')
+        match options[opt_idx]:
+            case "Listar contenido":
+                fs.list_dir()
+                pass
+            case "Copiar archivo de FIunamFS":
+                fs.copyfromFS('mensaje.jpg','mensaje.jpg')
+                pass
+            case "Agregar archivo a FIunamFS":
+                fs.copytoFS('test.png','test.png')
+                pass
+            case "Eliminar archivo":
+                fs.delete('test.png')
+                pass
+            case "Salir":
+                exit(0)
+        
 
-
+if __name__ == "__main__":
+    main()
 
 testfs=FSsistop('fi.img')
 testfs.list_dir()
