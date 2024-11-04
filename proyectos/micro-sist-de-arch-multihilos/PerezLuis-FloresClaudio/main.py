@@ -94,7 +94,7 @@ class FSsistop():
                 #             math.ceil(content['start_cluster']+content['size']/self.cluster_size)):
                 #     used_clusters.append(i)
                 used_clusters.append((content['start_cluster'],
-                                    math.ceil(content['start_cluster']+content['size']/self.cluster_size)-1))
+                                    math.ceil(content['start_cluster']+content['size']/self.cluster_size)))
                 
             elif not index:
                 index=self.directory.index(content)
@@ -121,7 +121,7 @@ class FSsistop():
 
                 local_time = datetime.fromtimestamp(stat.st_mtime)
                 print(local_time.strftime("%Y%m%d%H%M%S"))
-                create=local_time.strftime("%Y%m%d%H%M%S")
+                mod=local_time.strftime("%Y%m%d%H%M%S")
 
                 size=stat.st_size
                 # print(os.stat(src_path).st_size)
@@ -136,14 +136,83 @@ class FSsistop():
             except FileNotFoundError:
                 print('FileNotFoundError: El archivo especificado no existe')
                 return
-            req_clusters=math.ceil(size/self.cluster_size)
-            print(req_clusters)
-
-            print('start cluster:',used_clusters[-1][1]+1)
-            start_cluster=used_clusters[-1][1]+1
+            # req_clusters=math.ceil(size/self.cluster_size)
+            # print('req clusters',req_clusters)
+            start_cluster=self.allocate(used_clusters,size)
+            print('start cluster:',start_cluster)
+            if not start_cluster:
+                print('No hay espacio en el sistema para este archivo')
+            else:
+                self.write(src_path,filename,size,start_cluster,index,create,mod)
 
 
         pass
+
+    def allocate(self,used_clusters,size):
+        req_clusters=math.ceil(size/self.cluster_size)
+        print(req_clusters)
+        start_cluster = 5
+
+        # if (used_clusters[1][0]-start_cluster<req_clusters):
+        #     return start_cluster
+        for entry in used_clusters:
+            if entry[0]-start_cluster>req_clusters:
+                #print(entry[0]-start_cluster)
+                return start_cluster
+            else:
+                start_cluster=entry[1]
+        if 1440-start_cluster>req_clusters:
+            return start_cluster
+        else:
+            return None
+
+    def write(self,src_path,filename,src_size,start_cluster,dir_idx,create,mod):
+        with open(src_path,'rb') as f:
+            f.seek(0)
+            file_data=f.read(src_size)
+        #     #print(file_data )
+        #print(type(filename))
+        
+   
+        # filename,
+        # struct.pack('<i',src_size),
+        # struct.pack('<i',start_cluster),
+        # create.encode('ascii'),
+        # mod.encode('ascii'),
+        binary_metadata=bytearray(b'.')
+        binary_metadata+=(filename.ljust(14).encode('ascii')+b'\x00'+
+                      struct.pack('<i',src_size)+
+                      struct.pack('<i',start_cluster)+
+                      create.encode('ascii')+
+                      mod.encode('ascii')+
+                      bytes(13)
+        )   
+        with open(self.img_path,'r+b') as fs:
+            #modificacion del directorio
+            fs.seek(self.cluster_size+64*dir_idx)
+            fs.write(binary_metadata)
+
+            #modificacion del espacio de datos
+            fs.seek(self.cluster_size*start_cluster)
+            fs.write(file_data)
+
+            #modificacion del directorio en memoria
+            self.directory[dir_idx]={
+                'state':46,
+                'name':filename,
+                'size':src_size,
+                'start_cluster':start_cluster,
+                'created':create,
+                'modified':mod
+            }
+            # for i in self.directory:
+            #     print(i)
+            # pass
+
+
+
+
+
 
     def delete(self,filename):
         pass
@@ -166,7 +235,7 @@ class FSsistop():
                                content['size'],
                                f'{c[0:4]}-{c[4:6]}-{c[6:8]}  {c[8:10]}:{c[10:12]}:{c[12:14]}', 
                                f'{m[0:4]}-{m[4:6]}-{m[6:8]}  {m[8:10]}:{m[10:12]}:{m[12:14]}'])
-        table.reversesort=True
+        #table.reversesort=True
         print(table.get_string(sortby="Nombre"))
 
 
@@ -175,6 +244,6 @@ class FSsistop():
 testfs=FSsistop('fi.img')
 testfs.list_dir()
 testfs.copyfromFS('lol','lol')
-testfs.copytoFS('migu.png','migu.png')
-
+testfs.copytoFS('test.png','test.png')
+testfs.list_dir()
 #print(os.stat('lol.png').st_size)
