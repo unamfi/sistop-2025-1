@@ -60,7 +60,7 @@ class FSsistop():
                     'created':temp[24:38].decode('ascii'),
                     'modified':temp[38:52].decode('ascii')
                 })
-                #print(data[i])
+                print(data[i])
 
             # data = f.read(64)
             # print("Estado: ",data[0])
@@ -187,7 +187,7 @@ class FSsistop():
                       struct.pack('<i',start_cluster)+
                       create.encode('ascii')+
                       mod.encode('ascii')+
-                      bytes(13)
+                      bytes(12)
         )   
         with open(self.img_path,'r+b') as fs:
             #modificacion del directorio
@@ -212,7 +212,37 @@ class FSsistop():
 
 
     def delete(self,filename):
-        pass
+        for entry in self.directory:
+            size = None
+            start_cluster = None
+            if entry['name']==filename:
+                index=self.directory.index(entry)
+                size = entry['size']
+                start_cluster = entry['start_cluster']
+                self.directory[index]={
+                    'state':35,
+                    'name':'--------------',
+                    'size':0,
+                    'start_cluster':0,
+                    'created':'00000000000000',
+                    'modified':'00000000000000'
+                }
+                # for i in self.directory:
+                #     print(i)
+                binary_metadata=bytearray(b'#')
+                binary_metadata+=(b'--------------'+b'\x00'+
+                      bytes(8)+
+                      b'00000000000000'+
+                      b'00000000000000'+
+                      bytes(12)
+                )
+                with open(self.img_path,'r+b') as f:
+                    f.seek(self.cluster_size+index*64)
+                    f.write(binary_metadata)
+                return
+
+
+        print(f'El archivo \'{filename}\' no se encuentra en el sistema de archivos')
 
 
     def find(self,filename) -> dict:
@@ -245,4 +275,7 @@ testfs.list_dir()
 testfs.copyfromFS('lol','lol')
 testfs.copytoFS('test.png','test.png')
 testfs.list_dir()
+testfs.delete('test.png')
+testfs.list_dir()
+testfs.delete('test.png')
 #print(os.stat('lol.png').st_size)
