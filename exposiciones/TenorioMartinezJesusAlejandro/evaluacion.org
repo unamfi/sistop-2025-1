@@ -1,0 +1,60 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* Cómo hacer programación paralela en C con OpenMP
+
+- Tema presentado por :: Jesús Alejandro Tenorio Martínez
+- Calificación global :: Por favor revisen el resto de este archivo para ver de
+  dónde vienen todos estos números 😉
+
+|------------------------+------+--------------------+------+---------|
+| Evaluación  compañeros | Peso | Evaluación docente | Peso | *Total* |
+|------------------------+------+--------------------+------+---------|
+|                   9.42 |  0.3 |                8.5 |  0.7 |    8.78 |
+|------------------------+------+--------------------+------+---------|
+#+TBLFM: @2$5=$1*$2+$3*$4;f-2
+
+* Evaluación grupal
+
+|              | 1 | 2 | 3 | 4 | 5 | Total |
+|--------------+---+---+---+---+---+-------|
+| Originalidad | 0 | 0 | 0 | 5 | 6 |  9.09 |
+| Nivel        | 0 | 0 | 0 | 2 | 9 |  9.64 |
+| Relevancia   | 0 | 0 | 0 | 2 | 9 |  9.64 |
+| Claridad     | 0 | 0 | 0 | 3 | 8 |  9.45 |
+| Presencia    | 0 | 0 | 1 | 2 | 8 |  9.27 |
+|--------------+---+---+---+---+---+-------|
+|              |   |   |   |   |   |  9.42 |
+#+TBLFM: @2$7..@6$7=10 * (0.2*$2 + 0.4*$3 + 0.6*$4 + 0.8*$5 + $6 ) / vsum($2..$6); f-2::@7$7=vmean(@2$7..@6$7); f-2
+
+** Comentarios de los compañeros
+- El material presentado fue interesante y el ritmo de la exposición no aburre.
+- mi compañero realizo una gran exposición, así pienso que desarrollo el tema de
+  una buena manera dando una gran explicacion y dejando el tema bastente claro,
+  le soy una muy buena calificacion
+
+* Evaluación por parte del docente
+
+| *Aspecto*              | *Peso* | *Evaluación* | *Puntos* |
+|------------------------+--------+--------------+----------|
+| Originalidad del tema  |    0.1 |          7.5 |     0.75 |
+| Material desarrollado  |    0.2 |          7.5 |      1.5 |
+| Contenido              |    0.2 |          7.5 |      1.5 |
+| Fuentes bibliográficas |    0.1 |          7.5 |     0.75 |
+| Uso del tiempo         |    0.1 |           10 |       1. |
+| Dominio del tema       |   0.15 |           10 |      1.5 |
+| Presencia              |   0.15 |           10 |      1.5 |
+|------------------------+--------+--------------+----------|
+| *Global*               |        |              |     8.50 |
+#+TBLFM: @<<$4..@>>$4=$2*$3::$4=vsum(@<<..@>>);f-2
+
+** Comentarios
+
+- ¡Tu contribución me parece excelente! Ilustras una manera muy diferente de
+  realizar las operaciones que vimos en clase empleando una biblioteca muy
+  distinta, poderosa y extensible.
+- Me pareció un muy buen video, incluso con muy buen trabajo de
+  edición. ¡Felicidades!
+- Lástima que no entregaste el material antes ☹ Te haría sólo unos pequeños
+  comentarios enfocados a la claridad y mejor hilación entre las ideas. Y tu
+  calificación... hubiera sido más alta ☹

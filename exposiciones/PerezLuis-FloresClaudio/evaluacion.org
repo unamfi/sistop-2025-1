@@ -1,0 +1,62 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* PfSense y su implementación en FreeBSD
+
+- Tema presentado por :: Luis Eduardo Pérez Osorio y Claudio Flores García
+- Calificación global :: Por favor revisen el resto de este archivo para ver de
+  dónde vienen todos estos números 😉
+
+|------------------------+------+--------------------+------+---------|
+| Evaluación  compañeros | Peso | Evaluación docente | Peso | *Total* |
+|------------------------+------+--------------------+------+---------|
+|                    9.6 |  0.3 |                8.5 |  0.7 |    8.83 |
+|------------------------+------+--------------------+------+---------|
+#+TBLFM: @2$5=$1*$2+$3*$4;f-2
+
+* Evaluación grupal
+
+|              | 1 | 2 | 3 | 4 | 5 | Total |
+|--------------+---+---+---+---+---+-------|
+| Originalidad | 0 | 0 | 0 | 0 | 8 | 10.00 |
+| Nivel        | 0 | 0 | 0 | 1 | 7 |  9.75 |
+| Relevancia   | 0 | 0 | 0 | 0 | 8 | 10.00 |
+| Claridad     | 0 | 0 | 0 | 3 | 5 |  9.25 |
+| Presencia    | 0 | 0 | 1 | 2 | 5 |  9.00 |
+|--------------+---+---+---+---+---+-------|
+|              |   |   |   |   |   |  9.60 |
+#+TBLFM: @2$7..@6$7=10 * (0.2*$2 + 0.4*$3 + 0.6*$4 + 0.8*$5 + $6 ) / vsum($2..$6); f-2::@7$7=vmean(@2$7..@6$7); f-2
+
+** Comentarios de los compañeros
+
+- La verdad es una exposición bastante completa y bien resumida
+- Muy buena presentación, al igual que su contenido en general.
+- No salen en cámara los expositores.
+
+* Evaluación por parte del docente
+
+| *Aspecto*              | *Peso* | *Evaluación* | *Puntos* |
+|------------------------+--------+--------------+----------|
+| Originalidad del tema  |    0.1 |           10 |       1. |
+| Material desarrollado  |    0.2 |            5 |       1. |
+| Contenido              |    0.2 |           10 |       2. |
+| Fuentes bibliográficas |    0.1 |          7.5 |     0.75 |
+| Uso del tiempo         |    0.1 |          7.5 |     0.75 |
+| Dominio del tema       |   0.15 |           10 |      1.5 |
+| Presencia              |   0.15 |           10 |      1.5 |
+|------------------------+--------+--------------+----------|
+| *Global*               |        |              |     8.50 |
+#+TBLFM: @<<$4..@>>$4=$2*$3::$4=vsum(@<<..@>>);f-2
+
+** Comentarios
+- Entregaron tarde tanto el video como el documento ☹ No pude hacerles
+  comentarios antes de evaluarlo.
+- Repiten y dan vuelta a varias definiciones. Por poner un ejemplo, la página 6
+  y 7 de la presentación repiten varios de los términos abordados; en el video
+  explican por lo menos en dos momentos qué es una firewall que mantiene estado.
+  - Esto es típico de los documentos generados por IA. ¿Seguros que el documento
+    completo fue desarrollado por ustedes?
+- A nivel contenido, así como respecto a su dicción/seguridad/ritmo al
+  presentarlo, me parece una muy buena presentación.
+  - El texto desarrollado es demasiado largo. Recuerden que les pedí de 4 a 8
+    páginas. ¿20? 😰

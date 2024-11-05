@@ -1,0 +1,48 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* Android custom ROMs y SOs
+
+- Tema presentado por :: Amir Cuevas y Fernando de la Rosa
+
+- La totalidad de las referencias que presentan son falsas; no pude encontrarlas
+  ni abriendo las direcciones que presentan, ni buscando sus títulos.
+- El texto desarrollado es poco coherente, carece por completo de ejemplos, y me
+  da a entender al leerlo que es muy probablemente resultado de la generación de
+  un LLM.
+
+Por lo anterior, tengo que considerar que esta exposición *no fue
+entregada*. Les dejo a continuación el [[./informe_de_analisis_originalidad.pdf][informe de análisis de compilat.io]]
+indicando que el documento es generado por un LLM.
+
+Les dejo las siguientes observaciones que hice mientras veía el video; que
+pueden serles de interés respecto al material que presentaron.
+
+- No mencionen conceptos que no conocen, o por lo menos, asegúrense de entender
+  a lo que se refieren. Cuando escriben “dispositivos IoT” pero en el video
+  dicen “diapositivas Lot”.. da muy mala impresión 🙁
+  - Este es el primer indicador que me hizo pensar que se trataba de un texto
+    generado por LLM.
+- Si dicen que el ensamblador “era lo único con lo que se podía programar, ya
+  que usar lenguajes de alto nivel era algo más complicado, ya que no nos servía
+  realmente mucho para comunicarnos con la máquina”... Entonces, ¿cuál podría
+  haber sido la utilidad de los lenguajes de alto nivel? ¿de qué nivel de
+  “antes” están hablando? Suena a texto de relleno 🙁
+- Los ejemplos que dan respecto al papel en la “gestión de recursos” resultan
+  también bastante vacíos. Al no presentar ningún ejemplo, quienes escuchamos la
+  presentación quedamos en blanco respecto a cuál sería el papel del ensamblador
+  y cómo se diferenciaría de lo que veríamos en cualquier otro lenguaje.
+  - Dan el ejemplo del manejo de interrupciones, la “prioridad” al oprimir el
+    botón del mouse o cualquier tecla del teclado... y la explicación no sigue
+    en lo más mínimo al tema del que van hablando
+- Ummm... ¿Z80 como precursor de Intel? Me suena muy raro. Los criterios de
+  desarrollo del 8086, que es la base de compatibilidad de arquitectura al día
+  de hoy, fueron mantener /mayormente/ la compatibilidad con 8080, que era una
+  evolución del 8008, que a su vez fue la evolución del 4004, que salió a
+  mercado en 1971. El Z80 salió a mercado [[https://upload.wikimedia.org/wikipedia/commons/e/e0/Zilog_Z-80_Microprocessor_ad_May_1976.jpg][como /rival/ del 8080]], con varios
+  registros disponibles más... no puede verse como una arquitectura que haya
+  influido directamente a la línea de Intel.
+- OK... ¡por fin, algo de código, al final de la presentación!
+  - Habría sido muy valioso presentar, aunque no fuese explicado a detalle,
+    ejemplos de código en los diferentes casos de uso que se le da al
+    ensamblador.

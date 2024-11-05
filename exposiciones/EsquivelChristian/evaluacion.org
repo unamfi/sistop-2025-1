@@ -1,0 +1,66 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* Emulación
+
+- Tema presentado por :: Christian Esquivel Santana
+- Calificación global :: Por favor revisen el resto de este archivo para ver de
+  dónde vienen todos estos números 😉
+
+|------------------------+------+--------------------+------+---------|
+| Evaluación  compañeros | Peso | Evaluación docente | Peso | *Total* |
+|------------------------+------+--------------------+------+---------|
+|                   9.05 |  0.3 |               8.75 |  0.7 |    8.84 |
+|------------------------+------+--------------------+------+---------|
+#+TBLFM: @2$5=$1*$2+$3*$4;f-2
+
+* Evaluación grupal
+
+|              | 1 | 2 | 3 | 4 | 5 | Total |
+|--------------+---+---+---+---+---+-------|
+| Originalidad | 0 | 0 | 1 | 0 | 7 |  9.50 |
+| Nivel        | 0 | 0 | 0 | 2 | 6 |  9.50 |
+| Relevancia   | 0 | 0 | 0 | 1 | 7 |  9.75 |
+| Claridad     | 0 | 0 | 1 | 3 | 4 |  8.75 |
+| Presencia    | 0 | 1 | 1 | 4 | 2 |  7.75 |
+|--------------+---+---+---+---+---+-------|
+|              |   |   |   |   |   |  9.05 |
+#+TBLFM: @2$7..@6$7=10 * (0.2*$2 + 0.4*$3 + 0.6*$4 + 0.8*$5 + $6 ) / vsum($2..$6); f-2::@7$7=vmean(@2$7..@6$7); f-2
+
+** Comentarios de los compañeros
+
+Tu exposición recibió los siguientes comentarios anonimizados por
+parte de tus compañeros:
+
+- Muy buena exposición, desmitifica la teoría de que vivimos en una simulación
+  xD (que es diferente a una emulación).
+- Falto que el expositor saliera en cámara.
+
+* Evaluación por parte del docente
+
+| *Aspecto*              | *Peso* | *Evaluación* | *Puntos* |
+|------------------------+--------+--------------+----------|
+| Originalidad del tema  |    0.1 |           10 |       1. |
+| Material desarrollado  |    0.2 |            5 |       1. |
+| Contenido              |    0.2 |           10 |       2. |
+| Fuentes bibliográficas |    0.1 |           10 |       1. |
+| Uso del tiempo         |    0.1 |          7.5 |     0.75 |
+| Dominio del tema       |   0.15 |           10 |      1.5 |
+| Presencia              |   0.15 |           10 |      1.5 |
+|------------------------+--------+--------------+----------|
+| *Global*               |        |              |     8.75 |
+#+TBLFM: @<<$4..@>>$4=$2*$3::$4=vsum(@<<..@>>);f-2
+
+** Comentarios
+
+- Expusiste a un buen ritmo, con seguridad sobre el conocimiento de tu
+  tema. ¡Muy bien!
+- Me parece excelente que incluyas las fuentes en los puntos en que citas
+  diagramas de terceros. Lo que te sugiero, sin embargo, es que las manejes como
+  /referencias bibliográficas/: Si tus referencias están numeradas, puedes
+  indicar cuál es con p.ej. [4]; si prefieres ponerlas por autor/fecha, cítalo
+  con esa dupla (Wolf 2024).
+  - Y ya que estamos en ese tema: veo que escribes con LaTeX. ¡Maravilloso! 😃
+    Te sugiero familiarizarte con BibLatex / Biber para hacer la gestión y
+    formateo de tus referencias. Resulta más sencillo de manejar, y te produce
+    una salida todavía más profesional.
