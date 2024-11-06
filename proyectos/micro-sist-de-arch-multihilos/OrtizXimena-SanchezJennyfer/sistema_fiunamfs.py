@@ -30,17 +30,18 @@ class SistemaFiUnamFS:
                 archivo.write(b"\x00" * (self.TAMANO_CLUSTER - 8))  # Relleno del superbloque
 
     def listar_directorio(self):
-        #Lista el contenido del directorio en `FiUnamFS`.
+        #Lista el contenido del directorio en `FiUnamFS` y retorna una lista de strings.
+        contenido = []
         with open(self.ruta_archivo, "rb") as archivo:
             archivo.seek(self.TAMANO_CLUSTER)  # Saltar el superbloque
-            print("Contenido del directorio:")
             for _ in range(self.MAXIMO_ENTRADAS):
                 entrada = archivo.read(self.TAMANO_ENTRADA_DIRECTORIO)
                 nombre = entrada[1:15].decode("ascii").strip("\x00")
                 tamano = struct.unpack("<I", entrada[16:20])[0]
-                # Mostrar solo entradas válidas, omitiendo espacios vacíos
+                # Agregar solo entradas válidas, omitiendo espacios vacíos
                 if nombre and nombre != "--------------":
-                    print(f"{nombre} - {tamano} bytes")
+                    contenido.append(f"{nombre} - {tamano} bytes")
+        return contenido
 
     def copiar_a_sistema(self, nombre_archivo):
         #Copia un archivo desde `FiUnamFS` al sistema local.
@@ -141,13 +142,4 @@ class SistemaFiUnamFS:
         with self.bloqueo:
             print("Estado sincronizado entre hilos")
 
-# Ejemplo de uso del sistema de archivos
-def main():
-    sistema_fs = SistemaFiUnamFS()
-    sistema_fs.listar_directorio()
-    sistema_fs.copiar_desde_sistema("ejemplo.txt")  # Copiar archivo desde el sistema a FiUnamFS
-    sistema_fs.copiar_a_sistema("ejemplo.txt")      # Copiar archivo desde FiUnamFS al sistema
-    sistema_fs.eliminar_archivo("ejemplo.txt")      # Eliminar archivo en FiUnamFS
 
-if __name__ == "__main__":
-    main()
