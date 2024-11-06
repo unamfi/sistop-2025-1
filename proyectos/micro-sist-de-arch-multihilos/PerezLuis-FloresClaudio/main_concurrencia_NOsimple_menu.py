@@ -55,8 +55,8 @@ class FSsistop():
 
         def reader_thread():
             #Comprobacion de concurrencia
-            print(f"Iniciando reader_thread en tiempo {time.time()}")
-            time.sleep(2) #simulacion de trabajo con una espera
+            #print(f"Iniciando reader_thread en tiempo {time.time()}")
+            #time.sleep(2) #simulacion de trabajo con una espera
             with open(self.img_path, 'rb') as f:
                 f.seek(entry['start_cluster'] * self.cluster_size)
                 bytes_read = 0
@@ -67,12 +67,12 @@ class FSsistop():
                     self.data_queue.put(chunk)
                     bytes_read += len(chunk)
             self.data_queue.put(None)
-            print(f"reader_thread finalizado en tiempo {time.time()}")
+            #print(f"reader_thread finalizado en tiempo {time.time()}")
 
         def writer_thread():
             #Comprobacion de concurrencia debe de iniciar casi al mismo tiempo que el reader
-            print(f"Iniciando writer_thread en tiempo {time.time()}")
-            time.sleep(2)
+            #print(f"Iniciando writer_thread en tiempo {time.time()}")
+            #time.sleep(2)
             with open(dest_path, 'wb') as f:
                 while True:
                     chunk = self.data_queue.get()
@@ -81,7 +81,7 @@ class FSsistop():
                     f.write(chunk)
                     self.data_queue.task_done()
             #Comprobacion de concurrencia, debe de terminar casi al mismo tiempo que el reader
-            print(f"writer_thread finalizado en tiempo {time.time()}")
+            #print(f"writer_thread finalizado en tiempo {time.time()}")
 
         reader = threading.Thread(target=reader_thread)
         writer = threading.Thread(target=writer_thread)
