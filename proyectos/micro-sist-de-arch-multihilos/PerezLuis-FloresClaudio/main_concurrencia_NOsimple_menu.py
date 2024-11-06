@@ -4,7 +4,6 @@ from prettytable import PrettyTable
 from datetime import datetime
 import threading
 import queue
-from typing import Optional
 
 class FSsistop():
     def __init__(self,img_path):
@@ -51,7 +50,7 @@ class FSsistop():
             print(f"{filename} no se encuentra en el sistema de archivos")
             return
         
-        chunk_size = min(self.cluster_size, 1024 * 1024)
+        chunk_size = self.cluster_size
         total_size = entry['size']
 
         def reader_thread():
@@ -105,12 +104,12 @@ class FSsistop():
                 used_clusters.append((content['start_cluster'],
                                     math.ceil(content['start_cluster']+content['size']/self.cluster_size)))
                 
-            elif not index:
+            elif content['state'] == 35 and index is None:
                 index=self.directory.index(content)
 
         used_clusters=sorted(used_clusters,key=lambda tup: tup[1])     
 
-        if not index:
+        if index is None:
             print('El directorio está lleno')
             return
 
@@ -130,7 +129,7 @@ class FSsistop():
             print('No hay espacio en el sistema para este archivo')
             return
         
-        chunk_size = min(self.cluster_size, 1024 * 1024)
+        chunk_size = self.cluster_size
 
         def reader_thread():
             with open(src_path, 'rb') as f:
@@ -144,7 +143,6 @@ class FSsistop():
             self.data_queue.put(None)
 
         def writer_thread():
-            with self.fs_lock:
                 binary_metadata=bytearray(b'.')
                 binary_metadata+=(filename.ljust(14).encode('ascii')+b'\x00'+
                             struct.pack('<i',size)+
@@ -264,6 +262,7 @@ def main():
                 destino = input("Nombre del archivo de destino: ")
                 fs.copyfromFS(destino, nombre)
             case "3":
+                print("Ingrese la ruta completa del archivo (ejemplo: /ruta/completa/archivo.txt)")
                 origen = input("Ruta del archivo a agregar: ")
                 nombre = input("Nombre para el archivo en FIunamFS: ")
                 fs.copytoFS(origen, nombre)
