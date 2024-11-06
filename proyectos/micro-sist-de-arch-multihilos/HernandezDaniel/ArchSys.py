@@ -66,7 +66,7 @@ class FiUnamFS:
         with open(self.disk,'rb') as f:
             # Clusters 1-4 
             for i in range(1,5): 
-                #Ajustamos el puntero
+                #Ajustamos el puntero al inicio de cada bloque
                 f.seek(i*1024)
                 #Nos movemos por todas las entradas disponibles en cada cluster
                 for _ in range (16):
@@ -98,7 +98,7 @@ class FiUnamFS:
     
     #Funcion para copiar de FIUNAMFS a mi computadora
     def __CopiarDelDisk__(self,NombreArchivoACopiar, DireccionAGuardar):
-        #Tomamos el mutex para protejer el puntero al usar el seek, si hay dos hilos concurrentes puede haber condiciones de carrera y terminar leyendo datos que no deberian ser leidos
+        #Tomamos el mutex para proteger el puntero al usar el seek, si hay dos hilos concurrentes puede haber condiciones de carrera y terminar leyendo datos que no deberian ser leidos
         #Ademas al tambien escribir en este caso en la computadora, pueden existir daños en el archivo si dos o más hilos escriben al mismo tiempo
         with self.lock:
             #Buscamos el archivo a copiar
@@ -151,7 +151,6 @@ class FiUnamFS:
                     return False
                 #Escribir la entrada del archivo en el directorio
                 with open(self.disk, 'r+b') as disk_file:
-                    #Buscamos una posicion libre en el directorio
                     PosicionDirectorio = self.__PosicionDeDirectorioLibre__() 
                     #si no hay pues no podemos copiar en el disk
                     if not PosicionDirectorio: 
@@ -179,7 +178,7 @@ class FiUnamFS:
                         #cuando ya no haya nada que escribir salimos del bucle  
                         if not data: 
                             break
-                        #Ajustamos el puntero 
+                        #Ajustamos el puntero para movernos entre los clusters
                         disk_file.seek(cluster + i * 1024)
                         #Escribimos donde apunta el puntero 
                         disk_file.write(data) 
@@ -214,8 +213,8 @@ class FiUnamFS:
                         return i*1024+entry_index*64 
         #Si no hay entradas de directorio libres 
         return None  
-    
-    def __HayEspacio__(self, Tamaño): #Funcion que verifica si hay espacio contiguo suficiente y devuelve donde comienza ese espacio disponible
+    #Funcion que verifica si hay espacio contiguo suficiente y devuelve donde comienza ese espacio disponible
+    def __HayEspacio__(self, Tamaño): 
         # Tamaño de cada cluster en bytes
         cluster_size = 1024  
         # Calcular el número de clusters necesarios y  redondear hacia arriba
@@ -223,8 +222,8 @@ class FiUnamFS:
         # Verificar el espacio ocupado por los archivos existentes
         espacio_ocupado = sum(archivo["Tamaño"] for archivo in self.archivos)
         # Verificar si hay espacio suficiente en el disco
-        #1024*5 es el espacio del directorio
-        if espacio_ocupado + Tamaño + 1024*5 > 1440 * 1024:
+        EspacioDelDirectorio = 1024*5
+        if espacio_ocupado + Tamaño + EspacioDelDirectorio > 1440 * 1024:
             # No hay espacio total disponible
             return False  
 
@@ -279,7 +278,7 @@ class FiUnamFS:
                 for cluster in range(cluster_inicial, cluster_inicial + clusters_necesarios):
                     disk_file.seek(cluster * 1024)
                     disk_file.write(b'\x00' * 1024)  
-            # Remover de la lista local
+            # Remover de los archivos locales 
             self.archivos.remove(archivo_a_eliminar)  
         
         with VCListFiles:
@@ -400,7 +399,7 @@ class FiUnamFSApp:
             NombreArchivoACopiar = self.tree.item(item)["values"][0] 
             #Obtenemos su direccion
             DireccionAGuardar = filedialog.asksaveasfilename(initialfile=NombreArchivoACopiar) 
-            #Si no se logra obtener la direccion vamos a lsiguiente archivo
+            #Si no se logra obtener la direccion vamos al siguiente archivo
             if not DireccionAGuardar:   
                 continue
             #Creamos el hilo que iniciara la funcion de copiar, de este modo cada archivo que se quiera copiar sucedera al mismo tiempo        
@@ -416,7 +415,7 @@ class FiUnamFSApp:
         #Obtenemos las ubicaciones de los archivos seleccionados de la computadora
         file_paths= filedialog.askopenfilenames() 
         #-----------------------------------------------------------------------------#  
-        #Funcion interna para la ejecucion multihilo que manda a llamar a la funcion que realiza toda la logica de copiado con los datos adquiridos
+        #Funcion interna para la ejecucion multihilo 
         def CopiarAFS(file_path): 
             fs.__CopiarAlDisk__(file_path)
         #-----------------------------------------------------------------------------#
@@ -441,7 +440,6 @@ class FiUnamFSApp:
         
     #Funcion que se ejecuta al presionar el boton "Eliminar Archivo"
     def delete_file(self):
-        #Lista de hilos para ejecutarlos "Al mismo tiempo"
         hilos = [] 
         #Obtenemos la seleccion de archivos
         selected_item = self.tree.selection() 
@@ -449,7 +447,7 @@ class FiUnamFSApp:
         if not selected_item: 
             messagebox.showwarning("Atención", "Selecciona un archivo para eliminar.")
             return
-        #Funcion interna para la ejecucion multihilo que manda a llamar a la funcion que realiza toda la logica de copiado con los datos adquiridos
+        #Funcion interna para la ejecucion multihilo 
         #------------------------------------------------------------------
         def EliminarArchivo(NombreArchivoAEliminar):
             self.fs.__EliminarDelDisk__(NombreArchivoAEliminar)
@@ -464,7 +462,6 @@ class FiUnamFSApp:
             if confirmacion: 
                 hilo = threading.Thread(target=EliminarArchivo, args=(NombreArchivoAEliminar,))
                 hilos.append(hilo)
-        #Iniciamos los hilos "Al mismo tiempo"
         for hilo in hilos: 
             hilo.start()    
         hilos.clear()
