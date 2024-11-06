@@ -25,13 +25,36 @@ disk_lock = threading.Lock() #Se sincroniza el acceso al disco
 
 def verificar_superbloque():
     """
-    
+    Esta función verifica que el superbloque en el archivo de disco sea válido.
+    Se leen los primeros 8 bytes del archivo para comprobar si la cadena contiene "FiUnamFS"
+    de esta forma se verifica el archivo.
+
+    Si no contiene se le informa al ususario:   ValueError: ¡No es un sistema de archivos del tipo FiUnamFS!
     """
+    with open(DISK_FILE, 'rb') as disk:
+        disk.seek(0)
+        magic = disk.read(8).decode('ascii')
+        if magic != "FiUnamFS":
+            raise ValueError("¡No es un sistema de archivos del tipo FiUnamFS!")
 
 def lista_directorio():
     """
-    
+    Muestra el contenido del directorio de FiUnamFS.
+    Lee el directorio desde el archivo de disco y muetsra los nombre y tamaño de los archivos almacenados,
+    esta información se obtiene de los clusters de datos del disco.
     """
+    print("\nContenido del directorio: ")
+    with open(DISK_FILE, 'rb') as disk:
+        #Inicia en el directorio (cluster 1)
+        disk.seek(CLUSTER_SIZE)
+        for i in range(4*(CLUSTER_SIZE // 64)):
+            entry = disk.read(64)
+            tipo = entry[0:1].decode('ascii')
+            if tipo == '#':
+                continue
+            nombre = entry[1:16].decode('ascii').strip()
+            tamaño = struct.unpack('<I', entry[16:20])[0]
+            print(f"\nArchivos: {nombre} -> Tamaño: {tamaño} bytes")
 
 def copiar_fiunamfs_a_local(archivo_nombre):
     """
@@ -73,6 +96,8 @@ def menu():
 #Main
 if __name__ == "__main__":
     try:
+        verificar_superbloque()
 
-    except
-        
+    except ValueError as e:
+        print(e)
+
