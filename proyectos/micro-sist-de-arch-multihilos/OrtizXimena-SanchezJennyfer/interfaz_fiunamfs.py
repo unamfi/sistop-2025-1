@@ -33,9 +33,10 @@ class InterfazFiUnamFS:
         self.salida.config(state="normal")
         self.salida.delete(1.0, tk.END)
         contenido = "Contenido del directorio:\n"
-        contenido += "\n".join(self.sistema_fs.listar_directorio())
+        contenido += "\n".join(self.sistema_fs.listar_directorio())  
         self.salida.insert(tk.END, contenido)
         self.salida.config(state="disabled")
+
 
     def copiar_a_sistema(self):
         archivo = self.nombre_archivo.get()
