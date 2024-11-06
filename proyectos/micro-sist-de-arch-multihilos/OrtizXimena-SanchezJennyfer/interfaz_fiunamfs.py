@@ -40,11 +40,10 @@ class InterfazFiUnamFS:
 
     def copiar_a_sistema(self):
         archivo = self.nombre_archivo.get()
-        if archivo:
-            try:
-                self.sistema_fs.copiar_a_sistema(archivo)
+        if archivo.strip():  # Verifica que el campo no esté vacío
+            if self.sistema_fs.copiar_a_sistema(archivo):
                 messagebox.showinfo("Copia a Sistema", f"Archivo '{archivo}' copiado a sistema local.")
-            except FileNotFoundError:
+            else:
                 messagebox.showerror("Error", f"Archivo '{archivo}' no encontrado en FiUnamFS.")
         else:
             messagebox.showwarning("Advertencia", "Por favor, ingrese el nombre del archivo a copiar.")
@@ -52,20 +51,20 @@ class InterfazFiUnamFS:
     def copiar_desde_sistema(self):
         ruta_archivo = filedialog.askopenfilename()
         if ruta_archivo:
-            try:
-                self.sistema_fs.copiar_desde_sistema(ruta_archivo)
+            if self.sistema_fs.copiar_desde_sistema(ruta_archivo):
                 messagebox.showinfo("Copia desde Sistema", f"Archivo '{ruta_archivo}' copiado a FiUnamFS.")
-            except Exception as e:
-                messagebox.showerror("Error", f"No se pudo copiar el archivo: {e}")
+            else:
+                messagebox.showerror("Error", f"No se pudo copiar el archivo '{ruta_archivo}' a FiUnamFS. Verifique el espacio o la existencia del archivo.")
+        else:
+            messagebox.showwarning("Advertencia", "Por favor, seleccione un archivo para copiar a FiUnamFS.")
 
     def eliminar_archivo(self):
         archivo = self.nombre_archivo.get()
-        if archivo:
-            try:
-                self.sistema_fs.eliminar_archivo(archivo)
+        if archivo.strip():  # Verifica que el campo no esté vacío
+            if self.sistema_fs.eliminar_archivo(archivo):
                 messagebox.showinfo("Eliminar Archivo", f"Archivo '{archivo}' eliminado de FiUnamFS.")
-            except FileNotFoundError:
-                messagebox.showerror("Error", f"Archivo '{archivo}' no encontrado en FiUnamFS.")
+            else:
+             messagebox.showerror("Error", f"Archivo '{archivo}' no encontrado en FiUnamFS.")
         else:
             messagebox.showwarning("Advertencia", "Por favor, ingrese el nombre del archivo a eliminar.")
 
