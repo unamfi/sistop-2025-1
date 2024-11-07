@@ -30,13 +30,23 @@ class InterfazFiUnamFS:
         self.salida.pack(pady=5)
 
     def listar(self):
+        # Habilita la caja de texto y la limpia para mostrar contenido nuevo
         self.salida.config(state="normal")
         self.salida.delete(1.0, tk.END)
-        contenido = "Contenido del directorio:\n"
-        contenido += "\n".join(self.sistema_fs.listar_directorio())  
-        self.salida.insert(tk.END, contenido)
+    
+        # Obtiene la lista completa de archivos del sistema de archivos
+        contenido = self.sistema_fs.listar_directorio()
+    
+        # Verifica si hay archivos para mostrar y los lista uno por uno
+        if contenido:
+            self.salida.insert(tk.END, "Contenido del directorio:\n\n")
+            for linea in contenido:
+                self.salida.insert(tk.END, f"{linea}\n")
+        else:
+            self.salida.insert(tk.END, "El directorio está vacío o no hay archivos para listar.\n")
+    
+        # Vuelve a deshabilitar la caja de texto para que sea de solo lectura
         self.salida.config(state="disabled")
-
 
     def copiar_a_sistema(self):
         archivo = self.nombre_archivo.get()
