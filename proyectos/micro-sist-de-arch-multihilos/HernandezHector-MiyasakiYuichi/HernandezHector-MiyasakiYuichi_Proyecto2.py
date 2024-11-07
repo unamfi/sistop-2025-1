@@ -96,17 +96,51 @@ class OperacionesDirectorio:
                 )
 
     def copiar_de_FiUnamFs(self, nombre_archivo):
-        #Implementar la lógica el sistema local a FiUnamFS aquí
-        pass
+        contenido_directorio = self.sistema_archivos.leer_directorio()
+        archivo_encontrado = None
+
+        # Buscar el archivo en el directorio
+        for archivo in contenido_directorio:
+            if archivo['Nombre'].startswith(nombre_archivo):  # Coincidir solo el nombre
+                archivo_encontrado = archivo
+                break
+
+        if archivo_encontrado:
+            # Preguntar si desea copiar en un directorio específico
+            respuesta = input("\n\t¿Deseas copiar el archivo a un directorio específico? (s/n): ").strip().lower()
+            if respuesta == 's':
+                ruta_destino = input("\n\tIngresa la ruta completa del directorio de destino: ").strip()
+                if not os.path.exists(ruta_destino):
+                    os.makedirs(ruta_destino) # Si no existe el directorio, este crea uno en el archivo ejecutado
+            else:
+                ruta_destino = os.getcwd()
+
+            # Crear la ruta completa del archivo
+            ruta_completa = os.path.join(ruta_destino, archivo_encontrado['Nombre'])
+
+            # Verificar la posición y tamaño de lectura
+            inicio_lectura = (archivo_encontrado['Cluster Inicial']) * TAMANO_CLUSTER
+
+            with open(self.sistema_archivos.imagen_archivo, 'rb') as img:
+                img.seek(inicio_lectura)
+                data = img.read(archivo_encontrado['Tamaño'])
+                with open(ruta_completa, 'wb') as nuevo_archivo:
+                    nuevo_archivo.write(data)
+            CLEAR()
+            print(f"\n\tCopiando archivo de tamaño: {archivo_encontrado['Tamaño']} bytes\n")
+            print(f"\tArchivo '{archivo_encontrado['Nombre']}' copiado a '{ruta_completa}'")
+        else:
+            CLEAR()
+            print(f"\tArchivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
 
     def copiar_archivo_dentro(self, nombre_archivo_local):
-        # Implementar la lógica para el sistema local a FiUnamFS aquí
-        pass  
+        # Implementar la lógica para copiar desde el sistema local a FiUnamFS aquí
+        pass  # Reemplaza esto con la implementación real
 
     def eliminar_archivo(self, nombre_archivo):
         # Implementar la lógica para eliminar un archivo de FiUnamFS aquí
-        pass  
+        pass  # Reemplaza esto con la implementación real
 
 
 def main():
@@ -165,3 +199,4 @@ def listarDirectorioImp():
 
 if __name__ == "__main__":
     main()
+
