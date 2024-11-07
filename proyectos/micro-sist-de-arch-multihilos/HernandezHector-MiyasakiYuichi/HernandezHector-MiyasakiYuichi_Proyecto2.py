@@ -138,7 +138,6 @@ class OperacionesDirectorio:
                         while True:
                             ruta_destino = input("\n\tIngresa la ruta completa del directorio de destino (escribe 'menu' para regresar): ").strip()
                             
-                            # Verificar si el usuario desea regresar al menú
                             if ruta_destino.lower() == 'menu':
                                 CLEAR()
                                 print("\n\tRegresando al menú principal...")
@@ -161,7 +160,14 @@ class OperacionesDirectorio:
                         print("\n\tOpción no válida. Por favor ingresa 's' o 'n'.")
 
                 # Crear la ruta completa del archivo
+                nombre_base, extension = os.path.splitext(archivo_encontrado['Nombre'])
                 ruta_completa = os.path.join(ruta_destino, archivo_encontrado['Nombre'])
+
+                # Verificar si ya existe un archivo con el mismo nombre en el destino
+                contador = 1
+                while os.path.exists(ruta_completa):
+                    ruta_completa = os.path.join(ruta_destino, f"{nombre_base}({contador}){extension}")
+                    contador += 1
 
                 # Verificar tamaño de lectura
                 inicio_lectura = (archivo_encontrado['Cluster Inicial']) * TAMANO_CLUSTER
@@ -182,10 +188,11 @@ class OperacionesDirectorio:
 
 
 
-    def copiar_de_local(self, ruta_archivo_local):
 
+    def copiar_de_local(self, ruta_archivo_local):
         """
         Función para copiar un archivo desde la ruta especificada a la imagen de FiUnamFS.
+        Si un archivo con el mismo nombre y extensión ya existe en FiUnamFS, se añade un sufijo numérico para evitar sobreescritura.
         """
         with directorio_mutex:
             try:
@@ -199,6 +206,25 @@ class OperacionesDirectorio:
 
                 # Leer directorio para verificar espacio disponible
                 contenido_directorio = self.sistema_archivos.leer_directorio()
+
+                nombre_base, extension = os.path.splitext(os.path.basename(ruta_archivo_local))
+                
+                if (len(nombre_base.strip()) + len(extension)) > 16:
+                    CLEAR()
+                    print("\tNo puede ingresar nombres mayores a 15 caracteres...")
+                    print("\tVolviendo al menú principal...\n")
+                    return   # Regresa al menú principal
+
+
+                # Generar un nombre único en FiUnamFS si el archivo ya existe
+                nombre_base, extension = os.path.splitext(os.path.basename(ruta_archivo_local)[:15])
+                nombre_archivo = nombre_base[:15 - len(extension)] + extension  # Limitar el nombre a 15 caracteres
+                contador = 1
+
+                # Genera sufijo numerico entre los bytes 13 y 15
+                while any(archivo['Nombre'] == nombre_archivo for archivo in contenido_directorio):
+                    nombre_archivo = f"{nombre_base[:13 - len(str(contador))]}({contador}){extension}"[:15]
+                    contador += 1
 
                 # Buscar clusters libres para almacenar el archivo
                 clusters_disponibles = []
@@ -214,15 +240,13 @@ class OperacionesDirectorio:
                         clusters_disponibles.append(cluster)
                         if len(clusters_disponibles) == clusters_necesarios:
                             break
-                
+
                 if len(clusters_disponibles) < clusters_necesarios:
                     CLEAR()
                     print("\tNo hay suficiente espacio para copiar el archivo dentro de FiUnamFS.")
                     return
 
-                # Añadir la entrada del archivo al directorio
-                nombre_archivo = os.path.basename(ruta_archivo_local)[:15]  # Limitar el nombre a 15 caracteres
-
+                # Añadir la entrada del archivo al directorio con el nombre único generado
                 fecha_actual = datetime.now().strftime("%Y%m%d%H%M%S")  # Fecha del sistema
 
                 entrada_directorio = (
@@ -259,10 +283,10 @@ class OperacionesDirectorio:
                         posicion_cluster = cluster * TAMANO_CLUSTER
                         img.seek(posicion_cluster)
                         img.write(data[i * TAMANO_CLUSTER:(i + 1) * TAMANO_CLUSTER])
-                
+
                 CLEAR()
-                print(f"\tArchivo '{ruta_archivo_local}' copiado a FiUnamFS.")
-            
+                print(f"\tArchivo '{nombre_archivo}' copiado a FiUnamFS.")
+
             except FileNotFoundError:
                 CLEAR()
                 print(f"\tArchivo '{ruta_archivo_local}' no encontrado en el sistema local.")
@@ -360,6 +384,8 @@ class RutaArchivo:
             else:
                 # Si el archivo existe, devuelve la ruta
                 return self.ruta_archivo
+                
+                
 
 def main():
     sistema_archivos = SistemaArchivosFiUnamFS(ARCHIVO_IMAGEN)
