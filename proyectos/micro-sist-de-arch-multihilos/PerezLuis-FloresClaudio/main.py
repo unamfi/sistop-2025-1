@@ -7,13 +7,13 @@ import queue
 class FSsistop():
     '''En esta clase se definen los metodos para la interaccion con el sistema de archivos
     fiunamfs especificado para este proyecto'''
-
+    #"\033[93m" + + "\033[0m"
     def __init__(self,img_path):
         self.img_path=img_path
         #lectura del superbloque (bits 0-64)
         self.superblock=self.read_superblock(img_path)
         self.cluster_size=struct.unpack('<i',self.superblock[40:44])[0]
-        print("tamaño del directorio en clusters:",struct.unpack('<i',self.superblock[45:49])[0])
+        #print("\033[93m"+f"tamaño del directorio en clusters: {struct.unpack('<i',self.superblock[45:49])[0]}" + '\033[0m')
         self.directory_size=struct.unpack('<i',self.superblock[45:49])[0]
         self.size=struct.unpack('<i',self.superblock[50:54])[0]
 
@@ -35,7 +35,7 @@ class FSsistop():
             version=version[1:]
             #lanza un error si no encuentra el string identificador o la versión no coincide
             if id_fs.decode('ascii') != 'FiUnamFS' or version.decode('ascii') != '25-1':
-                raise ValueError("El archivo no es un sistema de archivos FiUnamFS o la versión es incorrecta.")
+                raise ValueError("\033[93m" + "El archivo no es un sistema de archivos FiUnamFS o la versión es incorrecta." + "\033[0m")
             else:
                 return data
 
@@ -71,7 +71,7 @@ class FSsistop():
         entry=self.find(filename)
         #Termina su ejecucion si no se encuentra el archivo
         if not entry:
-            print(f"{filename} no se encuentra en el sistema de archivos")
+            print("\033[93m" + f"{filename} no se encuentra en el sistema de archivos" + "\033[0m")
             return
         
         #Numero de bits leidos en cada operacion de lectura
@@ -129,7 +129,7 @@ class FSsistop():
         for content in self.directory:
             if content['state'] == 46:
                 if content['name'] == filename:
-                    print(f'Ya existe un archivo \'{filename}\' en el sistema de archivos')
+                    print("\033[93m" + f'Ya existe un archivo \'{filename}\' en el sistema de archivos' + "\033[0m")
                     return
 
                 used_clusters.append((content['start_cluster'],
@@ -144,7 +144,7 @@ class FSsistop():
 
         #Termina si no se encontraron entradas vacias en el directorio
         if index is None:
-            print('El directorio está lleno')
+            print("\033[93m" + 'El directorio está lleno' + "\033[0m" )
             return
 
         try:
@@ -156,13 +156,13 @@ class FSsistop():
             mod=local_time.strftime("%Y%m%d%H%M%S")
             size=stat.st_size
         except FileNotFoundError:
-            print('FileNotFoundError: El archivo especificado no existe')
+            print("\033[93m" + 'FileNotFoundError: El archivo especificado no existe' + "\033[0m" )
             return
 
         #Obtiene el primer cluster inicial en el cual se puede almacenar el archivo
         start_cluster = self.allocate(used_clusters,size)
         if not start_cluster:
-            print('No hay espacio en el sistema para este archivo')
+            print("\033[93m" + 'No hay espacio en el sistema para este archivo' + "\033[0m" )
             return
         
         #tamaño de cada lectura (1KB)
@@ -274,7 +274,7 @@ class FSsistop():
                     f.write(binary_metadata)
                 return
 
-        print(f'El archivo \'{filename}\' no se encuentra en el sistema de archivos')
+        print("\033[93m" + f'El archivo \'{filename}\' no se encuentra en el sistema de archivos' + "\033[0m" )
 
     def find(self,filename : str) -> dict:
         '''Determina si un archivo se encuentra en el FS t regresa el diccionario con sus datos'''
@@ -310,16 +310,17 @@ def test_string(s :str) -> bool:
     '''Verifica que el nombre del archivo cumpla con la especificación'''
     try:
         if len(s) > 14:
-            print('El nombre del archivo debe ser una cadena ASCII <= 14 caracteres')
+            print("\033[93m" + 'El nombre del archivo debe ser una cadena ASCII <= 14 caracteres' + "\033[0m" )
             return False
         s.encode('ascii')
         return True
     except UnicodeEncodeError:
-        print('El nombre del archivo debe ser una cadena ASCII <= 14 caracteres')
+        print("\033[93m" + 'El nombre del archivo debe ser una cadena ASCII <= 14 caracteres' + "\033[0m" )
         return False
 
 def main():
-    fs = FSsistop('fi.img')
+    fs_name = input("Ingrese la ruta del sistema de archivos:")
+    fs = FSsistop(fs_name)
     while True:
         opcion = mostrar_menu()
         print()  # Línea en blanco para mejor presentación
