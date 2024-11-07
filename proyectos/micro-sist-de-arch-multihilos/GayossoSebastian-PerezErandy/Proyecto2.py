@@ -320,18 +320,19 @@ def actualizarDirectorio():
                 imagen.write(almacen)
 
 def inicio():
-    # Obtiene el mapa de la imagen 
+    # Inicializa el mapa de la imagen del sistema de archivos
     iniciaMapa()
-    # Obtiene los archivos almacenados en fiunamfs.img
+    
+    # Inicializa los archivos almacenados en el sistema de archivos FiUnamFS
     inicializaArchivos()
+    
+    # Muestra datos generales del sistema de archivos
     print("Datos del sistema de archivos:")
-    nombreSistema = sacaDatosAscii(0,8)
-    version = sacaDatosAscii(10,4)
-    etiqueta = sacaDatosAscii(20,15)
-  
-   
-    # -*- coding: utf-8 -*-
+    nombreSistema = sacaDatosAscii(0, 8)  # Obtiene el nombre del sistema de archivos desde la imagen
+    version = sacaDatosAscii(10, 4)       # Obtiene la versión del sistema de archivos
+    etiqueta = sacaDatosAscii(20, 15)     # Obtiene la etiqueta del volumen
 
+    # Muestra los datos del sistema de archivos al usuario
     print("\nIdentificación del sistema de archivos:", nombreSistema)
     print("Versión de la implementación:", version)
     print("Etiqueta del volumen:", etiqueta)
@@ -340,49 +341,64 @@ def inicio():
     print("Número de clusters que mide la unidad completa:", clustersUnidad)
     print("Tamaño del directorio:", tamanioDirectorio)
     print("\n")
-        
-#Almacena informacion b
 
-
-
-
+    # Inicia el menú principal del sistema de archivos
     menu1 = True
     while(menu1):
-        # -*- coding: utf-8 -*-
-        print("\nOpciones:\n1. Listar archivos\n2. Copiar uno de los archivos a tu computadora\n3. Copiar un archivo de tu computadora hacia FiUnamFS\n4. Eliminar un archivo del FiUnamFS\n5. Desfragmentar el sistema de archivos\n6. Cerrar el sistema de archivos\n")
+        print("\nOpciones:")
+        print("1. Listar archivos")
+        print("2. Copiar uno de los archivos a tu computadora")
+        print("3. Copiar un archivo de tu computadora hacia FiUnamFS")
+        print("4. Eliminar un archivo del FiUnamFS")
+        print("5. Desfragmentar el sistema de archivos")
+        print("6. Cerrar el sistema de archivos\n")
+        
+        # Solicita al usuario elegir una opción del menú
         opcion = int(input("Ingresa una opción: "))
-        if (opcion == 1):
-            
+        
+        if opcion == 1:
+            # Lista los archivos del sistema de archivos
             muestraDirectorio()
             print("\n")
-        elif (opcion == 2):
-            
+        
+        elif opcion == 2:
+            # Solicita el nombre y ruta para copiar un archivo hacia la computadora del usuario
             nombre = input("Ingresa el nombre del archivo que quieres copiar: ")
-            ruta = input("Ingresa la ruta en la cual lo quieres copiar: ").replace("\\","/")
+            ruta = input("Ingresa la ruta en la cual lo quieres copiar: ").replace("\\", "/")
             copiaArchivoAComputadora(nombre, ruta)
             print("\n")
-        elif (opcion == 3):
-            
-            ruta = input("Ingresa la ruta de donde deseas copiar el archivo (incluye el archivo con su extensión):").replace("\\","/")
+        
+        elif opcion == 3:
+            # Solicita la ruta de un archivo en la computadora para copiarlo hacia FiUnamFS
+            ruta = input("Ingresa la ruta de donde deseas copiar el archivo (incluye el archivo con su extensión):").replace("\\", "/")
             copiaArchivoAImagen(ruta)
             print("\n")
-        elif (opcion == 4):
-           
+        
+        elif opcion == 4:
+            # Solicita el nombre del archivo para eliminarlo del sistema de archivos
             nombre = input("Ingresa el nombre del archivo que quieres eliminar (incluye la extensión): ")
             borraArchivo(nombre, 1)
             print("\n")
-        elif (opcion == 5):
-           
+        
+        elif opcion == 5:
+            # Desfragmenta el sistema de archivos para optimizar el espacio
             desfragmentar()
             print("Sistema de archivos desfragmentado con éxito.")
             print("\n")
-        elif (opcion == 6 ):
+        
+        elif opcion == 6:
+            # Cierra el sistema de archivos y termina el menú
             print("Cerrando....\n")
             menu1 = False
             print("\n")
+        
         else:
+            # Opción no válida
             print("No ingresaste una opción válida. Por favor, inténtalo nuevamente.\n\n")
             print("\n")
-    
+
+# Ejecuta el inicio del sistema de archivos
 inicio()
+
+# Cierra el archivo de imagen del sistema de archivos después de finalizar el uso
 imagen.close()
