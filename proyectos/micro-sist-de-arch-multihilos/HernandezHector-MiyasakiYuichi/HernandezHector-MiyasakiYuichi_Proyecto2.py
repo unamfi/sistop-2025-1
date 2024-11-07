@@ -14,8 +14,10 @@ NOMBRE_SISTEMA_ARCHIVOS = 'FiUnamFS'
 VERSION_SISTEMA = '25-1'
 ARCHIVO_IMAGEN = 'fiunamfs.img'
 
-# Sincronización para operaciones concurrentes
+# Sincronización de operaciones concurrentes
 directorio_mutex = threading.Lock()
+sem_superbloque = threading.Semaphore(1)
+lock_verificacion = threading.Lock()
 
 class SistemaArchivosFiUnamFS:
 
@@ -24,34 +26,37 @@ class SistemaArchivosFiUnamFS:
         self.verificar_archivo()
 
     def verificar_archivo(self):
-        # Verificar si el archivo existe en el directorio actual
-        if not os.path.exists(self.imagen_archivo):
-            print(f"\n\tEl archivo '{self.imagen_archivo}' no se encuentra en el directorio actual.")
-            
-            # Solicitar ruta si el archivo no existe en el directorio actual
-            while True:
-                ruta = input("\n\tPor favor, ingrese la ruta completa del archivo 'fiunamfs.img': ")
-                if os.path.exists(ruta):
-                    self.imagen_archivo = ruta
-                    CLEAR()
-                    print(f"\tArchivo encontrado en la ruta: {self.imagen_archivo}")
-                    break
-                else:
-                    CLEAR()
-                    print("\n\tArchivo no encontrado en la ruta especificada. Intente nuevamente.")
+        with lock_verificacion:
+            # Verificar si el archivo existe en el directorio actual
+            if not os.path.exists(self.imagen_archivo):
+                print(f"\n\tEl archivo '{self.imagen_archivo}' no se encuentra en el directorio actual.")
+                
+                # Solicitar ruta si el archivo no existe en el directorio actual
+                while True:
+                    ruta = input("\n\tPor favor, ingrese la ruta completa del archivo 'fiunamfs.img': ")
+                    if os.path.exists(ruta):
+                        self.imagen_archivo = ruta
+                        print(f"\tArchivo encontrado en la ruta: {self.imagen_archivo}")
+                        break
+                    else:
+                        CLEAR()
+                        print("\n\tArchivo no encontrado en la ruta especificada. Intente nuevamente.")
 
     def validar_sistema_archivos(self):
-        with open(self.imagen_archivo, 'rb') as img:
-            img.seek(0)
-            superbloque = img.read(TAMANO_CLUSTER)
+        with sem_superbloque:  # Acceso controlado al superbloque
+            with open(self.imagen_archivo, 'rb') as img:
+                img.seek(0)
+                superbloque = img.read(TAMANO_CLUSTER)
 
-            nombre = superbloque[0:8].decode().strip('\x00')
-            version = superbloque[10:15].decode().strip('\x00')
+                # Leer y validar el nombre y versión del sistema de archivos
+                nombre = superbloque[0:8].decode().strip('\x00')
+                version = superbloque[10:15].decode().strip('\x00')
 
-            if nombre != NOMBRE_SISTEMA_ARCHIVOS:
-                raise ValueError("\tNombre de sistema de archivos incorrecto.")
-            if version != VERSION_SISTEMA:
-                raise ValueError("\tVersión del sistema de archivos no soportada.")
+                if nombre != NOMBRE_SISTEMA_ARCHIVOS:
+                    raise ValueError("\tNombre de sistema de archivos incorrecto.")
+                if version != VERSION_SISTEMA:
+                    raise ValueError("\tVersión del sistema de archivos no soportada.")
+                print("\tValidación del sistema de archivos completada exitosamente.")
 
 
     def leer_directorio(self):
@@ -186,9 +191,6 @@ class OperacionesDirectorio:
                 print(f"\tArchivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
 
-
-
-
     def copiar_de_local(self, ruta_archivo_local):
         """
         Función para copiar un archivo desde la ruta especificada a la imagen de FiUnamFS.
@@ -246,7 +248,7 @@ class OperacionesDirectorio:
                     print("\tNo hay suficiente espacio para copiar el archivo dentro de FiUnamFS.")
                     return
 
-                # Añadir la entrada del archivo al directorio con el nombre único generado
+                # Añadir la entrada del archivo al directorio con la fecha
                 fecha_actual = datetime.now().strftime("%Y%m%d%H%M%S")  # Fecha del sistema
 
                 entrada_directorio = (
