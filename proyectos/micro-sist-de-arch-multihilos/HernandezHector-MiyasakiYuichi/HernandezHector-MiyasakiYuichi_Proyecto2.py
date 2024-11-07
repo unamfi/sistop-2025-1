@@ -137,13 +137,117 @@ class OperacionesDirectorio:
                 print(f"\tArchivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
 
-    def copiar_archivo_dentro(self, nombre_archivo_local):
-        # Implementar la lógica para copiar desde el sistema local a FiUnamFS aquí
-        pass  # Reemplaza esto con la implementación real
+    def copiar_archivo_dentro(self, ruta_archivo_local):
+        """
+        Función para copiar un archivo desde la ruta especificada a la imagen de FiUnamFS.
+        """
+        with directorio_mutex:
+            try:
+                # Leer archivo local
+                with open(ruta_archivo_local, 'rb') as archivo_local:
+                    data = archivo_local.read()
+                    tamaño_archivo = len(data)
+
+                # Calcular clusters necesarios para almacenar el archivo
+                clusters_necesarios = (tamaño_archivo + TAMANO_CLUSTER - 1) // TAMANO_CLUSTER
+
+                # Leer directorio para verificar espacio disponible
+                contenido_directorio = self.sistema_archivos.leer_directorio()
+
+                # Buscar clusters libres para almacenar el archivo
+                clusters_disponibles = []
+                for cluster in range(CLUSTERS_DIRECTORIO + 1, TAMANO_DISQUETE // TAMANO_CLUSTER):
+                    ocupado = False
+                    for archivo in contenido_directorio:
+                        cluster_inicial = archivo['Cluster Inicial']
+                        clusters_ocupados = range(cluster_inicial, cluster_inicial + (archivo['Tamaño'] + TAMANO_CLUSTER - 1) // TAMANO_CLUSTER)
+                        if cluster in clusters_ocupados:
+                            ocupado = True
+                            break
+                    if not ocupado:
+                        clusters_disponibles.append(cluster)
+                        if len(clusters_disponibles) == clusters_necesarios:
+                            break
+                
+                if len(clusters_disponibles) < clusters_necesarios:
+                    print("\tNo hay suficiente espacio para copiar el archivo dentro de FiUnamFS.")
+                    return
+
+                # Añadir la entrada del archivo al directorio
+                nombre_archivo = os.path.basename(ruta_archivo_local)[:15]  # Limitar el nombre a 15 caracteres
+
+                fecha_actual = "20241029"  # Ejemplo de fecha; puedes adaptarlo a la fecha actual en formato deseado
+
+                entrada_directorio = (
+                    b'.' +
+                    nombre_archivo.encode().ljust(15, b'\x00') +
+                    struct.pack('<I', tamaño_archivo) +
+                    struct.pack('<I', clusters_disponibles[0]) +
+                    fecha_actual.encode().ljust(14, b'\x00') * 2 +
+                    b'\x00' * (TAMANO_ENTRADA - 64)
+                )
+
+                with open(self.sistema_archivos.imagen_archivo, 'r+b') as img:
+                    # Buscar entrada libre en el directorio
+                    for cluster in range(CLUSTERS_DIRECTORIO):
+                        posicion_inicial = (SUPERBLOQUE_CLUSTER + 1 + cluster) * TAMANO_CLUSTER
+                        img.seek(posicion_inicial)
+                        cluster_datos = img.read(TAMANO_CLUSTER)
+
+                        for entrada in range(0, TAMANO_CLUSTER, TAMANO_ENTRADA):
+                            if cluster_datos[entrada:entrada + 1] == b'#':  # Espacio libre
+                                img.seek(posicion_inicial + entrada)
+                                img.write(entrada_directorio)
+                                break
+                        else:
+                            continue
+                        break
+                    else:
+                        print("\tNo se pudo encontrar espacio en el directorio.")
+                        return
+
+                    # Escribir el archivo en clusters disponibles
+                    for i, cluster in enumerate(clusters_disponibles):
+                        posicion_cluster = cluster * TAMANO_CLUSTER
+                        img.seek(posicion_cluster)
+                        img.write(data[i * TAMANO_CLUSTER:(i + 1) * TAMANO_CLUSTER])
+
+                print(f"\tArchivo '{ruta_archivo_local}' copiado a FiUnamFS.")
+            
+            except FileNotFoundError:
+                print(f"\tArchivo '{ruta_archivo_local}' no encontrado en el sistema local.")
 
     def eliminar_archivo(self, nombre_archivo):
         # Implementar la lógica para eliminar un archivo de FiUnamFS aquí
         pass  # Reemplaza esto con la implementación real
+
+class RutaArchivo:
+    """
+    Clase para gestionar la obtención de la ruta de un archivo,
+    preguntando si está en el directorio actual o solicitando la ruta completa.
+    """
+
+    def __init__(self):
+        self.ruta_archivo = None
+
+    def obtener_ruta(self):
+        """
+        Pregunta al usuario si el archivo está en el directorio actual.
+        Si no está, solicita la ruta completa del archivo.
+        """
+        opcion = input("\n\t¿El archivo está en el directorio actual? (s/n): ").strip().lower()
+        
+        if opcion == 's':
+            nombre_archivo = input("\tIngrese el nombre del archivo en el directorio actual (con la extensión): ").strip()
+            self.ruta_archivo = os.path.join(os.getcwd(), nombre_archivo)
+        elif opcion == 'n':
+            self.ruta_archivo = input("\tIngrese la ruta completa del archivo (con la extensión): ").strip()
+        
+        if not os.path.isfile(self.ruta_archivo):
+            print(f"\tEl archivo '{self.ruta_archivo}' no existe.")
+            self.ruta_archivo = None  # Restablecer a None si el archivo no existe
+
+        return self.ruta_archivo
 
 
 def main():
@@ -165,8 +269,13 @@ def main():
             hilo_copiar.start()
             hilo_copiar.join()
         elif opcion == "3":
-            nombre_archivo_local = input("\n\tIngrese el nombre del archivo local a copiar a FiUnamFS: ")
-            operaciones.copiar_archivo_dentro(nombre_archivo_local)
+            ruta_archivo_obj = RutaArchivo()
+            ruta_archivo_local = ruta_archivo_obj.obtener_ruta()
+            if ruta_archivo_local:
+                hilo_copiar_dentro = threading.Thread(target=operaciones.copiar_archivo_dentro, args=(ruta_archivo_local,))
+                hilo_copiar_dentro.start()
+                hilo_copiar_dentro.join()
+
         elif opcion == "4":
             nombre_archivo = input("\n\tIngrese el nombre del archivo a eliminar en FiUnamFS: ")
             operaciones.eliminar_archivo(nombre_archivo)
