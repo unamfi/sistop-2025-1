@@ -1,4 +1,4 @@
-#    _____ _      __             ___   ______     ___   ____ ___ 
+#   _____ _      __             ___   ______     ___   ____ ___ 
 #  / ___/(_)____/ /_____  ____ |__ \ / ____/    <  /  / __ \__ \
 #  \__ \/ / ___/ __/ __ \/ __ \__/ //___ \______/ /  / /_/ /_/ /
 # ___/ / (__  ) /_/ /_/ / /_/ / __/____/ /_____/ /  / ____/ __/ 
@@ -7,7 +7,6 @@
 #  Proyecto elaborado por:
 # - Arellanes Conde Esteban
 # - Esquivel Santana Christian
-
 
 import os
 import struct
@@ -178,7 +177,7 @@ def threaded_task(fs, task, *args):
         print(f"Borrando {filename}...")
         print(delete_file(fs, filename))
 
-
+#Despliege de las opciones del menú
 def main_menu(fs):
     while True:
         print("\nMenu:")
@@ -217,7 +216,7 @@ def main_menu(fs):
             print("Opción no válida. Por favor intente de nuevo.")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # Esto puede variar según el SO, si es Windows \ y / si es GNU-Linux.
     # Ajustar la ruta según el sistema
     fs = FiUnamFS('/home/bante/Descargas/fiunamfs.img')
     fs.validate_fs()
