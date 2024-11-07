@@ -7,7 +7,6 @@ import queue
 class FSsistop():
     '''En esta clase se definen los metodos para la interaccion con el sistema de archivos
     fiunamfs especificado para este proyecto'''
-    #"\033[93m" + + "\033[0m"
     def __init__(self,img_path):
         self.img_path=img_path
         #lectura del superbloque (bits 0-64)
@@ -27,17 +26,20 @@ class FSsistop():
     def read_superblock(self,path):
         '''Realiza la lectura del superbloque y verifica el string identificador y de versión, 
         regresa un arreglo de 64 bits con el contenido del superbloque'''
-
-        with open(path, 'rb+') as f:
-            data = f.read(64)
-            id_fs, version = struct.unpack('<9s5s', data[:14])
-            id_fs=id_fs[0:-1]
-            version=version[1:]
-            #lanza un error si no encuentra el string identificador o la versión no coincide
-            if id_fs.decode('ascii') != 'FiUnamFS' or version.decode('ascii') != '25-1':
-                raise ValueError("\033[93m" + "El archivo no es un sistema de archivos FiUnamFS o la versión es incorrecta." + "\033[0m")
-            else:
-                return data
+        try:
+            with open(path, 'rb+') as f:
+                data = f.read(64)
+                id_fs, version = struct.unpack('<9s5s', data[:14])
+                id_fs=id_fs[0:-1]
+                version=version[1:]
+                #lanza un error si no encuentra el string identificador o la versión no coincide
+                if id_fs.decode('ascii') != 'FiUnamFS' or version.decode('ascii') != '25-1':
+                    raise ValueError("\033[93m" + "El archivo no es un sistema de archivos FiUnamFS o la versión es incorrecta." + "\033[0m")
+                else:
+                    return data
+        except FileNotFoundError:
+            print("\033[93m" + "No se encontró el sistema de archivos" + "\033[0m")
+            exit(1)
 
     def read_directory(self,path : str):
         '''Realiza la lectura del directorio, leyendo desde el cluster 1 hasta el 4, 
@@ -319,7 +321,7 @@ def test_string(s :str) -> bool:
         return False
 
 def main():
-    fs_name = input("Ingrese la ruta del sistema de archivos:")
+    fs_name = input("Ingrese la ruta del sistema de archivos: ")
     fs = FSsistop(fs_name)
     while True:
         opcion = mostrar_menu()
