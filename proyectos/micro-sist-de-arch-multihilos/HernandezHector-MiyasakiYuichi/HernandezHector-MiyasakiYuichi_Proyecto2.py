@@ -1,6 +1,7 @@
 import os
 import struct
 import threading
+from datetime import datetime
 
 # Parámetros del proyecto
 TAMANO_DISQUETE = 1440 * 1024  # 1440 KB
@@ -18,8 +19,26 @@ directorio_mutex = threading.Lock()
 
 class SistemaArchivosFiUnamFS:
 
-    def __init__(self, imagen_archivo):
+    def __init__(self, imagen_archivo="fiunamfs.img"):
         self.imagen_archivo = imagen_archivo
+        self.verificar_archivo()
+
+    def verificar_archivo(self):
+        # Verificar si el archivo existe en el directorio actual
+        if not os.path.exists(self.imagen_archivo):
+            print(f"\n\tEl archivo '{self.imagen_archivo}' no se encuentra en el directorio actual.")
+            
+            # Solicitar ruta si el archivo no existe en el directorio actual
+            while True:
+                ruta = input("\n\tPor favor, ingrese la ruta completa del archivo 'fiunamfs.img': ")
+                if os.path.exists(ruta):
+                    self.imagen_archivo = ruta
+                    CLEAR()
+                    print(f"\tArchivo encontrado en la ruta: {self.imagen_archivo}")
+                    break
+                else:
+                    CLEAR()
+                    print("\n\tArchivo no encontrado en la ruta especificada. Intente nuevamente.")
 
     def validar_sistema_archivos(self):
         with open(self.imagen_archivo, 'rb') as img:
@@ -67,7 +86,7 @@ class SistemaArchivosFiUnamFS:
 
         return {
             'Tipo': tipo_archivo,
-            'Nombre': nombre_archivo,
+            'Nombre': nombre_archivo.strip(),
             'Tamaño': tamaño_archivo,
             'Cluster Inicial': cluster_inicial,
             'Fecha Creación': fecha_creacion,
@@ -94,6 +113,9 @@ class OperacionesDirectorio:
                     f" |\t  {archivo['Fecha Creación']}\t"
                     f" |\t  {archivo['Fecha Modificación']} | "
                 )
+            print("\t-------------------------------------------------------------"
+                    "-------------------------------------------------------------")
+
 
     def copiar_de_FiUnamFs(self, nombre_archivo):
         # Usar un lock para sincronizar el acceso a la función
@@ -109,13 +131,34 @@ class OperacionesDirectorio:
 
             if archivo_encontrado:
                 # Preguntar si desea copiar en un directorio específico
-                respuesta = input("\n\t¿Deseas copiar el archivo a un directorio específico? (s/n): ").strip().lower()
-                if respuesta == 's':
-                    ruta_destino = input("\n\tIngresa la ruta completa del directorio de destino: ").strip()
-                    if not os.path.exists(ruta_destino):
-                        os.makedirs(ruta_destino)  # Si no existe el directorio, crear uno
-                else:
-                    ruta_destino = os.getcwd()
+                while True:
+                    respuesta = input("\n\t¿Deseas copiar el archivo a un directorio específico? (s/n): ").strip().lower()
+                    
+                    if respuesta == 's':
+                        while True:
+                            ruta_destino = input("\n\tIngresa la ruta completa del directorio de destino (escribe 'menu' para regresar): ").strip()
+                            
+                            # Verificar si el usuario desea regresar al menú
+                            if ruta_destino.lower() == 'menu':
+                                CLEAR()
+                                print("\n\tRegresando al menú principal...")
+                                return  # Regresa al menú principal
+                            
+                            # Verificar si el directorio existe
+                            if os.path.exists(ruta_destino):
+                                break  # Salir del ciclo si el directorio existe
+                            else:
+                                CLEAR()
+                                print("\n\tError: El directorio no existe. Por favor, intenta de nuevo.")
+                        break  # Salir del bucle externo si 's' fue seleccionado
+
+                    elif respuesta == 'n':
+                        ruta_destino = os.getcwd()  # Usar el directorio actual si no se especifica otro
+                        break  # Salir del bucle externo
+
+                    else:
+                        CLEAR()
+                        print("\n\tOpción no válida. Por favor ingresa 's' o 'n'.")
 
                 # Crear la ruta completa del archivo
                 ruta_completa = os.path.join(ruta_destino, archivo_encontrado['Nombre'])
@@ -137,7 +180,10 @@ class OperacionesDirectorio:
                 print(f"\tArchivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
 
-    def copiar_archivo_dentro(self, ruta_archivo_local):
+
+
+    def copiar_de_local(self, ruta_archivo_local):
+
         """
         Función para copiar un archivo desde la ruta especificada a la imagen de FiUnamFS.
         """
@@ -170,13 +216,14 @@ class OperacionesDirectorio:
                             break
                 
                 if len(clusters_disponibles) < clusters_necesarios:
+                    CLEAR()
                     print("\tNo hay suficiente espacio para copiar el archivo dentro de FiUnamFS.")
                     return
 
                 # Añadir la entrada del archivo al directorio
                 nombre_archivo = os.path.basename(ruta_archivo_local)[:15]  # Limitar el nombre a 15 caracteres
 
-                fecha_actual = "20241029"  # Ejemplo de fecha; puedes adaptarlo a la fecha actual en formato deseado
+                fecha_actual = datetime.now().strftime("%Y%m%d%H%M%S")  # Fecha del sistema
 
                 entrada_directorio = (
                     b'.' +
@@ -203,6 +250,7 @@ class OperacionesDirectorio:
                             continue
                         break
                     else:
+                        CLEAR()
                         print("\tNo se pudo encontrar espacio en el directorio.")
                         return
 
@@ -211,15 +259,51 @@ class OperacionesDirectorio:
                         posicion_cluster = cluster * TAMANO_CLUSTER
                         img.seek(posicion_cluster)
                         img.write(data[i * TAMANO_CLUSTER:(i + 1) * TAMANO_CLUSTER])
-
+                
+                CLEAR()
                 print(f"\tArchivo '{ruta_archivo_local}' copiado a FiUnamFS.")
             
             except FileNotFoundError:
+                CLEAR()
                 print(f"\tArchivo '{ruta_archivo_local}' no encontrado en el sistema local.")
 
     def eliminar_archivo(self, nombre_archivo):
-        # Implementar la lógica para eliminar un archivo de FiUnamFS aquí
-        pass  # Reemplaza esto con la implementación real
+        with directorio_mutex:
+            archivo_encontrado = False
+            
+            # Buscar el archivo en el directorio
+            for cluster in range(CLUSTERS_DIRECTORIO):
+                posicion_inicial = (SUPERBLOQUE_CLUSTER + 1 + cluster) * TAMANO_CLUSTER
+                with open(self.sistema_archivos.imagen_archivo, 'r+b') as img:
+                    img.seek(posicion_inicial)
+                    cluster_datos = img.read(TAMANO_CLUSTER)
+
+                    for entrada in range(0, TAMANO_CLUSTER, TAMANO_ENTRADA):
+                        entrada_actual = cluster_datos[entrada:entrada + TAMANO_ENTRADA]
+
+                        # Verifica si el archivo coincide con el nombre buscado
+                        nombre_archivo_actual = entrada_actual[1:16].decode().strip('\x00').strip()
+                        if nombre_archivo_actual == nombre_archivo:
+                            # Sobrescribir la entrada con un símbolo de archivo vacío '#'
+                            nueva_entrada = b'#' + entrada_actual[1:]  # Mantener los otros campos
+                            cluster_datos = (
+                                cluster_datos[:entrada] + nueva_entrada + cluster_datos[entrada + TAMANO_ENTRADA:]
+                            )
+                            img.seek(posicion_inicial)
+                            img.write(cluster_datos)  # Guardar cambios en el cluster
+                            archivo_encontrado = True
+                            CLEAR()
+                            print(f"\tArchivo '{nombre_archivo}' ha sido eliminado.")
+                            break
+                    if archivo_encontrado:
+                        break
+
+            if not archivo_encontrado:
+                CLEAR()
+                print(f"\tArchivo '{nombre_archivo}' no encontrado en el directorio.")
+
+
+
 
 class RutaArchivo:
     """
@@ -228,66 +312,99 @@ class RutaArchivo:
     """
 
     def __init__(self):
+        # Inicializa la variable para almacenar la ruta del archivo
         self.ruta_archivo = None
 
     def obtener_ruta(self):
         """
-        Pregunta al usuario si el archivo está en el directorio actual.
-        Si no está, solicita la ruta completa del archivo.
+        Solicita al usuario si el archivo está en el directorio actual.
+        Si no, permite al usuario ingresar la ruta completa del archivo.
+        Devuelve la ruta del archivo si existe o None si se decide volver al menú.
         """
-        opcion = input("\n\t¿El archivo está en el directorio actual? (s/n): ").strip().lower()
-        
-        if opcion == 's':
-            nombre_archivo = input("\tIngrese el nombre del archivo en el directorio actual (con la extensión): ").strip()
-            self.ruta_archivo = os.path.join(os.getcwd(), nombre_archivo)
-        elif opcion == 'n':
-            self.ruta_archivo = input("\tIngrese la ruta completa del archivo (con la extensión): ").strip()
-        
-        if not os.path.isfile(self.ruta_archivo):
-            print(f"\tEl archivo '{self.ruta_archivo}' no existe.")
-            self.ruta_archivo = None  # Restablecer a None si el archivo no existe
+        while True:
+            # Solicitar si el archivo está en el directorio actual
+            opcion = input("\n\t¿El archivo está en el directorio actual? (s/n): ").strip().lower()
+            
+            if opcion == 's':
+                # Solicitar el nombre del archivo si está en el directorio actual
+                nombre_archivo = input("\tIngrese el nombre del archivo (con la extensión) o escriba 'v' para volver: ").strip()
+                
+                if nombre_archivo.lower() == 'v':
+                    CLEAR()
+                    print("\t Volviendo al menú principal...\n")
+                    return None  # Regresa al menú principal
 
-        return self.ruta_archivo
+                # Establecer la ruta del archivo en el directorio actual
+                self.ruta_archivo = os.path.join(os.getcwd(), nombre_archivo)
+            
+            elif opcion == 'n':
+                # Solicitar la ruta completa del archivo si no está en el directorio actual
+                ruta_archivo = input("\tIngrese la ruta completa del archivo (con la extensión) o escriba 'v' para volver: ").strip()
+                
+                if ruta_archivo.lower() == 'v':
+                    CLEAR()
+                    print("\t Volviendo al menú principal...\n")
+                    return None  # Regresa al menú principal
+                
+                # Establecer la ruta del archivo ingresada
+                self.ruta_archivo = ruta_archivo
+            
+            else:
+                print("\tOpción no válida. Inténtalo de nuevo.")
+                continue
 
+            # Verificar si el archivo existe en la ruta especificada
+            if not os.path.isfile(self.ruta_archivo):
+                CLEAR()
+                print(f"\tEl archivo '{self.ruta_archivo}' no existe. Intenta de nuevo.\n")
+            else:
+                # Si el archivo existe, devuelve la ruta
+                return self.ruta_archivo
 
 def main():
     sistema_archivos = SistemaArchivosFiUnamFS(ARCHIVO_IMAGEN)
     operaciones = OperacionesDirectorio(sistema_archivos)
 
     while True:
-        
         menuMainImp()
         opcion = input("\tSeleccione una opción: ")
 
-        if opcion == "1":
-            hilo_listar = threading.Thread(target=operaciones.listar_directorio)
-            hilo_listar.start()
-            hilo_listar.join()
-        elif opcion == "2":
-            nombre_archivo = input("\n\tIngrese el nombre del archivo de FiUnamFS (sin importar la extensión): ")
-            hilo_copiar = threading.Thread(target=operaciones.copiar_de_FiUnamFs, args=(nombre_archivo,))
-            hilo_copiar.start()
-            hilo_copiar.join()
-        elif opcion == "3":
-            ruta_archivo_obj = RutaArchivo()
-            ruta_archivo_local = ruta_archivo_obj.obtener_ruta()
-            if ruta_archivo_local:
-                hilo_copiar_dentro = threading.Thread(target=operaciones.copiar_archivo_dentro, args=(ruta_archivo_local,))
-                hilo_copiar_dentro.start()
-                hilo_copiar_dentro.join()
+        match opcion:
+            case "1": # Listar directorio
+                hilo_listar = threading.Thread(target=operaciones.listar_directorio)
+                hilo_listar.start()
+                hilo_listar.join()
 
-        elif opcion == "4":
-            nombre_archivo = input("\n\tIngrese el nombre del archivo a eliminar en FiUnamFS: ")
-            operaciones.eliminar_archivo(nombre_archivo)
-        elif opcion == "5":
-            CLEAR()
-            print("\n\t... Hasta luego ...\n")
-            break
-        else:
-            CLEAR()
-            print("Opción no válida. Por favor, elija una opción del menú.")
+            case "2": # Copiar un archivo de FiUnamFs a nuestro sistema local
+                nombre_archivo = input("\n\tIngrese el nombre del archivo de FiUnamFS (sin importar la extensión): ")
+                hilo_copiar = threading.Thread(target=operaciones.copiar_de_FiUnamFs, args=(nombre_archivo,))
+                hilo_copiar.start()
+                hilo_copiar.join()
 
-# Limpiar pantalla con una impresion
+            case "3": # Copiar un archivo de nuestro sistema local a FiUnamFs
+                ruta_archivo_obj = RutaArchivo()
+                ruta_archivo_local = ruta_archivo_obj.obtener_ruta()
+                if ruta_archivo_local:
+                    hilo_copiar_dentro = threading.Thread(target=operaciones.copiar_de_local, args=(ruta_archivo_local,))
+                    hilo_copiar_dentro.start()
+                    hilo_copiar_dentro.join()
+
+            case "4": # Borrar un archivo de FiUnamFs
+                nombre_archivo = input("\n\tIngrese el nombre del archivo a eliminar en FiUnamFS (con extensión): ")
+                hilo_eliminar = threading.Thread(target=operaciones.eliminar_archivo, args=(nombre_archivo,))
+                hilo_eliminar.start()
+                hilo_eliminar.join()
+
+            case "5": # Salir del programa
+                CLEAR()
+                print("\n\t... Hasta luego ...\n")
+                break
+
+            case _: # Opcion no valida
+                CLEAR()
+                print("\tOpción no válida. Por favor, elija una opción del menú.")
+
+# Limpiar pantalla con ANSI
 def CLEAR():
     print("\033[2J\033[H")
 
@@ -306,9 +423,11 @@ def menuMainImp():
 # Secciones del contenido del directorio
 def listarDirectorioImp():
     print("\tContenido del directorio:\n")
-    print("\t| NONBRE\t\t | TAMAÑO\t |   CLUSTER INICIAL\t | FECHA DE CREACIÓN\t\t | FECHA DE MODIFICACIÓN | ")
     print("\t-------------------------------------------------------------"
           "-------------------------------------------------------------")
+    print("\t| NONBRE\t\t |    TAMAÑO\t |   CLUSTER INICIAL\t |      FECHA DE CREACIÓN\t | FECHA DE MODIFICACIÓN | ")
+    print("\t|------------------------------------------------------------"
+          "------------------------------------------------------------|")
 
 
 if __name__ == "__main__":
