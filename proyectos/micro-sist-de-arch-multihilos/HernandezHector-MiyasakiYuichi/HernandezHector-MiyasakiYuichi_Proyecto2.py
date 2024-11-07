@@ -33,7 +33,6 @@ class SistemaArchivosFiUnamFS:
                 raise ValueError("\tNombre de sistema de archivos incorrecto.")
             if version != VERSION_SISTEMA:
                 raise ValueError("\tVersión del sistema de archivos no soportada.")
-            CLEAR()
 
 
     def leer_directorio(self):
@@ -82,11 +81,22 @@ class OperacionesDirectorio:
         self.sistema_archivos = sistema_archivos
 
     def listar_directorio(self):
-        #Implementar la lógica listar de FiUnamFS aquí
-        pass
+        with directorio_mutex:
+            contenido_directorio = self.sistema_archivos.leer_directorio()
+
+            CLEAR()
+            listarDirectorioImp() # imprimir las secciones del contenido del directorio
+
+            for archivo in contenido_directorio:
+                print(
+                    f"\t|{archivo['Tipo']} {archivo['Nombre']:<15}\t | {archivo['Tamaño']} bytes\t"
+                    f" |\t  {archivo['Cluster Inicial']}\t\t"
+                    f" |\t  {archivo['Fecha Creación']}\t"
+                    f" |\t  {archivo['Fecha Modificación']}"
+                )
 
     def copiar_de_FiUnamFs(self, nombre_archivo):
-        #Implementar la lógica el sistema FiUnamFS a local aquí
+        #Implementar la lógica el sistema local a FiUnamFS aquí
         pass
 
 
@@ -144,6 +154,13 @@ def menuMainImp():
     print("\t| 4. Eliminar archivo de FiUnamFS                      |")
     print("\t| 5. Salir                                             |")
     print("\t--------------------------------------------------------\n")
+
+# Secciones del contenido del directorio
+def listarDirectorioImp():
+    print("\tContenido del directorio:\n")
+    print("\t| NONBRE\t\t | TAMAÑO\t | CLUSTER INICIAL\t | FECHA DE CREACIÓN\t\t | FECHA DE MODIFICACIÓN")
+    print("\t-------------------------------------------------------------"
+          "------------------------------------------------------------")
 
 
 if __name__ == "__main__":
