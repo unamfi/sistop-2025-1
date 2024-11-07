@@ -23,7 +23,6 @@ class SistemaArchivosFiUnamFS:
 
     def __init__(self, imagen_archivo="fiunamfs.img"):
         self.imagen_archivo = imagen_archivo
-        self.verificar_archivo()
 
     def verificar_archivo(self):
         with lock_verificacion:
@@ -36,6 +35,7 @@ class SistemaArchivosFiUnamFS:
                     ruta = input("\n\tPor favor, ingrese la ruta completa del archivo 'fiunamfs.img': ")
                     if os.path.exists(ruta):
                         self.imagen_archivo = ruta
+                        CLEAR()
                         print(f"\tArchivo encontrado en la ruta: {self.imagen_archivo}")
                         break
                     else:
@@ -56,11 +56,11 @@ class SistemaArchivosFiUnamFS:
                     raise ValueError("\tNombre de sistema de archivos incorrecto.")
                 if version != VERSION_SISTEMA:
                     raise ValueError("\tVersión del sistema de archivos no soportada.")
-                print("\tValidación del sistema de archivos completada exitosamente.")
 
 
     def leer_directorio(self):
         directorio = []
+
         with open(self.imagen_archivo, 'rb') as img:
             self.validar_sistema_archivos()
 
@@ -116,7 +116,7 @@ class OperacionesDirectorio:
                     f"\t|{archivo['Tipo']} {archivo['Nombre']:<15}\t | {archivo['Tamaño']} bytes\t"
                     f" |\t  {archivo['Cluster Inicial']}\t\t"
                     f" |\t  {archivo['Fecha Creación']}\t"
-                    f" |\t  {archivo['Fecha Modificación']} | "
+                    f" | {archivo['Fecha Modificación']}\t | "
                 )
             print("\t-------------------------------------------------------------"
                     "-------------------------------------------------------------")
@@ -141,9 +141,9 @@ class OperacionesDirectorio:
                     
                     if respuesta == 's':
                         while True:
-                            ruta_destino = input("\n\tIngresa la ruta completa del directorio de destino (escribe 'menu' para regresar): ").strip()
+                            ruta_destino = input("\n\tIngresa la ruta completa del directorio de destino (escribe 'v' para regresar): ").strip()
                             
-                            if ruta_destino.lower() == 'menu':
+                            if ruta_destino.lower() == 'v':
                                 CLEAR()
                                 print("\n\tRegresando al menú principal...")
                                 return  # Regresa al menú principal
@@ -386,42 +386,90 @@ class RutaArchivo:
             else:
                 # Si el archivo existe, devuelve la ruta
                 return self.ruta_archivo
-                
-                
+            
+class ManejoDeHilos:
+
+    def __init__(self, operaciones_directorio):
+        
+        #Inicializa la clase para gestionar los hilos y controlar los semáforos y mutex en cada operación.
+        self.operaciones = operaciones_directorio 
+
+    def ejecutar_hilo(self, operacion, *args):
+
+        #Ejecuta la operación en un hilo independiente con los argumentos especificados.
+        hilo = threading.Thread(target=operacion, args=args)
+        hilo.start()
+        hilo.join()
+
+    def listar_directorio(self):
+
+        #Crea y maneja el hilo para la operación de listar directorio.
+        self.ejecutar_hilo(self.operaciones.listar_directorio)
+
+    def copiar_de_FiUnamFs(self, nombre_archivo):
+
+        #Crea y maneja el hilo para copiar un archivo desde FiUnamFs a nuestro sistema local.
+        self.ejecutar_hilo(self.operaciones.copiar_de_FiUnamFs, nombre_archivo)
+
+    def copiar_a_FiUnamFs(self, ruta_archivo_local):
+
+        # Crea y maneja el hilo para copiar un archivo desde el sistema local a FiUnamFs.
+        self.ejecutar_hilo(self.operaciones.copiar_de_local, ruta_archivo_local)
+
+    def eliminar_archivo(self, nombre_archivo):
+
+        #Crea y maneja el hilo para eliminar un archivo en FiUnamFs.
+        self.ejecutar_hilo(self.operaciones.eliminar_archivo, nombre_archivo)
+
+
+# Función para ejecutar los hilos de verificacion
+def verificarSistema(sistema_archivos):
+    # Hilo para verificar el archivo
+    hilo_verificacion = threading.Thread(target=sistema_archivos.verificar_archivo)
+    
+    # Hilo para listar el directorio, esperando a que el primer hilo termine
+    hilo_listar_directorio = threading.Thread(target=sistema_archivos.leer_directorio)
+    
+    hilo_verificacion.start()
+    hilo_verificacion.join()  
+    
+    hilo_listar_directorio.start()
+    hilo_listar_directorio.join() 
+        
 
 def main():
+
+    # Crea una instancia de SistemaArchivosFiUnamFS con el archivo de imagen especificado.
     sistema_archivos = SistemaArchivosFiUnamFS(ARCHIVO_IMAGEN)
+    verificarSistema(sistema_archivos)
+
     operaciones = OperacionesDirectorio(sistema_archivos)
 
+    # Crea una instancia de ManejoDeHilos, pasando la instancia de OperacionesDirectorio.
+    manejo_hilos = ManejoDeHilos(operaciones)
+
+    datos_del_equipo()
     while True:
         menuMainImp()
         opcion = input("\tSeleccione una opción: ")
 
         match opcion:
             case "1": # Listar directorio
-                hilo_listar = threading.Thread(target=operaciones.listar_directorio)
-                hilo_listar.start()
-                hilo_listar.join()
+                manejo_hilos.listar_directorio()
 
             case "2": # Copiar un archivo de FiUnamFs a nuestro sistema local
                 nombre_archivo = input("\n\tIngrese el nombre del archivo de FiUnamFS (sin importar la extensión): ")
-                hilo_copiar = threading.Thread(target=operaciones.copiar_de_FiUnamFs, args=(nombre_archivo,))
-                hilo_copiar.start()
-                hilo_copiar.join()
+                manejo_hilos.copiar_de_FiUnamFs(nombre_archivo)
 
             case "3": # Copiar un archivo de nuestro sistema local a FiUnamFs
                 ruta_archivo_obj = RutaArchivo()
                 ruta_archivo_local = ruta_archivo_obj.obtener_ruta()
                 if ruta_archivo_local:
-                    hilo_copiar_dentro = threading.Thread(target=operaciones.copiar_de_local, args=(ruta_archivo_local,))
-                    hilo_copiar_dentro.start()
-                    hilo_copiar_dentro.join()
+                    manejo_hilos.copiar_a_FiUnamFs(ruta_archivo_local)
 
             case "4": # Borrar un archivo de FiUnamFs
                 nombre_archivo = input("\n\tIngrese el nombre del archivo a eliminar en FiUnamFS (con extensión): ")
-                hilo_eliminar = threading.Thread(target=operaciones.eliminar_archivo, args=(nombre_archivo,))
-                hilo_eliminar.start()
-                hilo_eliminar.join()
+                manejo_hilos.eliminar_archivo(nombre_archivo)
 
             case "5": # Salir del programa
                 CLEAR()
@@ -456,6 +504,14 @@ def listarDirectorioImp():
     print("\t| NONBRE\t\t |    TAMAÑO\t |   CLUSTER INICIAL\t |      FECHA DE CREACIÓN\t | FECHA DE MODIFICACIÓN | ")
     print("\t|------------------------------------------------------------"
           "------------------------------------------------------------|")
+
+def datos_del_equipo():
+    print("\n\tProyecto 2: (Micro) sistema de archivo multihilos")
+    print ("\tAlumnos: Hernández Saldívar Héctor Saúl 329376027 y Miyasaki Sato Yuichi Vicente 318586465")
+    print ("\tDocente: Ing. Gunnar Eyal Wolf Iszaevich")
+    print ("\tSistemas Operativos 2025-1    grupo: 6")
+
+
 
 
 if __name__ == "__main__":
