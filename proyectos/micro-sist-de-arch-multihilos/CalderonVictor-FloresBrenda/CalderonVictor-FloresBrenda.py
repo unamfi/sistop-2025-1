@@ -77,6 +77,46 @@ def copiar_desde_fiunamfs(nombre_archivo):
         if not encontrado:
             print(f"Archivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
+def copiar_a_fiunamfs(nombre_archivo):
+    """Copia un archivo desde el sistema local hacia FiUnamFS."""
+    try:
+        with open(nombre_archivo, 'rb') as f_in:
+            data = f_in.read()
+            tamano = len(data)
+        
+        with lock:
+            with open(DISK_FILE, 'r+b') as disk:
+                disk.seek(CLUSTER_SIZE)
+                
+                for i in range(4 * (CLUSTER_SIZE // 64)):
+                    entry_pos = disk.tell()
+                    entry = disk.read(64)
+                    tipo = entry[0:1].decode('ascii')
+                    nombre = entry[1:16].decode('ascii').strip()
+                    
+                    if tipo == '#' or nombre == "---------------":
+                        # Escribir la entrada en el directorio
+                        disk.seek(entry_pos)
+                        disk.write(b'.')  # Tipo de archivo
+                        disk.write(nombre_archivo.ljust(15).encode('ascii'))
+                        disk.write(struct.pack('<I', tamano))
+                        
+                        # Asignar un cluster inicial y escribir los datos
+                        cluster_inicial = 5
+                        disk.write(struct.pack('<I', cluster_inicial))
+                        
+                        fecha_actual = datetime.now().strftime('%Y%m%d%H%M%S').encode('ascii')
+                        disk.write(fecha_actual)
+                        disk.write(fecha_actual)
+                        
+                        disk.seek(cluster_inicial * CLUSTER_SIZE)
+                        disk.write(data)
+                        print(f"Archivo '{nombre_archivo}' copiado a FiUnamFS.")
+                        return
+                print("No hay espacio disponible en el directorio para el archivo.")
+    except FileNotFoundError:
+        print(f"El archivo {nombre_archivo} no existe en el sistema local.")
+
 # Iniciar el superbloque
 try:
     verificar_superbloque()
