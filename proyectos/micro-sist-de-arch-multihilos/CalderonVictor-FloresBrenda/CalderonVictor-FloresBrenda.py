@@ -117,6 +117,24 @@ def copiar_a_fiunamfs(nombre_archivo):
     except FileNotFoundError:
         print(f"El archivo {nombre_archivo} no existe en el sistema local.")
 
+def eliminar_archivo(nombre_archivo):
+    """Elimina un archivo de FiUnamFS."""
+    with lock:
+        with open(DISK_FILE, 'r+b') as disk:
+            disk.seek(CLUSTER_SIZE)
+            for i in range(4 * (CLUSTER_SIZE // 64)):
+                entry_pos = disk.tell()
+                entry = disk.read(64)
+                tipo = entry[0:1].decode('ascii')
+                nombre = entry[1:16].decode('ascii').strip()
+                
+                if tipo == '.' and nombre == nombre_archivo:
+                    disk.seek(entry_pos)
+                    disk.write(b'#' + b'---------------'.ljust(63, b'#'))
+                    print(f"Archivo '{nombre_archivo}' eliminado de FiUnamFS.")
+                    return
+            print(f"Archivo '{nombre_archivo}' no encontrado en FiUnamFS.")
+
 # Iniciar el superbloque
 try:
     verificar_superbloque()
