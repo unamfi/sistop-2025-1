@@ -31,26 +31,31 @@ La ruta indicada debe apuntar a un archivo binario que cumpla con la especificac
 
 Una vez se ha proporcionado un sistema de archivos válido se desplegara un menu de usuario con las siguientes opciones:
 
-1. Listar contenido.
+1. **Listar contenido.**
+
    Despliega el contenido del directorio, indicando nombre de archivo, tamaño (en bytes), fecha de creacion y ultima modificación.
 
-2. Copiar archivo de FiunamFS.
+2. **Copiar archivo de FiunamFS.**
+
    Permite al usuario copiar un archivo desde el sistema de archivos hacia otra parte de su computadora.
 
    Esta opción solicitará primero el nombre del archivo a copiar, este se se debe escribir tal cual aparece en la lista de contenidos (opción 1).
 
    Después se debe proporcionar la ruta en la cual se guardara el archivo copiado, esta puede ser relativa o absoluta, por ejemplo `/home/lalo/archivo.txt` o `archivo.txt` para guardarlo en el directorio actual.
 
-3. Agregar archivo a FIunamFS.
+3. **Agregar archivo a FIunamFS.**
+
    Permite agregar un archivo desde la computadora hacia el sistema de archivos FIunamFS.
 
    Esta opción solicitará al usuario la ruta del archivo a copiar, igual que para la opcion 2 esta ruta puede ser relativa o absoluta.
 
    Después se solicitara el nombre con el cual se guardara el archivo, **el nombre deber ser una cadena ASCII de máximo 14 caracteres**.
 
-4. Eliminar archivo
+4. **Eliminar archivo**
+
    Elimina un archivo de el sistema de archivos FIunamFS. se debe proporcionar el nombre del archivo a eliminar tal cual aparece en la opción 1.
-5. Salir
+5. **Salir**
+
    Cierra el programa.
 
 ## Estrategia de desarrollo
