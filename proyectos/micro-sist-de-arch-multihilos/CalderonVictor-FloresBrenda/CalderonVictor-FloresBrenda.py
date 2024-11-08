@@ -39,24 +39,26 @@ def listar_directorio():
 def copiar_desde_fiunamfs(nombre_archivo):
     encontrado = False
     nombre_archivo = nombre_archivo.strip()
-    
+
     with lock:
         with open(DISK_FILE, 'rb') as disk:
             disk.seek(CLUSTER_SIZE)
             for i in range(4 * (CLUSTER_SIZE // 64)):
                 entry = disk.read(64)
                 tipo = entry[0:1].decode('ascii')
-                nombre = entry[1:16].decode('ascii').strip()
+                nombre_completo = entry[1:16].replace(b'\x00', b'').decode('ascii').strip()
                 
-                if tipo == '.' and nombre == nombre_archivo:
+                nombre_base = nombre_completo.split('.')[0]
+                
+                if tipo == '.' and nombre_base == nombre_archivo:
                     tamano = struct.unpack('<I', entry[16:20])[0]
                     cluster_inicial = struct.unpack('<I', entry[20:24])[0]
                     disk.seek(cluster_inicial * CLUSTER_SIZE)
-                    data = disk.read(tamano)
+                    data = disk.read(tamano).replace(b'\x00', b'')
                     
-                    with open(nombre_archivo, 'wb') as f_out:
+                    with open(nombre_completo, 'wb') as f_out:
                         f_out.write(data)
-                    print(f"Archivo '{nombre_archivo}' copiado al sistema local.")
+                    print(f"Archivo '{nombre_archivo}' copiado al sistema local como '{nombre_completo}'.")
                     encontrado = True
                     break
         if not encontrado:
