@@ -27,6 +27,27 @@ def inicializar_mapa_almacenamiento():
     mapa = [1] * 5 + [0] * ((DISK_SIZE // CLUSTER_SIZE) - 5)
     return mapa
 
+def listar_directorio():
+    """Lista el contenido del directorio en fiunamfs.img."""
+    with lock:
+        print("Contenido del directorio:")
+        with open(DISK_FILE, 'rb') as disk:
+            disk.seek(CLUSTER_SIZE)  # Iniciar en el primer cluster del directorio
+            for i in range(4 * (CLUSTER_SIZE // 64)):  # Recorrer 4 clusters, 64 bytes por entrada
+                entry = disk.read(64)
+                tipo = entry[0:1].decode('ascii')
+                
+                # Ignorar entradas vacías
+                if tipo == '-' or tipo == '#':
+                    continue
+                
+                nombre = entry[1:16].decode('ascii').strip()
+                tamano = struct.unpack('<I', entry[16:20])[0]
+                
+                # Formateo de la salida
+                print(f"Archivo: {nombre}, Tamaño: {tamano} bytes")
+
+
 # Iniciar el superbloque
 try:
     verificar_superbloque()
