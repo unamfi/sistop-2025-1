@@ -256,3 +256,78 @@ def delete_file_thread(file_name):
 
     # Notificar al hilo principal
     operation_event.set()
+
+def get_total_used_space():
+    """
+    Calcula el espacio total ocupado en FiUnamFS, excluyendo el superbloque y directorio.
+    """
+    total_used = 0
+    try:
+        with open(disk_file, "rb") as f:
+            # Recorrer las entradas del directorio
+            for cluster in range(DIRECTORY_START_CLUSTER, DIRECTORY_END_CLUSTER + 1):
+                f.seek(cluster * CLUSTER_SIZE)
+                for _ in range(CLUSTER_SIZE // DIRECTORY_ENTRY_SIZE):
+                    entry_data = f.read(DIRECTORY_ENTRY_SIZE)
+                    if entry_data and entry_data[0] == 0x2e:  # Entrada ocupada '.'
+                        filesize = struct.unpack("<I", entry_data[16:20])[0]
+                        total_used += filesize
+    except FileNotFoundError:
+        messagebox.showerror("Error", "El archivo fiunamfs.img no existe.")
+    return total_used
+
+def refresh_list():
+    """
+    Actualiza la lista de archivos en la interfaz gráfica.
+    """
+    file_list.delete(0, tk.END)
+    files = list_directory()
+    for file in files:
+        file_list.insert(tk.END, file)
+
+def check_operation_status():
+    """
+    Verifica el estado de las operaciones realizadas por los hilos y actualiza la interfaz.
+    """
+    if operation_event.is_set():
+        if operation_status['success']:
+            messagebox.showinfo("Éxito", operation_status['message'])
+        else:
+            messagebox.showerror("Error", operation_status['message'])
+        # Limpiar el estado para futuras operaciones
+        operation_event.clear()
+        operation_status['message'] = ''
+        operation_status['success'] = False
+        # Refrescar la lista de archivos
+        refresh_list()
+    # Continuar verificando periódicamente
+    root.after(100, check_operation_status)
+
+# Configuración de la interfaz gráfica
+root = tk.Tk()
+root.title("Gestor de FiUnamFS")
+
+# Lista de archivos en la interfaz
+file_list = Listbox(root, width=80)
+file_list.pack()
+
+# Botones de operación
+btn_list = tk.Button(root, text="Listar Archivos", command=refresh_list)
+btn_list.pack(pady=5)
+
+btn_copy_to_local = tk.Button(root, text="Copiar a Local",
+                              command=lambda: copy_to_local(file_list.get(tk.ACTIVE).split(" - ")[0]))
+btn_copy_to_local.pack(pady=5)
+
+btn_copy_to_fiunamfs = tk.Button(root, text="Copiar a FiUnamFS", command=copy_to_fiunamfs)
+btn_copy_to_fiunamfs.pack(pady=5)
+
+btn_delete = tk.Button(root, text="Eliminar Archivo",
+                       command=lambda: delete_file(file_list.get(tk.ACTIVE).split(" - ")[0]))
+btn_delete.pack(pady=5)
+
+# Iniciar la verificación del estado de operaciones
+root.after(100, check_operation_status)
+
+# Ejecutar la aplicación
+root.mainloop()
