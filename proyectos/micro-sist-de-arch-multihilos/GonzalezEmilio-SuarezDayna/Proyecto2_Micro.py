@@ -149,3 +149,74 @@ def copy_to_local_thread(file_name):
 
     # Notificar al hilo principal
     operation_event.set()
+
+def copy_to_fiunamfs():
+    """
+    Inicia un hilo para copiar un archivo desde el sistema local a FiUnamFS.
+    """
+    threading.Thread(target=copy_to_fiunamfs_thread).start()
+
+def copy_to_fiunamfs_thread():
+    """
+    Hilo que copia un archivo desde el sistema local a FiUnamFS.
+    """
+    local_path = filedialog.askopenfilename(title="Selecciona un archivo para copiar a FiUnamFS")
+    if not local_path:
+        return
+
+    file_name = os.path.basename(local_path)
+    file_size = os.path.getsize(local_path)
+
+    # Tamaño total disponible para archivos en FiUnamFS (excluyendo superbloque y directorio)
+    data_space_start = (DIRECTORY_END_CLUSTER + 1) * CLUSTER_SIZE
+    max_data_space = DISK_SIZE - data_space_start
+
+    # Verificar espacio disponible
+    total_used_space = get_total_used_space()
+    available_space = max_data_space - total_used_space
+
+    if file_size > available_space:
+        operation_status['message'] = f"No hay suficiente espacio en FiUnamFS para copiar '{file_name}'."
+        operation_status['success'] = False
+        operation_event.set()
+        return
+
+    with threading.Lock():
+        with open(disk_file, "r+b") as f, open(local_path, "rb") as in_file:
+            # Encontrar un espacio vacío en el directorio
+            found_space = False
+            for cluster in range(DIRECTORY_START_CLUSTER, DIRECTORY_END_CLUSTER + 1):
+                f.seek(cluster * CLUSTER_SIZE)
+                for _ in range(CLUSTER_SIZE // DIRECTORY_ENTRY_SIZE):
+                    pos = f.tell()
+                    entry_data = f.read(DIRECTORY_ENTRY_SIZE)
+                    if entry_data[0] == 0x23:  # Entrada vacía '#'
+                        # Escribir entrada de directorio
+                        f.seek(pos)
+                        f.write(b".")
+                        f.write(file_name.encode("ascii").ljust(FILE_NAME_SIZE, b"-"))
+                        f.write(struct.pack("<I", file_size))
+                        # Calcular cluster inicial
+                        start_cluster = (DISK_SIZE - available_space) // CLUSTER_SIZE
+                        f.write(struct.pack("<I", start_cluster))
+                        # Escribir fechas de creación y modificación
+                        timestamp = time.strftime("%Y%m%d%H%M%S").encode("ascii")
+                        f.write(timestamp)  # Fecha de creación
+                        f.write(timestamp)  # Fecha de modificación
+                        # Rellenar espacio restante de la entrada
+                        f.write(b"\x00" * (DIRECTORY_ENTRY_SIZE - (f.tell() - pos)))
+                        # Escribir datos del archivo
+                        f.seek(start_cluster * CLUSTER_SIZE)
+                        f.write(in_file.read())
+                        operation_status['message'] = f"Archivo '{file_name}' copiado al sistema de archivos."
+                        operation_status['success'] = True
+                        found_space = True
+                        break
+                if found_space:
+                    break
+            else:
+                operation_status['message'] = "No se encontró espacio libre en el directorio de FiUnamFS."
+                operation_status['success'] = False
+
+    # Notificar al hilo principal
+    operation_event.set()
