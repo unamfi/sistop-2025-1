@@ -19,6 +19,7 @@ def verificar_superbloque():
         print(f"Versión del sistema: {version}")
 
 def inicializar_mapa_almacenamiento():
+    # El mapa de almacenamiento marca los primeros clusters como ocupados (para el superbloque y el directorio)
     mapa = [1] * 5 + [0] * ((DISK_SIZE // CLUSTER_SIZE) - 5)
     return mapa
 
@@ -48,14 +49,18 @@ def copiar_desde_fiunamfs(nombre_archivo):
                 tipo = entry[0:1].decode('ascii')
                 nombre_completo = entry[1:16].replace(b'\x00', b'').decode('ascii').strip()
                 
+                # Extrae la parte del nombre antes de la extensión para la comparación
                 nombre_base = nombre_completo.split('.')[0]
                 
+                # Si el tipo es válido y el nombre coincide, procede con la copia
                 if tipo == '.' and nombre_base == nombre_archivo:
                     tamano = struct.unpack('<I', entry[16:20])[0]
                     cluster_inicial = struct.unpack('<I', entry[20:24])[0]
                     disk.seek(cluster_inicial * CLUSTER_SIZE)
+                    # Elimina caracteres nulos del archivo para evitar problemas de lectura
                     data = disk.read(tamano).replace(b'\x00', b'')
                     
+                    # Guardar en el sistema local con el nombre completo original (con extensión)
                     with open(nombre_completo, 'wb') as f_out:
                         f_out.write(data)
                     print(f"Archivo '{nombre_archivo}' copiado al sistema local como '{nombre_completo}'.")
@@ -80,12 +85,14 @@ def copiar_a_fiunamfs(nombre_archivo):
                     tipo = entry[0:1].decode('ascii')
                     nombre = entry[1:16].decode('ascii').strip()
                     
+                    # Encuentra la primera entrada vacía en el directorio
                     if tipo == '#' or nombre == "---------------":
                         disk.seek(entry_pos)
                         disk.write(b'.')
                         disk.write(nombre_archivo.ljust(15).encode('ascii'))
                         disk.write(struct.pack('<I', tamano))
                         
+                        # Asigna el primer cluster disponible para almacenar el archivo
                         cluster_inicial = 5
                         disk.write(struct.pack('<I', cluster_inicial))
                         
@@ -114,8 +121,10 @@ def eliminar_archivo(nombre_archivo):
                 tipo = entry[0:1].decode('ascii')
                 nombre_completo = entry[1:16].replace(b'\x00', b'').decode('ascii').strip()
                 
+                # Extrae la parte del nombre sin extensión para la comparación
                 nombre_base = nombre_completo.split('.')[0]
                 
+                # Marca la entrada como eliminada si se encuentra una coincidencia
                 if tipo == '.' and nombre_base == nombre_archivo:
                     disk.seek(entry_pos)
                     disk.write(b'#' + b'---------------'.ljust(63, b'#'))
