@@ -1,0 +1,4 @@
+example
+*.pyc
+__pycache__
+\#*
