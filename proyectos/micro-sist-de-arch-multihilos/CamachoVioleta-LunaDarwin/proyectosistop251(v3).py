@@ -1,116 +1,153 @@
+#sistema de archivos con menu finalv4
 import struct
 import threading
+from datetime import datetime
 
-# Configuración general del sistema de archivos FiUnamFS
-SECTOR_SIZE = 256
-CLUSTER_SIZE = SECTOR_SIZE * 4
-DISK_SIZE = 1440 * 1024
-SUPERBLOCK_OFFSET = 0
-DIRECTORY_OFFSET = CLUSTER_SIZE
-DIRECTORY_SIZE = CLUSTER_SIZE * 4
+class SistemaFiUnamFS:
+    def __init__(self, nombre_archivo):
+        self.nombre_archivo = nombre_archivo
+        self.bloqueo = threading.Lock()  # Maneja la sincronización
+        self.tamaño_cluster = 1024  # Definido en el superbloque
+        self.clusters_directorio = 4  # El directorio ocupa los clusters 1 a 4
 
-# Función para verificar si el archivo es del tipo FiUnamFS y la versión es correcta
-def verify_fiunamfs(fs):
-    fs.seek(SUPERBLOCK_OFFSET)
-    identifier = fs.read(8).decode('ascii')
-    version = fs.read(5).decode('ascii')
-    if identifier != "FiUnamFS" or version != "25-1":
-        raise ValueError("Este no es un sistema de archivos FiUnamFS válido")
+        # Cargamos el sistema de archivos simulando un diskette de 1440 KB
+        with open(self.nombre_archivo, 'rb') as archivo:
+            self.datos = bytearray(archivo.read())
 
-# Función para listar los contenidos del directorio
-def list_directory(fs):
-    fs.seek(DIRECTORY_OFFSET)
-    entries = []
-    for _ in range(64):  # Directorio de tamaño fijo con 64 entradas de 64 bytes cada una
-        entry = fs.read(64)
-        file_type = entry[0:1].decode('ascii')
-        if file_type == '#':
-            continue
-        filename = entry[1:16].decode('ascii').strip('-')
-        size = struct.unpack('<I', entry[16:20])[0]
-        cluster_start = struct.unpack('<I', entry[20:24])[0]
-        entries.append((filename, size, cluster_start))
-    return entries
+        # Validamos el superbloque
+        if not self.validar_superbloque():
+            raise ValueError("El archivo no es un sistema FiUnamFS versión 25-1.")
 
-# Función para copiar un archivo desde el sistema de archivos hacia el sistema local
-def copy_from_fiunamfs(fs, filename):
-    fs.seek(DIRECTORY_OFFSET)
-    for _ in range(64):
-        entry = fs.read(64)
-        if entry[1:16].decode('ascii').strip('-') == filename:
-            size = struct.unpack('<I', entry[16:20])[0]
-            cluster_start = struct.unpack('<I', entry[20:24])[0]
-            fs.seek(cluster_start * CLUSTER_SIZE)
-            with open(filename, 'wb') as outfile:
-                outfile.write(fs.read(size))
-            return
-    raise FileNotFoundError(f"Archivo {filename} no encontrado en FiUnamFS")
+    def validar_superbloque(self):
+        # Validamos los primeros 14 bytes del superbloque
+        id_sistema = self.datos[0:8].decode('ascii')
+        version = self.datos[10:14].decode('ascii')
+        return id_sistema == 'FiUnamFS' and version == '25-1'
 
-# Función para copiar un archivo desde el sistema local hacia el sistema de archivos
-def copy_to_fiunamfs(fs, filename):
-    fs.seek(DIRECTORY_OFFSET)
-    with open(filename, 'rb') as infile:
-        data = infile.read()
-        filesize = len(data)
-        fs.seek(0, 2)  # Ir al final del archivo
-        cluster_start = fs.tell() // CLUSTER_SIZE
-        fs.write(data)
-        # Escribir la entrada en el directorio
-        for _ in range(64):
-            entry = fs.read(64)
-            if entry[0:1].decode('ascii') == '#':
-                fs.seek(-64, 1)
-                fs.write(b'.' + filename.ljust(15, '-').encode('ascii'))
-                fs.write(struct.pack('<I', filesize))
-                fs.write(struct.pack('<I', cluster_start))
-                fs.write(b'20231106120000')  # Fecha de creación
-                fs.write(b'20231106120000')  # Fecha de modificación
-                fs.write(b'\x00' * 12)  # Espacio no utilizado
-                return
-        raise Exception("Directorio lleno")
+    def listar_archivos(self):
+        # Lista todos los archivos en el sistema de archivos
+        self.bloqueo.acquire()
+        try:
+            print("Listado de archivos en el sistema:")
+            for i in range(1, 5):  # Los clusters 1 a 4 son del directorio
+                inicio = i * self.tamaño_cluster
+                for j in range(0, self.tamaño_cluster, 64):  # Cada entrada ocupa 64 bytes
+                    entrada = self.datos[inicio + j:inicio + j + 64]
+                    tipo_archivo = entrada[0:1].decode('ascii')
+                    if tipo_archivo == '#':
+                        continue  # Entrada vacía
+                    nombre_archivo = entrada[1:16].decode('ascii').rstrip()
+                    tamaño_archivo = struct.unpack('<I', entrada[16:20])[0]
+                    fecha_creacion = entrada[24:38].decode('ascii')
+                    fecha_modificacion = entrada[38:52].decode('ascii')
+                    print(f"Archivo: {nombre_archivo}, Tamaño: {tamaño_archivo} bytes, "
+                          f"Creado: {fecha_creacion}, Modificado: {fecha_modificacion}")
+        finally:
+            self.bloqueo.release()
 
-# Función para eliminar un archivo del sistema de archivos
-def delete_from_fiunamfs(fs, filename):
-    fs.seek(DIRECTORY_OFFSET)
-    for _ in range(64):
-        entry_start = fs.tell()
-        entry = fs.read(64)
-        if entry[1:16].decode('ascii').strip('-') == filename:
-            fs.seek(entry_start)
-            fs.write(b'#' + b'---------------'.ljust(63, b'\x00'))
-            return
-    raise FileNotFoundError(f"Archivo {filename} no encontrado en FiUnamFS")
+    def crear_archivo(self, nombre, contenido):
+        # Crea un archivo en el sistema con el nombre y contenido especificado
+        self.bloqueo.acquire()
+        try:
+            tamaño_archivo = len(contenido)
+            fecha_creacion = datetime.now().strftime('%Y%m%d%H%M%S')
 
-# Función de hilo para sincronizar el estado de copia hacia el sistema local
-def thread_copy_from_fiunamfs(fs, filename):
-    with threading.Lock():
-        print(f"Iniciando copia de {filename} desde FiUnamFS")
-        copy_from_fiunamfs(fs, filename)
-        print(f"Archivo {filename} copiado desde FiUnamFS")
+            # Encontramos una entrada de directorio vacía
+            for i in range(1, 5):  # Los clusters 1 a 4 son del directorio
+                inicio = i * self.tamaño_cluster
+                for j in range(0, self.tamaño_cluster, 64):
+                    entrada = self.datos[inicio + j:inicio + j + 64]
+                    if entrada[0:1] == b'#':
+                        # Escribimos los datos del archivo en la entrada
+                        self.datos[inicio + j:inicio + j + 1] = b'.'  # Tipo de archivo
+                        self.datos[inicio + j + 1:inicio + j + 16] = nombre.encode('ascii').ljust(15, b'-')
+                        self.datos[inicio + j + 16:inicio + j + 20] = struct.pack('<I', tamaño_archivo)
+                        self.datos[inicio + j + 24:inicio + j + 38] = fecha_creacion.encode('ascii')
+                        self.datos[inicio + j + 38:inicio + j + 52] = fecha_creacion.encode('ascii')
 
-# Función de hilo para sincronizar el estado de copia hacia FiUnamFS
-def thread_copy_to_fiunamfs(fs, filename):
-    with threading.Lock():
-        print(f"Iniciando copia de {filename} hacia FiUnamFS")
-        copy_to_fiunamfs(fs, filename)
-        print(f"Archivo {filename} copiado hacia FiUnamFS")
+                        # Escribimos el contenido del archivo en la zona de datos
+                        primer_cluster_datos = 5  # Primer cluster disponible para datos
+                        posicion_datos = primer_cluster_datos * self.tamaño_cluster
+                        self.datos[posicion_datos:posicion_datos + tamaño_archivo] = contenido.encode('ascii')
+                        print("Archivo creado exitosamente.")
+                        return
+            print("No hay espacio disponible en el directorio.")
+        finally:
+            self.bloqueo.release()
 
-# Ejecución principal
-def main():
-    with open("fiunamfs.img", "r+b") as fs:
-        verify_fiunamfs(fs)
+    def eliminar_archivo(self, nombre):
+        # Elimina un archivo basado en su nombre
+        self.bloqueo.acquire()
+        try:
+            for i in range(1, 5):  # Los clusters 1 a 4 son del directorio
+                inicio = i * self.tamaño_cluster
+                for j in range(0, self.tamaño_cluster, 64):
+                    entrada = self.datos[inicio + j:inicio + j + 64]
+                    nombre_entrada = entrada[1:16].decode('ascii').strip()
+                    if nombre_entrada == nombre:
+                        # Marcamos la entrada como vacía
+                        self.datos[inicio + j:inicio + j + 64] = b'#' + b'-' * 63
+                        print(f"Archivo {nombre} eliminado.")
+                        return
+            print("Archivo no encontrado.")
+        finally:
+            self.bloqueo.release()
 
-        # Crear hilos de copia concurrente
-        thread1 = threading.Thread(target=thread_copy_from_fiunamfs, args=(fs, "archivo1.txt"))
-        thread2 = threading.Thread(target=thread_copy_to_fiunamfs, args=(fs, "archivo2.txt"))
+    def guardar_cambios(self):
+        # Guarda cambios en el archivo del sistema de archivos
+        with open(self.nombre_archivo, 'wb') as archivo:
+            archivo.write(self.datos)
 
-        thread1.start()
-        thread2.start()
+def menu():
+    print("Bienvenido al sistema de archivos FiUnamFS.")
+    nombre_archivo = input("Ingresa el nombre del archivo del sistema de archivos: ")
 
-        thread1.join()
-        thread2.join()
+    try:
+        sistema = SistemaFiUnamFS(nombre_archivo)
+        print("Archivo cargado exitosamente.")
+    except ValueError as e:
+        print(f"Error: {e}")
+        return
+    
+    while True:
+        print("\n--- Menú de opciones ---")
+        print("1. Validar el superbloque")
+        print("2. Listar archivos en el sistema")
+        print("3. Crear un archivo")
+        print("4. Eliminar un archivo")
+        print("5. Guardar cambios")
+        print("6. Salir")
 
-        print("Operaciones completadas")
+        opcion = input("Elige una opción (1/2/3/4/5/6): ")
+        
+        if opcion == "1":
+            if sistema.validar_superbloque():
+                print("El superbloque es válido.")
+            else:
+                print("El superbloque no es válido.")
+                
+        elif opcion == "2":
+            sistema.listar_archivos()
+        
+        elif opcion == "3":
+            nombre = input("Nombre del archivo a crear: ")
+            contenido = input("Contenido del archivo: ")
+            sistema.crear_archivo(nombre, contenido)
+        
+        elif opcion == "4":
+            nombre = input("Nombre del archivo a eliminar: ")
+            sistema.eliminar_archivo(nombre)
+        
+        elif opcion == "5":
+            sistema.guardar_cambios()
+            print("Cambios guardados exitosamente.")
+        
+        elif opcion == "6":
+            print("Saliendo del programa.")
+            break
+        
+        else:
+            print("Opción no válida. Intenta de nuevo.")
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    menu()
