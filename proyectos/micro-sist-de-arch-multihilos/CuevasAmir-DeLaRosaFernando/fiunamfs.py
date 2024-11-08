@@ -116,42 +116,73 @@ class GestorSistemaArchivos:
                 return f"Archivo '{nombre_archivo}' copiado exitosamente a {ruta_destino}"
 
     def agregar_archivo_a_fs(self, archivo_origen, nombre_archivo):
+        
+        # Obtiene datos basicos y realiza verificaciones iniciales
+        try:
+            tamano_archivo, datos_archivo = self._leer_datos_archivo(archivo_origen)
+            indice_entrada_vacia = self._buscar_entrada_vacia()
+            cluster_libre = self._buscar_cluster_libre()
+            
+            if indice_entrada_vacia == -1:
+                return "No hay espacio disponible en el directorio"
+            if cluster_libre == -1:
+                return "No hay clusters libres disponibles para almacenar el archivo"
+            
+            # Escribe el archivo en el cluster libre y registra la entrada en el directorio
+            self._escribir_datos_en_cluster(cluster_libre, datos_archivo)
+            self._actualizar_directorio(indice_entrada_vacia, nombre_archivo, tamano_archivo, cluster_libre)
+            return "Archivo agregado exitosamente al sistema de archivos"
+        
+        except FileNotFoundError:
+            return f"Archivo '{archivo_origen}' no encontrado en el sistema local."
+        except IOError as e:
+            return f"Error al acceder al sistema de archivos: {e}"
+        except Exception as e:
+            return f"Error desconocido: {e}"
+
+    def _leer_datos_archivo(self, archivo_origen):
+        #Lee los datos del archivo de origen en el sistema local
+        with open(archivo_origen, 'rb') as archivo:
+            datos = archivo.read()
+            tamano_archivo = len(datos)
+        return tamano_archivo, datos
+
+    def _buscar_entrada_vacia(self):
+        #Busca una entrada vacía en el directorio de FiUnamFS
         with self.bloqueo_acceso:
             with open(self.ruta_archivo, 'r+b') as disco:
-                tamano_cluster = self.tamano_cluster
-
-                # Busca una entrada de directorio vacía para colocar el nuevo archivo
-                disco.seek(1024)
-                indice_entrada_vacia = -1
+                disco.seek(1024)  # Posicionarse al inicio del directorio
                 for i in range(64):
                     entrada = disco.read(64)
                     if entrada[0:1] == b'#' or all(b == 0 for b in entrada):
-                        indice_entrada_vacia = i
-                        break
+                        return i
+        return -1  # Indica que no hay espacio en el directorio
 
-                if indice_entrada_vacia == -1:
-                    return "No hay espacio disponible en el directorio"
+    def _buscar_cluster_libre(self):
+        #Busca un cluster libre para almacenar datos
+        with open(self.ruta_archivo, 'r+b') as disco:
+            disco.seek(self.tamano_cluster)  # Salta el superbloque
+            for i in range(1, int(1440 * 1024 / self.tamano_cluster)):
+                disco.seek(self.tamano_cluster * i)
+                if disco.read(self.tamano_cluster) == b'\x00' * self.tamano_cluster:
+                    return i
+        return -1  # Indica que no hay clusters libres
 
-                # Encuentra un cluster libre para colocar los datos del archivo
-                cluster_libre = self._encontrar_cluster_vacio(disco, tamano_cluster)
-                if cluster_libre == -1:
-                    return "No hay clusters libres disponibles para almacenar el archivo"
+    def _escribir_datos_en_cluster(self, cluster, datos):
+        #Escribe los datos en el cluster especificado
+        with open(self.ruta_archivo, 'r+b') as disco:
+            disco.seek(self.tamano_cluster * cluster)
+            disco.write(datos)
 
-                with open(archivo_origen, 'rb') as archivo:
-                    datos = archivo.read()
-                    tamano_archivo = len(datos)
+    def _actualizar_directorio(self, indice_entrada, nombre_archivo, tamano_archivo, cluster_inicial):
+        #Actualiza el directorio con los datos del nuevo archivo
+        nombre_codificado = nombre_archivo.encode('ascii').ljust(15, b' ')
+        datos_entrada = struct.pack('<c15sII52s', b'-', nombre_codificado, tamano_archivo, cluster_inicial, b'\x00' * 52)
+        
+        with open(self.ruta_archivo, 'r+b') as disco:
+            disco.seek(1024 + 64 * indice_entrada)
+            disco.write(datos_entrada)
 
-                disco.seek(tamano_cluster * cluster_libre)
-                disco.write(datos)
-
-                # Actualiza la entrada de directorio para el nuevo archivo
-                disco.seek(1024 + 64 * indice_entrada_vacia)
-                nombre_codificado = nombre_archivo.encode('ascii').ljust(15, b' ')
-                datos_entrada = struct.pack(
-                    '<c15sII52s', b'-', nombre_codificado, tamano_archivo, cluster_libre, b'\x00' * 52)
-                disco.write(datos_entrada)
-
-                return "Archivo agregado exitosamente al sistema de archivos"
 
     def _encontrar_cluster_vacio(self, disco, tamano_cluster):
         # Localiza un cluster no utilizado para almacenar datos del archivo
