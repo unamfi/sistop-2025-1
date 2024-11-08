@@ -1,0 +1,44 @@
+Ortiz Moreno Ximena
+Sánchez Gachuz Jennyfer Estefanía
+
+PROBLEMA A RESOLVER: 
+El elevador
+
+LENGUAJE Y ENTORNO DE DESARROLLO: 
+Desarrollamos el programa en Python 3, utilizando el módulo threading para manejar los hilos y las primitivas de sincronización necesarias. El entorno de desarrollo es independiente de la plataforma, por lo que puede ejecutarse en cualquier sistema operativo que tenga instalado Python 3.
+
+¿CÓMO EJECUTAR EL PROGRAMA?
+Para ejecutar el programa en su computadora, necesita:
+-Python 3 instalado: Puede verificar la instalación ejecutando python --version o python3 --version en su terminal o línea de comandos. Si no se encuentra instalado puede seguir los pasos de instalación desde la página oficial de Python.
+
+-No se requieren librerías externas: El programa utiliza únicamente módulos estándar de Python (threading, time, random).
+
+-Ejecutar el programa: Abra una terminal o línea de comandos, navegue hasta el directorio donde guardó el archivo y ejecute: 
+	python elevador.py o python3 elevador.py
+
+*Nota: Asegúrese de que el archivo elevador.py esté en el directorio actual desde el cual está ejecutando el comando.
+
+ESTRATEGIA DE SINCRONIZACIÓN:
+-Hilos: El elevador y cada pasajero se implementan como hilos independientes. Esto permite simular la concurrencia de múltiples pasajeros y el elevador operando simultáneamente.
+
+-Exclusión Mutua: Utilizamos un objeto Lock (mutex) llamado lock_elevador para asegurar que solo un hilo pueda acceder o modificar el estado del elevador a la vez. Esto previene condiciones de carrera al manipular variables compartidas.
+
+-Variables de Condición: Implementamos Condition variables para coordinar la espera y notificación entre los hilos:
+	-cond_elevador: Permite que el elevador espere cuando no hay solicitudes y los pasajeros lo notifiquen cuando llegan nuevas 	solicitudes.
+	-Cada pasajero tiene su propia condición (pasajero.condicion) para esperar y ser notificado al abordar el elevador y al llegar 	a su destino.
+
+-Algoritmo SCAN (Elevator Algorithm): Utilizamos este algoritmo para planificar las paradas del elevador de manera eficiente y justa:
+	-El elevador atiende las solicitudes en orden ascendente o descendente según su dirección actual.
+	-Cambia de dirección al llegar al piso más alto o más bajo con solicitudes pendientes.
+	-Esto evita la inanición y la monopolización, asegurando que todos los pasajeros sean atendidos.
+
+-Sincronización de Impresiones: Para mejorar la legibilidad de la salida y evitar que los mensajes de diferentes hilos se mezclen, utilizamos un Lock llamado print_lock en la función imprimir_mensaje().
+
+IMPLEMENTACIÓN DE REFINAMIENTOS:
+-Evitar la inanición: Al utilizar el algoritmo SCAN y mantener una lista de solicitudes, nos aseguramos de que todos los pasajeros sean atendidos de manera justa y que ningún pasajero espere indefinidamente.
+
+-Evitar la monopolización: El elevador cambia de dirección cuando es necesario y atiende las solicitudes en orden, evitando que un grupo de pasajeros monopolice el elevador entre dos pisos.
+
+-Mensajes detallados: Los mensajes impresos proporcionan información clara sobre las acciones del elevador y los pasajeros, facilitando el seguimiento del flujo del programa.
+
+-Sistema de botones: Los pasajeros presionan el botón en su piso de origen para llamar al elevador, y el elevador planifica sus paradas basándose en las solicitudes actuales, simulando un sistema de botones real.

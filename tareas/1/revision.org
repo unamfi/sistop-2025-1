@@ -1,0 +1,760 @@
+** Omar Aguirre y María Martínez
+- Problema resuelto :: El elevador
+- Documentación :: [[./AguirreOmar_MartínezMaría/421032167_318071280.pdf][421032167_318071280.pdf]], [[./AguirreOmar_MartínezMaría/ELEVADORFI_INTERFAZGRAFICA.mp4][ELEVADORFI_INTERFAZGRAFICA.mp4]]
+- Archivos :: [[./AguirreOmar_MartínezMaría/ELEVADORFI.txt][ELEVADORFI.txt]], [[./AguirreOmar_MartínezMaría/ELEVADORFIINTERFAZ.txt][ELEVADORFIINTERFAZ.txt]]
+- Comentarios ::
+  - ¡Aguas! ¡Cada vez que le llaman /librería/ a una /biblioteca/, Dios mata a
+    un gatito. ¡Piensen en los gatitos! 🙁🐈😾😿
+  - El código que me entegan incluye dos archivos en Python, =ELEVADORFI.TXT= y
+    =ELEVADORFIINTERFAZ.txt=. En la documentación indican que se debe guardar
+    con la interfaz =.py= y ejecutar =elevador.py=... Pero no indican cuál de
+    los dos ejecutar.
+    - Entiendo que el primero (no-gráfico) muestra el funcionamiento complejo,
+      usando la capacidad máxima, y el segundo (gráfico) muestra la
+      representación visual. ¡Pero tendrían que detallar eso en su
+      documentación! Si les califico únicamente una entrega, sí o sí me “pierdo”
+      de parte importante de la resolución.
+  - ¡Bien por usar =Event=, que no cubrimos en clase!
+    - Su uso no es muy eficaz, sin embargo: Dado que el elevador sube y baja,
+      como bien apuntan, siguiendo un algoritmo =LOOK=... No le hace mayor caso
+      a las llamadas (no se dirige hacia ellas). Sólo, claro, permite ahorrar
+      energía cuando no hay ninguna llamada pendiente.
+    - Incluso si va en el piso 3 (subiendo) y lo llaman del piso 2 para subir al
+      3, llega hasta el tope del edificio, luego baja (el usuario sube mientras
+      pasa bajando), llega hasta el 0, y vuelve a subir. Es correcto según la
+      implementación, claro.
+- Calificación :: 10
+
+** Gabriela Aquino
+- Problema resuelto :: Los alumnos y el asesor
+- Documentación :: [[./AquinoGabriela/README.md][README.md]], [[./AquinoGabriela/TAREA_1_AQUINO_LOZADA.pdf][TAREA_1_AQUINO_LOZADA.pdf]]
+- Archivos :: [[./AquinoGabriela/alumno_asesor_AG.py][alumno_asesor_AG.py]]
+- Comentarios ::
+  - ¿Y ese archivo =README.md=? ¡Hola, pues! 😉
+  - La resolución está /mayormente/ bien. Pero como me planteas en tu /duda/,
+    hay un punto por ahí que no quedó bien resuelto.
+    - Subí el número total de alumnos a 50, y terminé con -26 sillas
+      ocupadas. ¡Guau!
+    - Tus líneas 35–49 dicen:
+      #+begin_src python
+	if num_sillas_ocupadas >= CAPACIDAD_SALON and not flag_entrado:
+	    print(f"Alumno {id_alumno}: Sin espacio, esperaré fuera. ")
+	    mutex.release()
+	    sem_duda.acquire()  # Espera hasta que pueda resolver la duda
+	elif flag_entrado:
+	    print(f"Alumno {id_alumno}: Esperando mi turno en el salón ")
+	    mutex.release()
+	    sem_duda.acquire()  # Espera para resolver otra duda
+	else:
+	    # Si hay espacio, entra
+	    flag_entrado = True
+	    num_sillas_ocupadas += 1
+	    print(f"\nAlumno {id_alumno}: Entra al salón. Sillas ocupadas: {num_sillas_ocupadas}")
+	    mutex.release()
+      #+end_src
+      Entonces, únicamente haces =num_sillas_ocupadas +=1= cuando sí hay sillas
+      libres. Pero si te quedas a /esperar tu turno en el salón/, igual vas a
+      plantear tu pregunta, y cuando llegues a la línea 64, vas a hacer
+      =num_sillas_ocupadas -=1=.
+    - Probablemente habría sido más fácil que emplearas un /Multiplex/ del
+      tamaño del número de sillas que tuvieras... Te ahorrarías el condicional,
+      y el conteo respecto a cuántos hay o no.
+- Calificación :: 8
+
+** Esteban Arellanes y Christian Esquivel
+- Problema resuelto :: Santa Claus
+- Documentación :: [[./ArellanesEsteban-EsquivelChristian/ArellanesEsteban_EsquivelChristian_Tarea1.txt][ArellanesEsteban_EsquivelChristian_Tarea1.txt]]
+- Archivos :: [[./ArellanesEsteban-EsquivelChristian/ArellanesEsteban_EsquivelChristian_Tarea1.py][ArellanesEsteban_EsquivelChristian_Tarea1.py]]
+- Comentarios ::
+  - Buena resolución 😃
+    - ¡Muy bien por usar una VC! 😃
+  - Normalmente, al término de un ciclo anual comenzamos a planear el otro. Esto
+    es, cuando vuelve de entregar los regalos, los elfos están ya de nuevo
+    trabajando en las preparaciones para el año entrante, y los renos ya están
+    comprando sus boletos para el Caribe.
+- Calificación :: 10
+
+** Nancy Bohorquez
+- Problema resuelto :: Los alumnos y el asesor
+- Documentación :: [[./BohorquezNancy/Tarea1_BohorquezNancy.pdf][Tarea1_BohorquezNancy.pdf]]
+- Archivos :: [[./BohorquezNancy/AlumnosYAsesor.py][AlumnosYAsesor.py]]
+- Comentarios ::
+  - No me fue posible ejecutar tu código ☹ Los estudiantes se apanican y se van
+    a excepción ni bien son creados
+    #+begin_src text
+      $ python3 AlumnosYAsesor.py 
+      Exception in thread Thread-2 (Estudiante):
+      Traceback (most recent call last):
+        File "/usr/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+      Exception in thread Thread-3 (Estudiante):
+      Traceback (most recent call last):
+        File "/usr/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+      Exception in thread Thread-4 (Estudiante):
+      Exception in thread Thread-5 (Estudiante):
+      Traceback (most recent call last):
+      Traceback (most recent call last):
+      Exception in thread Thread-7 (Estudiante):
+      Exception in thread Thread-6 (Estudiante):
+      Traceback (most recent call last):
+          self.run()
+      (...)
+    #+end_src
+    - El método de inicialización en Python, =.__init__()=, debe especificarse
+      con /dos guiones bajos/ al inicio y al final (no con uno solo).
+    - Corrigiendo este aspecto, el programa funciona correctamente. (¿cómo lo
+      utilizaste tú misma? 🤔)
+  - Cuando tienes una duda y el profesor está ocupado, ¿te rindes de inmediato y
+    te vas, o te esperas a que se libere?
+    - Claro, eres humana... tienes muchas más variables que considerar 😉
+    - Pero me parece derrotista como hiciste (línea 24)
+      #+begin_src python
+	# Sentarse
+	if not sillas_libres.acquire(timeout=1):
+	    self.reporta('No hay sillas disponibles. Me voy.')
+	    return
+      #+end_src
+      Si en vez de llamar con =timeout=1= simplemente te quedaras esperando a
+      que se liberara la silla, los 15 alumnos tendrían oportunidad de resolver
+      sus dudas (aunque el profe tendría más trabajo)
+    - Así como lo tienes, sólo los 3 primeros estudiantes hacen su pregunta. Los
+      otros se dan media vuelta y se van 😰
+    - aunque... ¡Muy bien hecho por usar el =timeout= a pesar de que yo no se
+      los enseñara! 😃
+- Calificación :: 8
+
+** Victor Calderon y Brenda Flores
+- Problema resuelto :: Los alumnos y el asesor
+- Documentación :: [[./CalderonVictor-FloresBrenda/CalderonVictor-FloresBrenda.txt][CalderonVictor-FloresBrenda.txt]]
+- Archivos :: [[./CalderonVictor-FloresBrenda/CalderonVictor-FloresBrenda.py][CalderonVictor-FloresBrenda.py]]
+- Comentarios ::
+  - ¡Bonita implementación! Cortita pero completa.
+  - Es frecuente ver que alumnos (y programadores novatos) escriban los
+    comentarios /a la derecha/ del código al que se aplican. Esto, sin embargo,
+    hace que el código crezca demasiado en lo horizontal, y dificulta la
+    lectura. Muchas líneas como la siguiente resultan difíciles:
+    #+begin_src python
+      mutex_orden.release()  # Libera el lock para que otro alumno haga preguntas
+      time.sleep(random.uniform(1, 3))  # Espera antes de hacer su próxima pregunta
+      mutex_orden.acquire()  # Vuelve a adquirir el lock para su siguiente pregunta
+    #+end_src
+    - Están comentando de más (algunos de los comentarios son innecesarios,
+      el comportamiento que describen resulta obvio del contexto
+    - Pero incluso obviando esto, resulta mucho más fácil de leer:
+    #+begin_src python
+      # Libera el lock para que otro alumno haga preguntas
+      mutex_orden.release()
+      # Espera antes de hacer su próxima pregunta
+      time.sleep(random.uniform(1, 3))
+      # Vuelve a adquirir el lock para su siguiente pregunta
+      mutex_orden.acquire()
+    #+end_src
+- Calificación :: 9
+
+** Mauricio Cornejo
+- Problema resuelto :: El elevador
+- Documentación :: [[./CornejoMauricio/Tarea1.txt][Tarea1.txt]]
+- Archivos :: [[./CornejoMauricio/elevador.py][elevador.py]]
+- Comentarios ::
+  - No sé qué editor estén usando, o cómo es que esto les funcione... Pero eres
+    el segundo alumno (y voy avanzando linealmente sobre esta lista) que me
+    entrega código de Python en que los nombres especiales (=__main__= o
+    =__name__=) los escriben con únicamente un guión bajo. ¡Y eso no puede
+    funcionar en ningún lugar!
+    - Pero corrigiendo ese detalle, el código funciona correctamente...  🤔
+      ¡Raro!
+  - Ojo: El método constructor =__init__()= se /invoca implícitamente/: En
+    Python es habitual llamar a la clase directamente (y resulta más limpio y
+    fácil de leer). Entonces, donde llamas a =threading.Thread.__init__(self)=,
+    podrías llamar únicamente a =threading.Thread(self)=.
+    - Del mismo modo, =Thread().start()= tiene por comportamiento llamar a
+      =run()= dentro del objeto creado.
+  - El funcionamiento de tu elevador es correcto. ¡Lo único es que van a ponerle
+    una multa por excesivo gasto de energía! Incluso cuando no queda ya ningún
+    usuario en el sistema, el elevador se pasará el tiempo subiendo y bajando,
+    abriendo la puerta en cada uno de los pisos 😕
+- Calificación :: 9
+
+** Amir Cuevas y Fernando De La Rosa
+- Problema resuelto :: Los alumnos y el asesor
+- Documentación :: [[./CuevasAmir-DeLaRosaFernando/Tarea 1. Alumnos y el asesor.pdf][Tarea 1. Alumnos y el asesor.pdf]]
+- Archivos :: [[./CuevasAmir-DeLaRosaFernando/Alumnos y Asesor/Asesor.java][Asesor.java]], [[./CuevasAmir-DeLaRosaFernando/Alumnos y Asesor/AsesorAlumnos.java][AsesorAlumnos.java]]
+- Comentarios ::
+  - ¡Agradezco que cada alumno sea de otro color! Así es más fácil seguir la
+    interacción.
+  - No es habitual que encuentren cómo modelar e ir mostrando que el asesor
+    despierte y vuelva a dormir explícitamente. ¡Muy bien!
+  - Aumentando el número de alumnos, se presenta un caso raro: El asesor se va a
+    dormir después de resolver una serie de preguntas, pero los siguientes
+    alumnos que llegan reciben que “la sala está llena”, cuando tendría que
+    estar vacía. ¿Por qué?
+    #+begin_src text
+      Asesor: Respuesta a alumno 33, pregunta 2
+      Alumno 31: Pregunta 3
+      Asesor: Respuesta a alumno 31, pregunta 3
+      Alumno 39: La sala está llena, me voy.
+      Alumno 33: Pregunta 3
+      Alumno 31: Terminó sus preguntas, deja la silla.
+      Asesor: Respuesta a alumno 33, pregunta 3
+      Alumno 40: La sala está llena, me voy.
+      Alumno 33: Terminó sus preguntas, deja la silla.
+      Asesor: Dormido, esperando estudiantes...
+      Alumno 41: La sala está llena, me voy.
+      Alumno 42: La sala está llena, me voy.
+      Alumno 43: La sala está llena, me voy.
+      Alumno 44: La sala está llena, me voy.
+      Alumno 45: La sala está llena, me voy.
+      Alumno 46: La sala está llena, me voy.
+      Alumno 47: La sala está llena, me voy.
+      Alumno 48: La sala está llena, me voy.
+      Alumno 49: La sala está llena, me voy.
+      Alumno 50: La sala está llena, me voy.
+      Alumno 51: La sala está llena, me voy.
+      Alumno 52: La sala está llena, me voy.
+      Alumno 53: La sala está llena, me voy.
+    #+end_src
+    - Esto es, me parece, porque sólo hacen =estudiantesEnSala.release()= para
+      los alumnos que alcanzaron a entrar a la sala (línea 69) pero no
+      alcanzaron silla (línea 71). Conforme entran más alumnos, los primeros que
+      entrarion dejaron a sus /fantasmas/ en la sala, y los últimos ya ni
+      siquiera intentan entrar
+  - No presentan ningún mecanismo con el cual un estudiante que entró a la sala
+    alcance a sentarse eventualmente. Lo sestudiantes que se quedan
+    parados... Únicamente se van.
+  - En ambos casos, si hubieran evitado el =tryAcquire()= y hubieran hecho un
+    uso /tradicionalito/ de =acquire()= habría resultado correcto.
+  - Cuando hacen programación orientada a objetos, busquen cuidar que no haya
+    /invasión de funciones/: No debería ocurrir nunca que el =Asesor= tome
+    acciones aparentando ser el =Alumno= o viceversa. El código que presentan
+    mezcla dentro de la misma lógica a alumnos y asesor. El mismo hilo imprime
+    el estado del asesor y del alumno:
+    #+begin_src java
+      for (int j = 1; j <= 3; j++) {
+          // Acceso exclusivo al profesor para hacer la pregunta
+          mutex.acquire(); 
+          System.out.println(color + "Alumno " + alumnoId + ": Pregunta " + j + "\u001B[0m");
+          //System.out.println("Profesor: Alumno " + alumnoId + " mi respuesta a tu pregunta " + j + " es *bla bla*");
+          // Aseguramos que el mensaje "Despierto, listo para atender..." se imprima antes de la respuesta
+          if (!profesorDespierto) {
+              System.out.println("Asesor: Despierto, listo para atender...");
+              profesorDespierto = true; // El profesor ya está despierto
+          }
+
+          Thread.sleep(rand.nextInt(100)); // Simular el tiempo de pregunta
+          System.out.println("Asesor: Respuesta a alumno " + alumnoId + ", pregunta " + j);
+          mutex.release(); // Liberar acceso al profesor
+    #+end_src
+    Esto /no está propiamente mal/, pero hace mucho más difícil entender la
+    lógica de lo implementado, separando responsabilidades.
+- Calificación :: 9
+
+** Fernanda Garcia y Miriam Lopez
+- Problema resuelto :: Santa Claus
+- Documentación :: [[./GarciaFernanda-LopezMiriam/Tarea1_GarciaFernanda_LopezMiriam.txt][Tarea1_GarciaFernanda_LopezMiriam.txt]]
+- Archivos :: [[./GarciaFernanda-LopezMiriam/SantaClausP.java][SantaClausP.java]]
+- Comentarios ::
+  - ¡Excelente que usen primitivas de sincronización más allá de lo que vimos en
+    clase! El uso de =AtomicInteger= es my adecuado para el problema.
+    - El uso de =HashSet= no es específicamente de sincronización, pero se me
+      hace una buena e ingeniosa manera de resolver la necesidad que plantean
+    - Ojo: en ningún momento especificamos que los elfos /no tengan que estar
+      pide y pide/: mi lógica diría que al terminar con un la construcción de un
+      juguete, inician con la de otro. Pero bueno... no lo incluí en las
+      especificaciones, y como les dije, son libres de interpretar e implementar
+      😉
+  - Es frecuente ver que alumnos (y programadores novatos) escriban los
+    comentarios /a la derecha/ del código al que se aplican. Esto, sin embargo,
+    hace que el código crezca demasiado en lo horizontal, y dificulta la
+    lectura. Muchas líneas como la siguiente resultan difíciles:
+    #+begin_src java
+      santaSemaforo.acquire();//Para que santa espere a ser despertado una vez que alguna de las condiciones se cumpla
+
+      elfoMutex.acquire();//Mutex para protección de la sección critica
+      //Verificación de las condiciones para el final del programa: Si todos los renos han regresado y si no hay más elfos que necesiten ayuda
+      if (renosRegresados.get() == NUM_RENOS && elfosEsperando.get() == 0 && !mensajeFinal){
+    #+end_src
+    - Están comentando de más (algunos de los comentarios son innecesarios,
+      el comportamiento que describen resulta obvio, no únicamente del contexto,
+      sino que de lo que /ya fue comentado más atrás/ (po ejemplo, ya sabemos
+      que =elfoMutex= es un mutex para el contador de elfos, y que un mutex
+      sirve para proteger secciones críticas... /Sobre-comentar/ no facilita la
+      lectura del código, y hace más lenta su escritura.
+    - Pero incluso obviando esto, resulta mucho más fácil de leer:
+      #+begin_src java
+	//Para que santa espere a ser despertado una vez que alguna de las condiciones
+	//se cumpla
+	santaSemaforo.acquire();
+
+	//Mutex para protección de la sección critica
+	elfoMutex.acquire();
+	//Verificación de las condiciones para el final del programa: Si todos los renos
+	//han regresado y si no hay más elfos que necesiten ayuda
+	if (renosRegresados.get() == NUM_RENOS && elfosEsperando.get() == 0 && !mensajeFinal){
+      #+end_src
+    - En mi experiencia, Santa Claus no limita su actividad a un sólo año. Una
+      vez que entregamos los juguetes... ¡Hay que volver a iniciar todo el
+      ciclo! Desafortunadamente, en su implementación, Santa no despuerta
+      después de que =¡es hora de repartir los regalos= ☹
+      - No es tan simple como rodear al =santa.start()= con un =while(true)= o
+        algo por el estilo... ¿Tienen un bloqueo mutuo?
+      - Recomendación al diseñar sistemas basados en programación orientada a
+        objetos: al modelar el sistema, verifiquen /dónde deben instanciarse/
+        los distintos objetos. Creo que tendrían que habe creado una clase
+        separada para =Santa= (diferenciándola del /problema de Santa Claus/,
+        =SantaClausP=). Al no existir =Santa= como una entidad por derecho
+        propio, independiente del problema en cuestión, le “cae la
+        responsabilidad” de ser él quien inicializa (líneas 31–36) a renos y
+        elfos. ¿No deberían nacer mágicamente, de forma independiente a Santa?
+- Calificación :: 10
+
+** Sebastian Gayosso y Erandy Perez
+- Problema resuelto :: El elevador
+- Documentación :: [[./GayossoSebastian-PerezErandy/Tarea1_Instrucciones.pdf][Tarea1_Instrucciones.pdf]]
+- Archivos :: [[./GayossoSebastian-PerezErandy/elevador.py][elevador.py]]
+- Comentarios ::
+  - Es una solución interesante y /poco ortodoxa/, pero válida
+  - Es difícil seguir el desarrollo de tu implementación, pues es demasiado /verbosa/
+    - A cada paso del elevador, cada una de las personas informan respecto su
+      estado completo
+    - Incluso si el estado no cambió desde el reporte anterior: si el elevador
+      pasó del piso 4 al 3, la persona /n/ va a reportar que está en el piso 1
+      queriendo llegar al 5. Y cuando el elevador pase del 3 al 2... ¡va a
+      reportar exactamente lo mismo
+    - Es conveniente reportar el avance /únicamente cuando hay cambios de estado/.
+  - Te recomiendo considerar para tus diseños futuros una mejor /separación de
+    responsabilidades/: en tu código, la función =mover_elevador()= se encarga
+    de meter y sacar a las personas, y =persona()= únicamente las mete al
+    elevador y va reportando el estado.
+    - Claro, tendrías que realizar más sincronización (/Señalización/, por
+      ejemplo, entre el elevador y cada una de las personas). Pero tu código
+      resultante quedaría más limpiio y comprensible.
+- Calificación :: 8
+
+** Andrea Anikey Gomez e Ian Yael Leon
+- Problema resuelto :: Los alumnos y el asesor
+- Documentación :: [[./GomezGuzman-LeonGallardo/README.txt][README.txt]]
+- Archivos :: [[./GomezGuzman-LeonGallardo/alumnos_y_asesor.py][alumnos_y_asesor.py]]
+- Comentarios ::
+  - Muy bueno que hayan /personalizado/ el reporte, usando nombres de personas
+    en vez de un frío =alumno 1=, =alumno 2=, ...
+  - Modelaron a los cinco =Alumnos= y las sillas, pero no considera la
+    interacción con el =Profesor=
+    - Al iniciar el sistema, el profesor entra al aula e inicia su
+      descanso. Después, pareceríá que responde a las preguntas, pero (línea 42)
+      es en realidad un hilo de alumnos el que dice que =El profesor está
+      respondiendo....=
+    - Como está planteado, no puede decirse que el profesor se duerma cuando no
+      hay alumnos y despierte cuando llegan — ni explícita ni implícitamente ☹
+- Calificación :: 7.5
+
+** Emilio Gonzalez y Dayna Suarez
+- Problema resuelto :: Santa Claus
+- Documentación :: [[./GonzalezEmilio-SuarezDayna/Tarea1_GonzalezEmilio-SuarezDayna.pdf][Tarea1_GonzalezEmilio-SuarezDayna.pdf]]
+- Archivos :: [[./GonzalezEmilio-SuarezDayna/Tarea1_GonzalezEmilio-SuarezDayna.py][Tarea1_GonzalezEmilio-SuarezDayna.py]], [[./GonzalezEmilio-SuarezDayna/Tarea1_GonzalezEmilio-SuarezDayna.zip][Tarea1_GonzalezEmilio-SuarezDayna.zip]]
+- Comentarios ::
+  - La entrega incluye un archivo =Zip= que... incluye al mismo código que
+    entregaron. ¿Para qué? 😉
+  - ¡Me parece excelente que descubrieran ese /uso mixto/ de la semántica de
+    semáforos! Esta función me tomó por sorpresa (¡yo nunca había usado
+    =blocking= con semáforos!)
+    #+begin_src python
+      def accion_santa(self):
+          # Santa debe ayudar a los elfos o repartir regalos sin secuencias
+          mutex.acquire()
+
+          # Despertar basado en cuál semáforo se libera primero
+          if renos_listos.acquire(blocking=False):
+              self.repartir_regalos()  # Reparte regalos cuando los 9 renos estén listos
+          elif elfos_listos.acquire(blocking=False):
+              self.ayudar_elfos()  # Ayuda a los 3 elfos cuando están listos
+
+          mutex.release()
+    #+end_src
+    - ¡Ojo! El uso que ustedes dan es bueno. Sin embargo, sería fácil abusar de
+      esto convirtiéndolo en una maleducada y horrible espera activa:
+      #+begin_src python
+	def no_hacer_asi(self):
+	    while not semaf.acquire(blocking=True):
+	        pass
+	    print('¡Ya lo tengo!')
+      #+end_src
+
+  - Hay un problema con la lógica de los renos: Si bien el primer año =Santa=
+    espera a los 9 renos, inmediatamente después vemos que las cosas se
+    descontrolan: cinco elfos piden ayuda y no la reciben, y Santa comienza a
+    hacer viajes por el mundo solito y sin renos 😰
+    #+begin_src text
+      (...)
+      Reno 4: ¡He vuelto de vacaciones! 🌴
+      Reno 5: ¡He vuelto de vacaciones! 🌴
+      Reno 8: ¡He vuelto de vacaciones! 🌴
+      Santa: ¡Todos los renos están de vuelta, es hora de repartir regalos! 🦌🎁
+      Santa: ¡Repartí todos los regalos, ahora a dormir! 😴
+      Elfo 2: ¡Tengo un problema con los juguetes! 🧸
+      Elfo 21: ¡Tengo un problema con los juguetes! 🧸
+      Elfo 4: ¡Tengo un problema con los juguetes! 🧸
+      Elfo 1: ¡Tengo un problema con los juguetes! 🧸
+      Elfo 13: ¡Tengo un problema con los juguetes! 🧸
+      Santa: 💤 Durmiendo...
+      Santa: 🎅 Desperté!
+      Santa: ¡Todos los renos están de vuelta, es hora de repartir regalos! 🦌🎁
+      Santa: ¡Repartí todos los regalos, ahora a dormir! 😴
+      Santa: 💤 Durmiendo...
+      Santa: 🎅 Desperté!
+      Santa: ¡Todos los renos están de vuelta, es hora de repartir regalos! 🦌🎁
+      Santa: ¡Repartí todos los regalos, ahora a dormir! 😴
+      Santa: 💤 Durmiendo...
+      Santa: 🎅 Desperté!
+      Santa: ¡Todos los renos están de vuelta, es hora de repartir regalos! 🦌🎁
+    #+end_src
+    - de hecho, buscándole un poco... Lo mismo pasa con los =Elfo=: después de
+      que =Santa= despierta por los primeros tres, no vuelve a hacerlo:
+      #+begin_src text
+	Santa: 💤 Durmiendo...
+	Elfo 1: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 11: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 22: ¡Tengo un problema con los juguetes! 🧸
+	Santa: 🎅 Desperté!
+	Elfo 14: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 20: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 25: ¡Tengo un problema con los juguetes! 🧸
+	Santa: ¡Tres elfos tienen problemas, voy a ayudar! 🧝‍♂️🎄
+	Elfo 1: ¡Gracias Santa por la ayuda! 🎄
+	Elfo 11: ¡Gracias Santa por la ayuda! 🎄
+	Elfo 22: ¡Gracias Santa por la ayuda! 🎄
+	Elfo 3: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 4: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 7: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 8: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 10: ¡Tengo un problema con los juguetes! 🧸
+	Elfo 17: ¡Tengo un problema con los juguetes! 🧸
+	(...)
+      #+end_src
+    - ¿por qué ocurre esto? Me parece que esperas una vez por la barrera, pero
+      una vez que pasan, no vuelven a levantarla (=elfosBarrera.reset()=).
+    - Veo que, a diferencia de =Santa= y de =Elfo=, =Reno= no vive dentro de un
+      =while True=. por tal razón, la segunda vacación que se toman los
+      renos... es una vacación eterna.
+- Calificación :: 8.5
+
+** Pablo Gonzalez y Shareny Lechuga
+- Problema resuelto :: Los alumnos y el asesor
+- Documentación :: [[./GonzalezPablo-LechugaShareny/Tarea01_Sincronizacion.pdf][Tarea01_Sincronizacion.pdf]]
+- Archivos :: [[./GonzalezPablo-LechugaShareny/alumnos_y_asesor.py][alumnos_y_asesor.py]]
+- Comentarios ::
+  - ¡Muy bien por usar =Event=, que no vimos en clase, para controlar el estado
+    (despierto/dormido) del =profesor()=
+    - Pero falta una manera en que =estudiante()= y =profesor()= se comuniquen
+      cuándo uno hace preguntas y cuándo el otro responde, algún mecanismo como
+      una notificación. Sin ello, pasa lo siguiente:
+      #+begin_src text
+	(...)
+	Estudiante 4 llega al cubículo.
+	El profesor está despierto y atendiendo a los estudiantes.
+	Estudiante 0 hace la pregunta 2.
+	El profesor está durmiendo...
+	El estudiante 0 ha terminado de preguntar.
+	El estudiante 0 deja la silla y se va.
+	El estudiante 3 se sienta y espera su turno.
+	El estudiante 1 pregunta al profesor.
+	(...)
+      #+end_src
+    - Tal vez no tenía suficiente café disponible o algo por el estilo... ¡pero
+      el grosero del =profesor()= no espera ni siquiera a que el =estudiante(0)=
+      haga su pregunta, y ya se fue a dormir!
+  - No hay una interacción real entre el estudiante y el profesor: Tendría que
+    presentarse un paso de mensajes entre que =Estudiante {id_estudiante} hace
+    la pregunta {i+1}= y que el profesor la responde... Claro, ¡lo que pasa es
+    que el profesor no tiene la lógica para responder a las preguntas! 🙁
+- Calificación :: 8
+
+** Daniel Hernandez
+- Problema resuelto :: Santa Claus
+- Documentación :: [[./HernandezDaniel/GUI1.png][GUI1.png]], [[./HernandezDaniel/Readme.md][Readme.md]], [[./HernandezDaniel/elfo.png][elfo.png]], [[./HernandezDaniel/reno.png][reno.png]], [[./HernandezDaniel/saco.png][saco.png]], [[./HernandezDaniel/santa_awake.png][santa_awake.png]], [[./HernandezDaniel/santa_renos.png][santa_renos.png]], [[./HernandezDaniel/santa_sleeping.png][santa_sleeping.png]]
+- Archivos :: [[./HernandezDaniel/Santa.py][Santa.py]]
+- Comentarios ::
+  - ¡Muy bonita representación! Cuenta con una sencilla interfaz gráfica
+    mostrando el estado actual del “mundo”, y podemos ver en consola el
+    historial de eventos.
+  - ¡Muy bien por probar la implementación con variables de condición! 😃
+  - Es frecuente ver que alumnos (y programadores novatos) escriban los
+    comentarios /a la derecha/ del código al que se aplican. Esto, sin embargo,
+    hace que el código crezca demasiado en lo horizontal, y dificulta la
+    lectura. Muchas líneas como las siguientes resultan difíciles:
+    #+begin_src python
+      elfo_counter_label.config(text=str(ElfosEnProblemas)) #Actualizamos la GUI
+      MutexElfos.release() #Liberamos el mutex para que puedan seguir habiendo elfos identificandose "Con problemas"
+      MutexElfos2.acquire() #Tomamos el mutex para que solo un elfo avise que si ya hay 3 en problemas o que se quede a la espera
+    #+end_src
+    - Están comentando de más (algunos de los comentarios son innecesarios, el
+      comportamiento que describen resulta obvio, no únicamente del contexto,
+      sino que de lo que /ya fue comentado más atrás/... /Sobre-comentar/ no
+      facilita la lectura del código, y hace más lenta su escritura.
+    - Pero incluso obviando esto, resulta mucho más fácil de leer:
+      #+begin_src python
+	# Actualizamos la GUI
+	elfo_counter_label.config(text=str(ElfosEnProblemas)) 
+	# Liberamos el mutex para que puedan seguir habiendo elfos identificandose "Con
+	# problemas"
+	MutexElfos.release() 
+	# Tomamos el mutex para que solo un elfo avise que si ya hay 3 en problemas o
+	# que se quede a la espera
+	MutexElfos2.acquire()
+      #+end_src
+    - Más aún cuando explicas como parte de tu código, como el comentario en
+      bloque entre las líneas 80 y 86. Resultaría mucho más fácil de leer en mi
+      opinión si no “gastara” 34 caracteres en blanco por la izquierda, y si por
+      la derecha se alineara por lo menos al caracter 80.
+    - Respecto a la duda que planeteas: Estoy de acuerdo contigo. Cuando =Santa=
+      llama a =self.__duerme__()= lo hace mediante =SantaVC.wait()=, y tal como
+      lo dices, lo que implementaste es que Santa se despierte y verifique su
+      entorno. No estás gastando recursos ni actuando hostilmente.
+- Calificación :: 10
+
+** Hector Hernandez
+- Problema resuelto :: El cruce del río
+- Documentación :: [[./HernandezHector/Tarea 1_SO.pdf][Tarea 1_SO.pdf]], [[./HernandezHector/readme.md][readme.md]]
+- Archivos :: [[./HernandezHector/Tarea1.py][Tarea1.py]]
+- Comentarios ::
+  - Tu archivo [[./readme.md][readme.md]] resulta innecesario 😉 Cuando ya no requieras de un
+    archivo en Git, recuerda borrarlo.
+  - ¡Buena implementación! Creo que es la primera vez que veo que alguien
+    implementa este problema /permitiendo/ balsas mal organizadas pero
+    bloqueando sus viajes.
+  - ¡El congreso tiene un índice de admisión muy bajo! Si por cada =Balsa()= que
+    se crea estás creando a 5 =hackers= y 5 =serfs=, sólo 4 de ellos pueden
+    subir a la balsa, y a veces la balsa se niega a funcionar... ¡vas a tener un
+    verdadero movimiento de rechazados de este lado del río! 😉
+- Calificación :: 10
+
+** Josue Jimenez y Santiago Medina
+- Problema resuelto :: Intersección de caminos
+- Documentación :: [[./JimenezJosue-MedinaSantiago/JiménezJosué_MedinaSantiago_Tarea01.pdf][JiménezJosué_MedinaSantiago_Tarea01.pdf]]
+- Archivos :: [[./JimenezJosue-MedinaSantiago/JiménezJosué_MedinaSantiago_Tarea01.py][JiménezJosué_MedinaSantiago_Tarea01.py]]
+- Comentarios ::
+  -
+    #+begin_src python
+      while 25346798052 == 25346798052: #👻
+    #+end_src
+    ... ¡Asústame panteón! 😉
+  - Buena implementación 🙂 Sencilla y sin mucho que agregar.
+- Calificación :: 10
+
+** Aaron Leon
+- Problema resuelto :: Santa Claus
+- Documentación :: [[./LeonAaron/LeonPerezAaronRodrigo-Tarea1SO.pdf][LeonPerezAaronRodrigo-Tarea1SO.pdf]]
+- Archivos :: [[./LeonAaron/PreparativosNavidad.py][PreparativosNavidad.py]]
+- Comentarios ::
+  - ¡Bonito arte ASCII, y un muy buen detalle el manejo de nombres y frases
+    alegres por parte de los /participantes/ de la simulación!
+  - Buena implementación con variables de condición. ¡Muy bien! 😃
+- Calificación :: 10
+
+** Darwin Luna
+- Problema resuelto :: El servidor Web
+- Documentación :: [[./LunaDarwin/LunaDarwin_T1_Documento.pdf][LunaDarwin_T1_Documento.pdf]]
+- Archivos :: [[./LunaDarwin/LunaDarwin_T1_Codigo.py][LunaDarwin_T1_Codigo.py]]
+- Comentarios ::
+  - Entregado fuera del directorio indicado por nuestros estándares de
+    nomenclatura. *-1* punto 🙁
+  - ¡Excelente presentación de la documentación!
+    - Y agradezco que me indiques / aceptes que no lograste resolver el
+      problema. ¡Veamos si puedo hacer algo por ayudar a tu programa! 😃
+  - Me parece que el principal problema es tu manejo de la cola de eventos,
+    =new_task_event=, que es una instancia de =threading.Event()=
+    - El trabajador /obtiene/ los eventos de esta cola utilizando
+      =new_task_event.wait()= (línea 36). Nunca utilicé esta primitiva, pero
+      supongo que hay que aplicarle un =.clear()=, para evitar que siga pasando
+      cuando ya no tiene un evento por atender
+  - El manejo de la cola (=queue.Queue=) =task_queue= es incorrecto: En tu línea
+    36 llamas a =task_queue.get_nowait()=. Eso lleva a que una y otra vez falle
+    con =queue.Empty=, y tu sincronización se convierte en una espera activa.
+    - Basta cambiar esa línea por un =task_queue.get()= y, como se queda a la
+      espera de que llegue un evento, puede avanzar y completar exitosamente:
+      #+begin_src text
+	$ python3 ./LunaDarwin/LunaDarwin_T1_Codigo.py
+	Ingrese el número total de tareas a procesar: 3
+	Jefe: Nueva solicitud recibida, asignando tarea 1
+	Trabajador 2 atendiendo solicitud: Tarea-1
+	Jefe: Nueva solicitud recibida, asignando tarea 2
+	Trabajador 1 atendiendo solicitud: Tarea-2
+	Trabajador 2 completó solicitud: Tarea-1
+	Jefe: Nueva solicitud recibida, asignando tarea 3
+	Trabajador 0 atendiendo solicitud: Tarea-3
+	Trabajador 1 completó solicitud: Tarea-2
+	Trabajador 0 completó solicitud: Tarea-3
+	Jefe: Todas las tareas han sido completadas. Finalizando el programa.
+      #+end_src
+- Calificación :: 8 - 1 = 7
+
+** Enrique Medrano
+- Problema resuelto :: El servidor Web
+- Documentación :: [[./MedranoEnrique/MedranoEnrique_Tarea1.txt][MedranoEnrique_Tarea1.txt]]
+- Archivos :: [[./MedranoEnrique/MedranoEnrique_Tarea1.py][MedranoEnrique_Tarea1.py]]
+- Comentarios ::
+  - ¡Excelente que atrapes el =KeyboardInterrupt= y tengas condiciones
+    determinadas para poder finalizar limpiamente la
+    ejecución! 😃
+  - Muy bien por el uso de =Queue=, que no lo vimos como tal en clase.
+  - No sería difícil implementar el punto que mencionas, de llevar contabilidad
+    del tiempo transcurrido para cada hilo: Con tener un arreglo compartido (y
+    un mutex que lo proteja), cada hilo trabajador podría sumar el total de
+    tiempo que trabajó (o el total de veces que ha sido llamado, o lo que gustes
+    😉) antes de reiniciar el ciclo =while=.
+  - Como único pero, veo que el jefe va entregando las tareas a los
+    trabajadores, pero estos no hacen ningún tipo de notificación de vuelta al
+    jefe. Tendrían que hacerlo, de manera que el jefe pudiera lanzar hilos de
+    reserva si demasiados están ocupados.
+- Calificación :: 9
+
+** Yuichi Miyasaki
+- Problema resuelto :: El cruce del río
+- Documentación :: [[./MiyasakiYuichi/MiyasakiYuichi_Tarea1_Reporte.pdf][MiyasakiYuichi_Tarea1_Reporte.pdf]]
+- Archivos :: [[./MiyasakiYuichi/MiyasakiYuichi_Tarea1.exe][MiyasakiYuichi_Tarea1.exe]], [[./MiyasakiYuichi/MiyasakiYuichi_Tarea1.py][MiyasakiYuichi_Tarea1.py]]
+- Comentarios ::
+  - Tu entrega incluye el código en python, y también incluye dicho código
+    convertido en ejecutable de Windows.
+    - Debes evitar incluir ejecutables como parte de un depósito Git, a menos
+      que tengas una /muy buena y particular razón/ para incluirlos (¿recuerdas
+      la [[../../practicas/4/README.md][práctica 4]]?)
+    - Python es un lenguaje en que típicamente los programas se distribuyen en
+      fuente (hasta para su ejecución para el usuario final), dada la eficiencia
+      de su compilador.
+  - Al ejecutar el código tal como lo enviaste, primero se forman 8 balsas con
+    únicamente serfs, después 8 balsas con únicamente hackers,
+    después... ¡Sorprendentemente, a la 6ª balsa de esta tercer serie comienzan
+    a alternarse. Y a veces se alternan... pero la cantidad de balsas homogéneas
+    es alarmantemente alta 😐
+  - ¡Me parece muy interesante lo que explicas en tus secciones 4 y 5 respecto a
+    la /resolución de conflictos/! Veamos el código...
+  - En tu =main()= defines a =total_hackers= y a =total_serfs= como 15, pero
+    esto no limita al número de =Personas= que tendremos: la =Balsa= se mantiene
+    cruzando gente para siempre.
+    - =Persona().run()= se mantiene eternamente llamando a
+      =self.balsa.subir(self)=, esto es, nunca se da por satisfecho de llegar al
+      otro lado.
+  - ¡Muy bien! que representes a =Hacker= y =Serf= como clases derivadas de
+    =Persona=! en realidad, para la mayor parte de la lógica, tienes toda la
+    razón: no hace mayor diferencia (...excepto cuando sí 😉)
+- Calificación :: 9
+
+** Ximena Ortiz y Jennyfer Sanchez
+- Problema resuelto :: El elevador
+- Documentación :: [[./OrtizXimena-SanchezJennyfer/Reporte.txt][Reporte.txt]]
+- Archivos :: [[./OrtizXimena-SanchezJennyfer/elevador.py][elevador.py]]
+- Comentarios ::
+  - ¡Muy bien por usar variables de condición para notificar a los pasajeros que
+    están esperando en cada piso!
+    - Sin embargo, los pasajeros no /suben/ al elevador, sino que /son subidos/
+      por éste, sin emplear realmente construcciones de sincronización:
+      #+begin_src python
+	pasajeros_a_subir = solicitudes_pisos[piso_actual]
+	i = 0
+	while i < len(pasajeros_a_subir) and len(pasajeros_en_elevador) < CAPACIDAD_ELEVADOR:
+	    pasajero = pasajeros_a_subir[i]
+	    imprimir_mensaje(f"{pasajero} aborda el elevador en el piso {piso_actual}")
+      #+end_src
+- Calificación :: 8.5
+
+** Santiago Pali
+- Problema resuelto :: Santa Claus
+- Documentación :: [[./PaliSantiago/PaliSantiago_Tarea1.pdf][PaliSantiago_Tarea1.pdf]]
+- Archivos :: [[./PaliSantiago/PaliSantiago_Tarea1.py][PaliSantiago_Tarea1.py]]
+- Comentarios ::
+  - Implementación sencilla y correcta
+  - La interfaz es sólo una bitácora de texto. Sin embargo, por el manejo del
+    color e indicaciones, resulta muy claro seguir la ejecución.
+- Calificación :: 10
+
+** Luis Perez y Claudio Flores
+- Problema resuelto :: Santa Claus
+- Documentación :: [[./PerezLuis-FloresCalaudio/reporte.pdf][reporte.pdf]]
+- Archivos :: [[./PerezLuis-FloresCalaudio/santa.py][santa.py]]
+- Comentarios ::
+  - Implementaste una muy buena estructura para tu =SantaWorkshop=. ¡Muy bien!
+  - Si bien la manera en que manejas el límite solicitado tanto de elfos como de
+    renos funciona correctamente:
+    #+begin_src python
+      if len(self.elfos_esperando) < 3:
+	  print(f"🧝 Elfo {id} necesita ayuda")
+	  self.elfos_esperando.append(threading.current_thread())
+
+	  if len(self.elfos_esperando) == 3:
+	      print("👥 Grupo de 3 elfos formado, despertando a Santa")
+	      self.santa_sleep.release()
+    #+end_src
+    sería más limpio (y tal vez hasta más fácil) hacer que elfos y renos
+    adquirieran una barrera (=Barrier=).
+- Calificación :: 9
+
+** Jesus Tenorio
+- Problema resuelto :: El asesor y los alumnos
+- Documentación :: [[./TenorioJesus/ExplicacionCodigo.pdf][ExplicacionCodigo.pdf]]
+- Archivos :: [[./TenorioJesus/AsesorAlumnos.c][AsesorAlumnos.c]]
+- Comentarios ::
+  - ¡Muy bien! Una entrega en C y usando OpenMP! Eso es absolutamente nuevo para
+    mi... ¡A ver! 😃
+    - Ojo: No indicaste en tu explicación /cómo compilarlo/. Y por seguir las
+      primeras instrucciones que me encontré, casi te va mal:
+      #+begin_src shell
+	$ gcc  AsesorAlumnos.c -lgomp -oAsesorAlumnos
+	$ ./AsesorAlumnos
+
+	Ingrese la cantidad de alumnos que iran con Gunnar: 	5
+
+	 Hay alumnos con Dudas, Gunnar despierta
+	Gunnar esta atendiendo la Duda del alumno 1
+	Ya casi acaba....
+	Termindado El alumno se retira
+
+
+	Al parecer ya no hay mas alumnos, Gunnar procede a dormir
+      #+end_src
+    - Claro... Leí un poco más, y encontré que había que compilar con
+      =-fopenmp=, no con =-lgomp=...
+  - Me parece muy interesante la manera en que OpenMP modela la interacción, y
+    en cómo funcionan sus declaraciones.
+  - En tu programa, los alumnos llegan todos “en bola” desde el inicio de la
+    ejecución, y van siendo “despachados” en grupos de a tres.
+    - El planteamiento dice que /“los alumnos pueden tocar a su puerta en
+      cualquier momento”/
+    - En tu implementación, cada alumno hace una única pregunta. En el
+      planteamiento dice que /“cada alumno puede preguntar desde 1 y hasta y
+      preguntas (permitiendo que los demás alumnos pregunten entre una y otra)”/
+    - Los alumnos cuyas preguntas ya se respondieron se retiran, pero sus sillas
+      se mantienen /falsamente ocupadas/ hasta que salga la triada completa. En
+      el planteamiento del problema, cuando sale un alumno, otro que esté
+      esperando puede tomar su silla.
+    - Todos los hilos de tu programa son alumnos, el profesor es sólo un
+      /concepto/, completamente pasivo. Este problema normalmente presenta
+      interacción entre hilos, haciendo que unos pregunten y el otro responda.
+  - Faltaron varios de los puntos solicitados. ¡Pero me parece muy bueno que nos
+    enseñes cómo casi-resolver este problema de una manera tan distinta!
+- Calificación :: 8
+
+** Héctor Guerrero y Joel López
+- Problema resuelto :: El cruce del río
+- Documentación :: [[./GuerreroHéctor_LópezJoel/TAREA_01_GuerreroHéctor_LópezJoel.pdf][TAREA_01_GuerreroHéctor_LópezJoel.pdf]]
+- Archivos :: [[./GuerreroHéctor_LópezJoel/GuerreroHéctor_LópezJoel.py][GuerreroHéctor_LópezJoel.py]]
+- Comentarios ::
+  - Entrega extemporánea. Calificación máxima, 75%.
+  - Recomendación para su código al futuro: El principio *DRY*: /Don't Repeat
+    Yourself/. No te repitas.
+
+    Cuando tienen funciones como =serf()= y =hacker()=, que son prácticamente
+    idénticas a excepción del valor de uno de los argumentos que maneja (en este
+    caso, imprimir o indicar =Serf= o =Hacker=), conviene abstraerla a una única
+    función que implemente la funcionalidad, y convertirlo en un parámetro.
+
+    ¿Que por qué? Piensen no en un ejercicio de tarea, sino que en un sistema
+    que van a mantener a futuro, en su vida profesional. Si a este sistema
+    tienen que darle mantenimiento, y hay que agregar o “afinar” el
+    comportamiento en esta función, hay que mantenerlo coherente. Es más fácil
+    no crear repetición desde el principio, y convertirlo en una costumbre.
+  - Muy buena interfaz que hicieron para presentar el cruce del río, separando
+    el listado de eventos según el actor al cual hacen referencia.
+  - El planteamiento del problema, sin embargo, no fue atendido 🙁
+    - En vez de preparar un cruce /balanceado/ por el usuario, el chiste de este
+      problema consiste en que van llegando hilos de diferentes naturalezas, y
+      hay que /acomodarlos/ dependiendo de su categoría sin que haya
+      coordinación entre ellos.
+- Calificación :: 8 × 7.5 = 6.0
