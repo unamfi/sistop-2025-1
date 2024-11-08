@@ -220,3 +220,39 @@ def copy_to_fiunamfs_thread():
 
     # Notificar al hilo principal
     operation_event.set()
+
+def delete_file(file_name):
+    """
+    Inicia un hilo para eliminar un archivo del FiUnamFS.
+    """
+    threading.Thread(target=delete_file_thread, args=(file_name,)).start()
+
+def delete_file_thread(file_name):
+    """
+    Hilo que elimina un archivo del FiUnamFS.
+    """
+    with threading.Lock():
+        with open(disk_file, "r+b") as f:
+            found = False
+            for cluster in range(DIRECTORY_START_CLUSTER, DIRECTORY_END_CLUSTER + 1):
+                f.seek(cluster * CLUSTER_SIZE)
+                for _ in range(CLUSTER_SIZE // DIRECTORY_ENTRY_SIZE):
+                    pos = f.tell()
+                    entry_data = f.read(DIRECTORY_ENTRY_SIZE)
+                    entry_name = entry_data[1:16].decode("ascii").strip("-")
+                    if entry_name == file_name:
+                        # Marcar entrada como vacía
+                        f.seek(pos)
+                        f.write(b"#" + b"-" * (DIRECTORY_ENTRY_SIZE - 1))
+                        operation_status['message'] = f"Archivo '{file_name}' eliminado del sistema de archivos."
+                        operation_status['success'] = True
+                        found = True
+                        break
+                if found:
+                    break
+            else:
+                operation_status['message'] = f"Archivo '{file_name}' no encontrado en FiUnamFS."
+                operation_status['success'] = False
+
+    # Notificar al hilo principal
+    operation_event.set()
