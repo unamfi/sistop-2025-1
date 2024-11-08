@@ -129,7 +129,7 @@ def copiar_local_a_fiunamfs(archivo_nombre):
                     #Se agrega el archvio en la primera entrada dlibre
                     disk.seek(entry_pos)
                     disk.write(b'.') #Asignación del tipo de archivo
-                    disk.write(archivo_nombre.ljust(15)).encode('ascii') #Asignación de nombre de archivo
+                    disk.write(archivo_nombre.ljust(15).encode('ascii')) #Asignación de nombre de archivo
                     disk.write(struct.pack('<I', tamano)) #Asdignación de tamaño de archivo
 
                     # Encontrar un espacio para el archivo en el área de datos
