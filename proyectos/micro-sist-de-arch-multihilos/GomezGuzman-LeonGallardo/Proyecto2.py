@@ -128,6 +128,37 @@ def escribirDatosASCII(inicio, dato):
     dato = dato.encode("ascii")  # Codifica la cadena como ASCII.
     return sistemaArchivos.write(dato)  # Escribe los datos ASCII codificados en el archivo.
 
+# Función copiar_a_sistema:
+# Copia un archivo desde el sistema de archivos al sistema de la computadora.
+def copiar_a_sistema(nombreCopia, rutaNueva):
+    def copiar_proceso():
+        with fs_lock:
+            # Verifica si el archivo existe en el directorio.
+            indexArchivo, validacion = verificarArchivo(nombreCopia)
+            if not validacion:
+                operaciones_queue.put(f"Error: Archivo {nombreCopia} no existe")
+                return
+
+            # Ubicación del archivo en el sistema y la ruta destino.
+            archivoC = archivosDir[indexArchivo]
+            try:
+                if os.path.exists(rutaNueva):
+                    rutaArchivoDestino = os.path.join(rutaNueva, nombreCopia)
+                    with open(rutaArchivoDestino, "wb") as destino:
+                        inicio_lectura = archivoC.clusterInicial * tamanoClusters
+                        sistemaArchivos.seek(inicio_lectura)
+                        datos_archivo = sistemaArchivos.read(archivoC.tamano)
+                        destino.write(datos_archivo)
+                    operaciones_queue.put(f"Archivo {nombreCopia} copiado exitosamente a {rutaArchivoDestino}")
+                    sync_event.wait()
+                else:
+                    operaciones_queue.put(f"Error: La ruta {rutaNueva} no existe")
+            except Exception as e:
+                operaciones_queue.put(f"Error durante la copia: {str(e)}")
+
+    hilo_copia = threading.Thread(target=copiar_proceso)  # Crea y lanza el hilo para copiar el archivo.
+    hilo_copia.start()
+
 # Función datos:
 # Lee los datos de configuración del sistema de archivos desde el archivo de sistema y los almacena en variables globales.
 def datos():
@@ -159,6 +190,65 @@ def datos():
 
     # Establece el tamaño del directorio de manera fija en 64 bytes por entrada
     tamanoDirectorio = 64
+
+# Función copiar_de_sistema_fragmentado:
+# Copia un archivo desde la computadora al sistema de archivos, pidiendo ruta y cluster inicial.
+def copiar_de_sistema_fragmentado():
+    rutaArchivo = input("Ingresa la ruta completa del archivo en tu computadora que deseas copiar: ")
+
+    # Verifica la existencia del archivo
+    if not os.path.isfile(rutaArchivo):
+        print("El archivo no existe en la ruta especificada.")
+        return
+
+    # Obtiene nombre y tamaño del archivo
+    nombreArchivo = os.path.basename(rutaArchivo)[:15].ljust(15, '\x00')
+    tamanoArchivo = os.path.getsize(rutaArchivo)
+
+    # Lee el contenido del archivo para copiar
+    with open(rutaArchivo, "rb") as archivoComputadora:
+        contenido = archivoComputadora.read()
+
+    # Solicita al usuario el cluster inicial para almacenar el archivo
+    cluster_inicial = int(input("Ingresa el cluster inicial en el que deseas guardar el archivo: "))
+
+    # Formato de fecha y hora actuales para crear metadatos de archivo
+    fecha_actual = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+
+    # Crea la entrada del archivo en el directorio
+    entrada_directorio = (
+        b'-' +  # Tipo de archivo (siempre '-')
+        nombreArchivo.encode('ascii', 'ignore') +  # Nombre del archivo (15 bytes)
+        struct.pack('<I', tamanoArchivo) +  # Tamaño del archivo en bytes (4 bytes)
+        struct.pack('<I', cluster_inicial) +  # Cluster inicial (4 bytes)
+        fecha_actual.encode('ascii')[:14] +  # Fecha de creación (14 bytes)
+        fecha_actual.encode('ascii')[:14] +  # Fecha de última modificación (14 bytes)
+        b'\x00' * 12  # Espacio no utilizado (12 bytes)
+    )
+
+    
+# Función mostrarInfo:
+# Imprime información básica del sistema de archivos, como nombre, ID, versión y configuración de clusters.
+def mostrarInfo():
+    print("\nNombre del sistema de archivos: ", nombre_sistemaArchivos)
+    print("Identificación del sistema de archivos: ", id_sistemaArchivos)
+    print("Versión de la implementación: ", version)
+    print("Etiqueta del volumen: ", etiqueta)
+    print("Tamaño de un cluster: ", tamanoClusters)
+    print("Número de clusters que mide el directorio: ", numeroClusters)
+    print("Número de clusters que mide la unidad completa: ", numeroClustersUnidad)
+    print("")
+
+    # Escribe la entrada en el directorio, ajustando la posición según el sistema de archivos
+    posicion_directorio = 1024
+    sistemaArchivos.seek(posicion_directorio)
+    sistemaArchivos.write(entrada_directorio)
+
+    # Escribe el contenido del archivo en el cluster inicial
+    sistemaArchivos.seek(cluster_inicial * tamanoClusters)
+    sistemaArchivos.write(contenido)
+
+    print(f"Archivo '{nombreArchivo.strip()}' de {tamanoArchivo} bytes copiado exitosamente en el cluster {cluster_inicial}.")
 
 # Función principal main:
 # Inicializa el sistema de archivos, arranca el monitor y muestra la terminal de comandos.
