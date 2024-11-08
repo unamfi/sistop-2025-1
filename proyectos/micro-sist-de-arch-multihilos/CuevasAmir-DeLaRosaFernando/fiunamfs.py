@@ -1,6 +1,6 @@
 import os
 import struct
-from threading import Thread, Lock, Semaphore
+from threading import Lock, Semaphore
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog
 
@@ -162,6 +162,19 @@ class GestorSistemaArchivos:
                 return i
         return -1
 
+    def eliminar_archivo(self, nombre_archivo):
+        with self.bloqueo_acceso:
+            with open(self.ruta_archivo, 'r+b') as disco:
+                disco.seek(1024)
+                for i in range(64):
+                    entrada = disco.read(64)
+                    nombre_en_entrada = entrada[1:16].decode('ascii').rstrip('\x00').strip()
+                    if nombre_en_entrada == nombre_archivo:
+                        disco.seek(1024 + 64 * i)
+                        disco.write(b'#' + entrada[1:])  # Marcar como eliminado
+                        return f"Archivo '{nombre_archivo}' eliminado exitosamente."
+            return f"Archivo '{nombre_archivo}' no encontrado."
+
 
 class InterfazSistemaArchivos:
     def __init__(self, sistema_archivos):
@@ -184,9 +197,13 @@ class InterfazSistemaArchivos:
         boton_agregar_a_fs = tk.Button(frame, text="Agregar Archivo a FS", command=self.agregar_a_fs)
         boton_agregar_a_fs.grid(row=0, column=2, padx=5, pady=5)
 
+        boton_eliminar_archivo = tk.Button(frame, text="Eliminar Archivo", command=self.eliminar_archivo)
+        boton_eliminar_archivo.grid(row=0, column=3, padx=5, pady=5)
+
     def mostrar_directorio(self):
         entradas = self.fs.obtener_entradas_directorio()
-        texto_mostrar = ""
+        encabezado = f"{'Nombre':<25} {'Tamaño':<10} {'Cluster Inicial':<15} {'Fecha Creación':<20} {'Fecha Modificación':<20}\n"
+        texto_mostrar = encabezado + "-" * len(encabezado) + "\n"
         for entrada in entradas:
             texto_mostrar += f"{entrada['Nombre']:<25} {entrada['Tamaño']:<10} {entrada['Cluster Inicial']:<15} {entrada['Fecha Creación']:<20} {entrada['Fecha Modificación']:<20}\n"
         
@@ -206,8 +223,22 @@ class InterfazSistemaArchivos:
             mensaje = self.fs.agregar_archivo_a_fs(archivo_origen, nombre_archivo)
             tk.messagebox.showinfo("Resultado de Agregar a FS", mensaje)
 
+    def eliminar_archivo(self):
+        nombre_archivo = simpledialog.askstring("Eliminar Archivo", "Ingrese el nombre del archivo en FS a eliminar:")
+        if nombre_archivo:
+            confirmacion = messagebox.askyesno("Confirmar Eliminación", f"¿Está seguro de que desea eliminar '{nombre_archivo}'?")
+            if confirmacion:
+                mensaje = self.fs.eliminar_archivo(nombre_archivo)
+                tk.messagebox.showinfo("Resultado de Eliminación", mensaje)
+                self.mostrar_directorio()  # Actualiza la lista después de eliminar
+
+
+def iniciar_aplicacion():
+    ruta_sistema_archivo = filedialog.askopenfilename(title="Seleccione el archivo de sistema 'fiunamfs.img'", filetypes=[("Archivo IMG", "*.img")])
+    if ruta_sistema_archivo:
+        fs = GestorSistemaArchivos(ruta_sistema_archivo)
+        InterfazSistemaArchivos(fs)
+
 
 if __name__ == "__main__":
-    ruta_sistema_archivo = r'C:\Users\amir0\Documents\Quinto Semestre\Sistemas Operativos\sistop-2025-1\proyectos\micro-sist-de-arch-multihilos\CuevasAmir-DeLaRosaFernando/fiunamfs.img'  # Cambiar a la ruta real
-    fs = GestorSistemaArchivos(ruta_sistema_archivo)
-    InterfazSistemaArchivos(fs)
+    iniciar_aplicacion()
