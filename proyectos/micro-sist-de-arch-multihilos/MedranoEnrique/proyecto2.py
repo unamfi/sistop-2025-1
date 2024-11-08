@@ -80,7 +80,7 @@ def copiar_fiunamfs_a_local(archivo_nombre):
             #Se lee el nombre del archivo y elimina los espacio en blanco o caracteres nulos
             nombre = entry[1:16].decode('ascii').replace('\x00', '').strip()
 
-            print(f"Comparando con entrada de directorio: {nombre}") #Solo es para debugg en pruebas de funcionamiento
+            # print(f"Comparando con entrada de directorio: {nombre}") #Solo es para debugg en pruebas de funcionamiento
 
             #Hace la verificación entre archivo buscado y nombre coincidente
             if tipo == '.' and nombre == archivo_nombre:
