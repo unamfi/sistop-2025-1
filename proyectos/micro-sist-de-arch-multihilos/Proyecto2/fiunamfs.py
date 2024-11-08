@@ -1,63 +1,58 @@
 import struct
-
-# Paso 1: Crear el archivo FiUnamFS.img de 1440 KB y llenar con ceros
-with open("FiUnamFS.img", "wb") as file:
-    file.write(b'\x00' * (1440 * 1024))  # 1440 KB llenos de ceros
-
-# Paso 2: Configuración del superbloque en FiUnamFS.img
-with open("FiUnamFS.img", "r+b") as file:
-    # Nombre del sistema (bytes 0-8)
-    file.seek(0)
-    file.write(b'FiUnamFS')
-
-    # Versión del sistema (bytes 10-14)
-    file.seek(10)
-    file.write(b'25-1')
-
-    # Tamaño de cluster (bytes 40-44) - 1024 bytes en formato little endian
-    file.seek(40)
-    file.write(struct.pack('<I', 1024))
-
-    # Clusters para el directorio (suponemos 4 clusters en esta implementación)
-    file.seek(45)
-    file.write(struct.pack('<I', 4))
-
-    # Número total de clusters (calculado en base al tamaño total de 1440 KB)
-    total_clusters = (1440 * 1024) // 1024  # Tamaño total / tamaño del cluster
-    file.seek(50)
-    file.write(struct.pack('<I', total_clusters))
-
-# Leer y verificar los primeros datos en FiUnamFS.img
-with open("FiUnamFS.img", "rb") as file:
-    # Leer el nombre del sistema
-    file.seek(0)
-    name = file.read(8)
-    print("Nombre del sistema:", name.decode())
-
-    # Leer la versión
-    file.seek(10)
-    version = file.read(4)
-    print("Versión del sistema:", version.decode())
-
-    # Leer tamaño del cluster
-    file.seek(40)
-    cluster_size = struct.unpack('<I', file.read(4))[0]
-    print("Tamaño del cluster:", cluster_size)
-
-    # Leer total de clusters
-    file.seek(50)
-    total_clusters = struct.unpack('<I', file.read(4))[0]
-    print("Total de clusters:", total_clusters)
-
-import struct
+import time
 
 # Tamaño de una entrada del directorio en bytes
 DIR_ENTRY_SIZE = 64
 DIRECTORY_START_CLUSTER = 1
 DIRECTORY_END_CLUSTER = 4
 CLUSTER_SIZE = 1024  # tamaño de cluster en bytes
+TOTAL_CLUSTERS = 1440  # Número total de clusters (calculado para 1440 KB)
 
-# Función para leer y listar las entradas del directorio
+# Paso 0: Función para inicializar el archivo FiUnamFS.img
+def inicializar_fiunamfs():
+    with open("FiUnamFS.img", "wb") as file:
+        # Crear el archivo de 1440 KB y llenar con ceros
+        file.write(b'\x00' * (1440 * 1024))  # 1440 KB llenos de ceros
+
+    with open("FiUnamFS.img", "r+b") as file:
+        # Nombre del sistema (bytes 0-8)
+        file.seek(0)
+        file.write(b'FiUnamFS')
+
+        # Versión del sistema (bytes 10-14)
+        file.seek(10)
+        file.write(b'25-1')
+
+        # Tamaño de cluster (bytes 40-44) - 1024 bytes en formato little endian
+        file.seek(40)
+        file.write(struct.pack('<I', CLUSTER_SIZE))
+
+        # Clusters para el directorio (4 clusters en esta implementación)
+        file.seek(45)
+        file.write(struct.pack('<I', DIRECTORY_END_CLUSTER - DIRECTORY_START_CLUSTER + 1))
+
+        # Número total de clusters
+        file.seek(50)
+        file.write(struct.pack('<I', TOTAL_CLUSTERS))
+
+        # Inicializar el directorio con entradas vacías
+        file.seek(DIRECTORY_START_CLUSTER * CLUSTER_SIZE)
+        for _ in range((DIRECTORY_END_CLUSTER - DIRECTORY_START_CLUSTER + 1) * (CLUSTER_SIZE // DIR_ENTRY_SIZE)):
+            file.write(
+                b"#" +  # Tipo de archivo vacío
+                b"---------------" +  # Nombre de archivo vacío
+                struct.pack("<I", 0) +  # Tamaño de archivo
+                struct.pack("<I", 0) +  # Cluster inicial
+                b"00000000000000" +  # Fecha de creación
+                b"00000000000000" +  # Fecha de modificación
+                b"\x00" * 12  # Espacio reservado
+            )
+
+# Ejecutar la inicialización
+inicializar_fiunamfs()
+print("Sistema de archivos FiUnamFS inicializado correctamente.")
+
+# Paso 1: Función para listar el contenido del directorio
 def listar_contenido_directorio():
     with open("FiUnamFS.img", "rb") as file:
         # Leer cada entrada en los clusters de directorio
@@ -83,9 +78,7 @@ def listar_contenido_directorio():
             print(f"Tipo: {tipo_archivo}, Nombre: {nombre}, Tamaño: {tamaño} bytes, " +
                   f"Cluster inicial: {cluster_inicial}, Creación: {fecha_creacion}, Modificación: {fecha_modificacion}")
 
-import time
-
-# Función para agregar un archivo desde tu equipo hacia FiUnamFS
+# Paso 2: Función para agregar un archivo desde tu equipo hacia FiUnamFS
 def agregar_archivo_a_fiunamfs(ruta_archivo_local):
     # Leer el archivo local
     try:
@@ -145,5 +138,6 @@ def agregar_archivo_a_fiunamfs(ruta_archivo_local):
     print(f"Archivo '{nombre_archivo}' agregado correctamente a FiUnamFS.")
 
 # Ejemplo de uso:
-agregar_archivo_a_fiunamfs("prueba.txt")
+listar_contenido_directorio()
+agregar_archivo_a_fiunamfs("prueba1.txt")
 listar_contenido_directorio()
