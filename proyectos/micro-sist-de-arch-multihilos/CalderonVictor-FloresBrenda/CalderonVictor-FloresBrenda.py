@@ -135,6 +135,35 @@ def eliminar_archivo(nombre_archivo):
                     return
             print(f"Archivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
+def menu():
+    """Menú interactivo para el sistema de archivos FiUnamFS."""
+    while True:
+        print("\n--- Menú de FiUnamFS ---")
+        print("1. Listar contenido del directorio")
+        print("2. Copiar archivo de FiUnamFS al sistema local")
+        print("3. Copiar archivo del sistema local a FiUnamFS")
+        print("4. Eliminar archivo de FiUnamFS")
+        print("5. Salir")
+        
+        opcion = input("Selecciona una opción: ")
+        
+        if opcion == '1':
+            listar_directorio()
+        elif opcion == '2':
+            nombre_archivo = input("Ingresa el nombre del archivo a copiar de FiUnamFS: ")
+            copiar_desde_fiunamfs(nombre_archivo)
+        elif opcion == '3':
+            nombre_archivo = input("Ingresa el nombre del archivo a copiar a FiUnamFS: ")
+            copiar_a_fiunamfs(nombre_archivo)
+        elif opcion == '4':
+            nombre_archivo = input("Ingresa el nombre del archivo a eliminar de FiUnamFS: ")
+            eliminar_archivo(nombre_archivo)
+        elif opcion == '5':
+            print("Saliendo...")
+            break
+        else:
+            print("Opción no válida. Intenta de nuevo.")
+
 # Iniciar el superbloque
 try:
     verificar_superbloque()
@@ -142,3 +171,5 @@ try:
     mapa_almacenamiento = inicializar_mapa_almacenamiento()
 except ValueError as e:
     print(e)
+
+
