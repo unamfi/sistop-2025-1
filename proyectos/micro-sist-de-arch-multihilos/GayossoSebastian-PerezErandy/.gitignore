@@ -1,0 +1,4 @@
+# Ignorar archivos autogenerados
+*.exe
+*.pyc
+
