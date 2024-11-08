@@ -106,3 +106,46 @@ def list_directory():
     except FileNotFoundError:
         messagebox.showerror("Error", "El archivo fiunamfs.img no existe.")
     return files
+
+def copy_to_local(file_name):
+    """
+    Inicia un hilo para copiar un archivo de FiUnamFS al sistema local.
+    """
+    # Iniciar hilo de copia
+    threading.Thread(target=copy_to_local_thread, args=(file_name,)).start()
+
+def copy_to_local_thread(file_name):
+    """
+    Hilo que copia un archivo de FiUnamFS al sistema local.
+    """
+    save_path = filedialog.asksaveasfilename(title="Guardar archivo en sistema local", initialfile=file_name)
+    if not save_path:
+        return
+
+    with threading.Lock():
+        with open(disk_file, "rb") as f:
+            found = False
+            for cluster in range(DIRECTORY_START_CLUSTER, DIRECTORY_END_CLUSTER + 1):
+                f.seek(cluster * CLUSTER_SIZE)
+                for _ in range(CLUSTER_SIZE // DIRECTORY_ENTRY_SIZE):
+                    entry_data = f.read(DIRECTORY_ENTRY_SIZE)
+                    entry_name = entry_data[1:16].decode("ascii").strip("-")
+                    if entry_name == file_name:
+                        filesize = struct.unpack("<I", entry_data[16:20])[0]
+                        start_cluster = struct.unpack("<I", entry_data[20:24])[0]
+                        f.seek(start_cluster * CLUSTER_SIZE)
+                        data = f.read(filesize)
+                        with open(save_path, "wb") as out_file:
+                            out_file.write(data)
+                        operation_status['message'] = f"Archivo '{file_name}' copiado a '{save_path}'"
+                        operation_status['success'] = True
+                        found = True
+                        break
+                if found:
+                    break
+            else:
+                operation_status['message'] = f"Archivo '{file_name}' no encontrado en FiUnamFS."
+                operation_status['success'] = False
+
+    # Notificar al hilo principal
+    operation_event.set()
