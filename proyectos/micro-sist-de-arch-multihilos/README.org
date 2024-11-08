@@ -2,7 +2,7 @@
 
 #+BEGIN_SRC yaml
 Planteamiento: 2024.10.17
-Entrega: 2024.11.05
+Entrega: 2024.11.07
 #+END_SRC
 
 # ¡Las [[./calificaciones.org][calificaciones y comentarios]] ya están disponibles!
