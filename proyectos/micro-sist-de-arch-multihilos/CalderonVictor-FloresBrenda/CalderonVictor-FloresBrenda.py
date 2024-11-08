@@ -102,6 +102,9 @@ def copiar_a_fiunamfs(nombre_archivo):
         print(f"El archivo {nombre_archivo} no existe en el sistema local.")
 
 def eliminar_archivo(nombre_archivo):
+    encontrado = False
+    nombre_archivo = nombre_archivo.strip()
+
     with lock:
         with open(DISK_FILE, 'r+b') as disk:
             disk.seek(CLUSTER_SIZE)
@@ -109,13 +112,17 @@ def eliminar_archivo(nombre_archivo):
                 entry_pos = disk.tell()
                 entry = disk.read(64)
                 tipo = entry[0:1].decode('ascii')
-                nombre = entry[1:16].decode('ascii').strip()
+                nombre_completo = entry[1:16].replace(b'\x00', b'').decode('ascii').strip()
                 
-                if tipo == '.' and nombre == nombre_archivo:
+                nombre_base = nombre_completo.split('.')[0]
+                
+                if tipo == '.' and nombre_base == nombre_archivo:
                     disk.seek(entry_pos)
                     disk.write(b'#' + b'---------------'.ljust(63, b'#'))
                     print(f"Archivo '{nombre_archivo}' eliminado de FiUnamFS.")
-                    return
+                    encontrado = True
+                    break
+        if not encontrado:
             print(f"Archivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
 def listar_archivos_locales(ruta='.'):
