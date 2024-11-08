@@ -252,7 +252,7 @@ def menu():
 if __name__ == "__main__":
     try:
         verificar_superbloque()
-
+        menu()
     except ValueError as e:
         print(e)
 
