@@ -118,29 +118,47 @@ def eliminar_archivo(nombre_archivo):
                     return
             print(f"Archivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
+def listar_archivos_locales(ruta='.'):
+    print(f"Contenido del directorio local '{os.path.abspath(ruta)}':\n")
+    try:
+        with os.scandir(ruta) as entradas:
+            for entrada in entradas:
+                if entrada.is_file():
+                    nombre = entrada.name
+                    tamano = os.path.getsize(entrada)
+                    print(f"Archivo: {nombre}, Tamaño: {tamano} bytes")
+    except FileNotFoundError:
+        print(f"La ruta '{ruta}' no existe.")
+    except PermissionError:
+        print(f"Permiso denegado para acceder a '{ruta}'.")
+
 def menu():
     while True:
         print("\n--- Menú de FiUnamFS ---")
-        print("1. Listar contenido del directorio")
-        print("2. Copiar archivo de FiUnamFS al sistema local")
-        print("3. Copiar archivo del sistema local a FiUnamFS")
-        print("4. Eliminar archivo de FiUnamFS")
-        print("5. Salir")
+        print("1. Listar contenido del directorio en FiUnamFS")
+        print("2. Listar archivos en el sistema local")
+        print("3. Copiar archivo de FiUnamFS al sistema local")
+        print("4. Copiar archivo del sistema local a FiUnamFS")
+        print("5. Eliminar archivo de FiUnamFS")
+        print("6. Salir")
         
         opcion = input("Selecciona una opción: ")
         
         if opcion == '1':
             listar_directorio()
         elif opcion == '2':
+            ruta = input("Ingresa la ruta del directorio a listar (o deja vacío para el directorio actual): ")
+            listar_archivos_locales(ruta or '.')
+        elif opcion == '3':
             nombre_archivo = input("Ingresa el nombre del archivo a copiar de FiUnamFS: ")
             copiar_desde_fiunamfs(nombre_archivo)
-        elif opcion == '3':
+        elif opcion == '4':
             nombre_archivo = input("Ingresa el nombre del archivo a copiar a FiUnamFS: ")
             copiar_a_fiunamfs(nombre_archivo)
-        elif opcion == '4':
+        elif opcion == '5':
             nombre_archivo = input("Ingresa el nombre del archivo a eliminar de FiUnamFS: ")
             eliminar_archivo(nombre_archivo)
-        elif opcion == '5':
+        elif opcion == '6':
             print("Saliendo...")
             break
         else:
