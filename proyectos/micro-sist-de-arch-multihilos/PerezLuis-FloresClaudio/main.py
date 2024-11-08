@@ -9,10 +9,9 @@ class FSsistop():
     fiunamfs especificado para este proyecto'''
     def __init__(self,img_path):
         self.img_path=img_path
-        #lectura del superbloque (bits 0-64)
+        #lectura del superbloque (bits 0-63)
         self.superblock=self.read_superblock(img_path)
         self.cluster_size=struct.unpack('<i',self.superblock[40:44])[0]
-        #print("\033[93m"+f"tamaño del directorio en clusters: {struct.unpack('<i',self.superblock[45:49])[0]}" + '\033[0m')
         self.directory_size=struct.unpack('<i',self.superblock[45:49])[0]
         self.size=struct.unpack('<i',self.superblock[50:54])[0]
 
