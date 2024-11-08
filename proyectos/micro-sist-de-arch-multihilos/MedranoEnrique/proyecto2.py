@@ -4,7 +4,7 @@ Author: Medrano Solano Enrique
 No. Cuenta: 32015284-1
 Materia: Sistemas Operativos (sistop-2025-1)
 
-lenguaje: Python 3.12.7 64 bits
+lenguaje: Python3 3.12.7 o 3.11.10 | 64 bits
 Entorno: Windows 11
 IDE: Visual Studio Code
 Fecha de entrega: 07/11/2024
