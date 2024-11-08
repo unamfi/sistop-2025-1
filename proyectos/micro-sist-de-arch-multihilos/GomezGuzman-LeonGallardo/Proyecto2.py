@@ -250,6 +250,62 @@ def mostrarInfo():
 
     print(f"Archivo '{nombreArchivo.strip()}' de {tamanoArchivo} bytes copiado exitosamente en el cluster {cluster_inicial}.")
 
+# Función verificarArchivo:
+# Busca un archivo por nombre en el directorio cargado en archivosDir.
+# Devuelve la posición del archivo y True si se encuentra, de lo contrario -1 y False.
+def verificarArchivo(nombreCopia):
+    nombreCopia = nombreCopia.strip()  # Elimina espacios alrededor del nombre
+    print(f"Buscando archivo: '{nombreCopia}'")  # Para depuración
+    for i, archivo in enumerate(archivosDir):
+        nombre_archivo = archivo.nombre.strip()
+        print(f"Comparando con: '{nombre_archivo}'")  # Para depuración
+        if nombre_archivo == nombreCopia:
+            return i, True
+    return -1, False  # Retorna -1 si el archivo no se encuentra
+
+# Función cargar_directorio:
+# Lee todas las entradas del directorio, ignora las eliminadas y las carga en archivosDir.
+def cargar_directorio():
+    global archivosDir
+    archivosDir = []
+    for i in range(64):  # Asume que el directorio tiene un máximo de 64 entradas
+        archivo = leerDatosArchivo(i)
+        # Solo agrega archivos que no son None ni están marcados como eliminados
+        if archivo:
+            archivosDir.append(archivo)
+
+# Función datos:
+# Lee los datos de configuración del sistema de archivos desde el archivo de sistema y los almacena en variables globales.
+def datos():
+    global id_sistemaArchivos, version, etiqueta, tamanoClusters, numeroClusters, numeroClustersUnidad, tamanoDirectorio
+
+    # Lee y almacena el ID del sistema de archivos (8 bytes desde posición 0)
+    id_sistemaArchivos = leerDatosASCII(0, 8)
+    print(f"ID del sistema de archivos: {id_sistemaArchivos}")  # Para depuración
+
+    # Lee y almacena la versión del sistema de archivos (4 bytes desde posición 10)
+    version = leerDatosASCII(10, 4)
+    print(f"Versión del sistema de archivos: {version}")  # Para depuración
+
+    # Lee y almacena la etiqueta del volumen (19 bytes desde posición 20)
+    etiqueta = leerDatosASCII(20, 19)
+    print(f"Etiqueta del volumen: {etiqueta}")  # Para depuración
+
+    # Lee y almacena el tamaño de un cluster (4 bytes desde posición 40)
+    tamanoClusters = datoUnpack(40, 4)
+    print(f"Tamaño de cada cluster: {tamanoClusters} bytes")  # Para depuración
+
+    # Lee y almacena el número de clusters del directorio (4 bytes desde posición 45)
+    numeroClusters = datoUnpack(45, 4)
+    print(f"Número de clusters del directorio: {numeroClusters}")  # Para depuración
+
+    # Lee y almacena el número de clusters de la unidad completa (4 bytes desde posición 50)
+    numeroClustersUnidad = datoUnpack(50, 4)
+    print(f"Número de clusters de la unidad completa: {numeroClustersUnidad}")  # Para depuración
+
+    # Establece el tamaño del directorio de manera fija en 64 bytes por entrada
+    tamanoDirectorio = 64
+
 # Función principal main:
 # Inicializa el sistema de archivos, arranca el monitor y muestra la terminal de comandos.
 def main():
