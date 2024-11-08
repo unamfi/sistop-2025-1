@@ -47,6 +47,35 @@ def listar_directorio():
                 # Formateo de la salida
                 print(f"Archivo: {nombre}, Tamaño: {tamano} bytes")
 
+def copiar_desde_fiunamfs(nombre_archivo):
+    """Copia un archivo desde FiUnamFS al sistema local."""
+    encontrado = False
+    nombre_archivo = nombre_archivo.strip()
+    
+    with lock:
+        with open(DISK_FILE, 'rb') as disk:
+            disk.seek(CLUSTER_SIZE)  # Inicia en el directorio
+            for i in range(4 * (CLUSTER_SIZE // 64)):
+                entry = disk.read(64)
+                tipo = entry[0:1].decode('ascii')
+                nombre = entry[1:16].decode('ascii').strip()
+                
+                if tipo == '.' and nombre == nombre_archivo:
+                    tamano = struct.unpack('<I', entry[16:20])[0]
+                    cluster_inicial = struct.unpack('<I', entry[20:24])[0]
+                    
+                    # Ir al inicio de los datos del archivo
+                    disk.seek(cluster_inicial * CLUSTER_SIZE)
+                    data = disk.read(tamano)
+                    
+                    # Guardar en el sistema local
+                    with open(nombre_archivo, 'wb') as f_out:
+                        f_out.write(data)
+                    print(f"Archivo '{nombre_archivo}' copiado al sistema local.")
+                    encontrado = True
+                    break
+        if not encontrado:
+            print(f"Archivo '{nombre_archivo}' no encontrado en FiUnamFS.")
 
 # Iniciar el superbloque
 try:
