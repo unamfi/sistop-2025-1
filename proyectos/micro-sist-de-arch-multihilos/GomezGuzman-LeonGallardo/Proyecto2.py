@@ -18,6 +18,31 @@ import time  # Proporciona funciones para controlar pausas de tiempo en la ejecu
 nombre_sistemaArchivos = "fiunamfs.img"  # Nombre de la imagen de disco que simula el sistema de archivos.
 sistemaArchivos = open(nombre_sistemaArchivos, "r+b")  # Abre el archivo en modo lectura/escritura binario.
 
+# Variables de configuración del sistema de archivos:
+tamanoClusters = 0  # Tamaño de cada cluster en bytes.
+numeroClusters = 0  # Número de clusters en el directorio.
+numeroClustersUnidad = 0  # Número total de clusters en la unidad de almacenamiento.
+
+# Tamaño del directorio en el sistema de archivos, actualizado durante la inicialización.
+tamanoDirectorio = 0
+
+# Variables de identificación del sistema de archivos, que serán actualizadas con datos del sistema de archivos.
+id_sistemaArchivos = ""  # Identificación del sistema.
+version = ""  # Versión del sistema.
+etiqueta = ""  # Etiqueta o nombre del volumen.
+
+# Lista para almacenar los archivos en el directorio, utilizada para gestionar los archivos existentes.
+archivosDir = []
+
+# Clase archivo:
+# Representa un archivo en el sistema de archivos.
+# Almacena el nombre del archivo, su tamaño y el cluster inicial donde comienza su almacenamiento.
+class archivo:
+    def __init__(self, nombre, tamano, clusterInicial):
+        self.nombre = nombre  # Nombre del archivo.
+        self.tamano = tamano  # Tamaño del archivo en bytes.
+        self.clusterInicial = clusterInicial  # Cluster inicial donde se almacena el archivo.
+
 # Configuración para concurrencia:
 operaciones_queue = queue.Queue()  # Cola para almacenar las operaciones en el sistema, para registro en el monitor.
 sync_event = threading.Event()  # Evento para sincronizar el registro de operaciones.
@@ -62,6 +87,46 @@ def datoUnpack(inicio, tamano):
     sistemaArchivos.seek(inicio)
     dato = sistemaArchivos.read(tamano)
     return struct.unpack('<i', dato)[0]  # Convierte y retorna el valor desempaquetado como entero.
+
+# Función datosPack:
+# Convierte un entero en datos binarios y los escribe en el sistema de archivos.
+def datosPack(inicio, dato):
+    global sistemaArchivos
+    sistemaArchivos.seek(inicio)  # Posiciona el puntero en la ubicación de inicio.
+    dato = struct.pack('<i', dato)  # Empaqueta el entero en formato binario.
+    return sistemaArchivos.write(dato)  # Escribe el dato empaquetado en el archivo.
+
+# Función leerDatosArchivo:
+# Lee la información de un archivo en una posición dada en el directorio.
+# Si la entrada está marcada como eliminada o inválida, retorna None para omitirla.
+def leerDatosArchivo(posicion):
+    inicio = 1024 + (posicion * 64)  # Calcula la posición de inicio para esta entrada en el directorio.
+    
+    # Lee y verifica si el nombre es válido o marcado como eliminado.
+    nombre = leerDatosASCII(inicio + 1, 14).strip('\x00')
+    if nombre.startswith('#') or nombre == "<nombre inválido>":
+        return None  # Omitir entradas eliminadas o con nombres inválidos.
+
+    # Intenta leer el tamaño y el cluster inicial. Si falla, omite la entrada.
+    try:
+        tamano = datoUnpack(inicio + 16, 4)
+        clusterInicial = datoUnpack(inicio + 20, 4)
+    except:
+        return None
+    
+    # Valida el tamaño y caracteres del nombre. Si no son válidos, omite la entrada.
+    if tamano <= 0 or tamano > (tamanoClusters * numeroClustersUnidad) or not nombre.isprintable():
+        return None
+
+    return archivo(nombre, tamano, clusterInicial)  # Retorna un objeto archivo con la información leída.
+
+# Función escribirDatosASCII:
+# Escribe una cadena de caracteres ASCII en el sistema de archivos en la posición especificada.
+def escribirDatosASCII(inicio, dato):
+    global sistemaArchivos
+    sistemaArchivos.seek(inicio)  # Posiciona el puntero en la ubicación de inicio.
+    dato = dato.encode("ascii")  # Codifica la cadena como ASCII.
+    return sistemaArchivos.write(dato)  # Escribe los datos ASCII codificados en el archivo.
 
 # Función datos:
 # Lee los datos de configuración del sistema de archivos desde el archivo de sistema y los almacena en variables globales.
