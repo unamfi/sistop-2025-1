@@ -114,7 +114,7 @@ def copiar_local_a_fiunamfs(archivo_nombre):
     try:
         with open(archivo_nombre, 'rb') as entrada_archivo:
             data = entrada_archivo.read()
-            tamano = len(data)
+            tamaño = len(data)
 
         with open(DISK_FILE, 'r+b') as disk:
             disk.seek(CLUSTER_SIZE) #Dirijirse al inicio del directorio
@@ -130,7 +130,7 @@ def copiar_local_a_fiunamfs(archivo_nombre):
                     disk.seek(entry_pos)
                     disk.write(b'.') #Asignación del tipo de archivo
                     disk.write(archivo_nombre.ljust(15).encode('ascii')) #Asignación de nombre de archivo
-                    disk.write(struct.pack('<I', tamano)) #Asdignación de tamaño de archivo
+                    disk.write(struct.pack('<I', tamaño)) #Asdignación de tamaño de archivo
 
                     # Encontrar un espacio para el archivo en el área de datos
                     inicio_cluster = 5  # Usamos el primer cluster después del directorio
