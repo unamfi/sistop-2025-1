@@ -1,0 +1,7 @@
+# Ignorar todos los archivos por defecto
+*
+
+# Permitir solo que se rastree los archivos .py y .txt del proyecto
+!CalderonVictor-FloresBrenda.py
+!CalderonVictor-FloresBrenda.txt
+!.gitignore

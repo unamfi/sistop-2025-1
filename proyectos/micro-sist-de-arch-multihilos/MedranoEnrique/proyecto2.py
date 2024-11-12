@@ -4,7 +4,7 @@ Author: Medrano Solano Enrique
 No. Cuenta: 32015284-1
 Materia: Sistemas Operativos (sistop-2025-1)
 
-lenguaje: Python 3.12.7 64 bits
+lenguaje: Python3 3.12.7 o 3.11.10 | 64 bits
 Entorno: Windows 11
 IDE: Visual Studio Code
 Fecha de entrega: 07/11/2024
@@ -80,7 +80,7 @@ def copiar_fiunamfs_a_local(archivo_nombre):
             #Se lee el nombre del archivo y elimina los espacio en blanco o caracteres nulos
             nombre = entry[1:16].decode('ascii').replace('\x00', '').strip()
 
-            print(f"Comparando con entrada de directorio: {nombre}") #Solo es para debugg en pruebas de funcionamiento
+            # print(f"Comparando con entrada de directorio: {nombre}") #Solo es para debugg en pruebas de funcionamiento
 
             #Hace la verificación entre archivo buscado y nombre coincidente
             if tipo == '.' and nombre == archivo_nombre:
@@ -129,7 +129,7 @@ def copiar_local_a_fiunamfs(archivo_nombre):
                     #Se agrega el archvio en la primera entrada dlibre
                     disk.seek(entry_pos)
                     disk.write(b'.') #Asignación del tipo de archivo
-                    disk.write(archivo_nombre.ljust(15)).encode('ascii') #Asignación de nombre de archivo
+                    disk.write(archivo_nombre.ljust(15).encode('ascii')) #Asignación de nombre de archivo
                     disk.write(struct.pack('<I', tamaño)) #Asdignación de tamaño de archivo
 
                     # Encontrar un espacio para el archivo en el área de datos
