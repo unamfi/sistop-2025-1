@@ -1,0 +1,5 @@
+Holaaa!!
+
+Esto es un archivo de prueba, para copiar al sistema de archivos FiUnamFS
+
+No se que más decir, nos vemos en FiUnamFS...Bye!

@@ -1,0 +1,410 @@
+** Aguirre Omar, Martínez María
+- Archivos :: [[./AguirreOmar-MartínezMaría/421032167_318071280.pdf][421032167_318071280.pdf]]
+- Fascículo :: 11
+- Comentarios ::
+  - Buena reseña del texto sobre la ZX81.
+  - Sí, el manejo del teclado es una de las características más “raras” de esta
+    familia de computadoras. ¡No me imagino usarlas para algo productivo!
+  - Pero... ¡Les faltó el segundo artículo a revisar! ☹
+- Calificación :: 7.5
+
+** Aquino Gabriela
+- Archivos :: [[./AquinoGabriela/AquinoGabriela_Proyecto1.pdf][AquinoGabriela_Proyecto1.pdf]], [[./AquinoGabriela/README.md][README.md]]
+- Fascículo :: 3
+- Comentarios ::
+  - Buen resumen y conclusiones, tanto respecto al texto sobre la Commodore 64
+    como respecto al de “la revolución del ordenador”
+    - ¡Buenisimo que te atraiga conocer la historia de la computación! 😉
+- Calificación :: 10
+
+** Arellanes Esteban, Esquivel Christian
+- Archivos :: [[./ArellanesEsteban-EsquivelChristian/ArellanesEsteban_EsquivelChristian_Proyecto1.pdf][ArellanesEsteban_EsquivelChristian_Proyecto1.pdf]], [[./ArellanesEsteban-EsquivelChristian/Imágenes/ScreenShot_Sorteo.jpg][ScreenShot_Sorteo.jpg]], [[./ArellanesEsteban-EsquivelChristian/Imágenes/UNAM.png][UNAM.png]], [[./ArellanesEsteban-EsquivelChristian/ArellanesEsteban-EsquivelCristian_Proyecto1.zip][ArellanesEsteban-EsquivelCristian_Proyecto1.zip]], [[./ArellanesEsteban-EsquivelChristian/Imágenes/inge.eps][inge.eps]], [[./ArellanesEsteban-EsquivelChristian/Libros.bib][Libros.bib]], [[./ArellanesEsteban-EsquivelChristian/main.tex][main.tex]], [[./ArellanesEsteban-EsquivelChristian/portada.tex][portada.tex]]
+- Fascículo :: 22
+- Comentarios ::
+  - Interesante lo que comentan respecto a la PET. Mi impresión (que es
+    /únicamente eso/, sólo una impresión) es que nadie esperaría en 1977 que
+    hubiera software disponible para ella, en un mercado que apenas comenzaba a
+    nacer.
+    - Pero, sí, supongo que tuvieron que luchar con la percepción de “¿y yo como
+      que para qué voy a querer una computadora”.
+  - Jé, me gusta la franqueza con que hablan de la /Máquina de Turing/, “...aún
+    no logro entenderla en su totalidad y dudo mucho que esto suceda en un
+    futuro próximo”.
+    - Y sí, la Máquina de Turing es un constructo matemático, no práctico.
+    - No vas a implementar una para el mundo real, no tiene sentido — sirve para
+      definir lo que es /computable/, es parte de la /teoría de la computación/.
+  - ¡y muy bien por mostrar que podrías seguir leyendo la revista! La verdad,
+    era de lectura muy fácil y agradable.
+- Calificación :: 10
+
+** Bohorquez Nancy
+- Archivos :: [[./BohorquezNancy/Proyecto1_BohorquezNancy.pdf][Proyecto1_BohorquezNancy.pdf]]
+- Fascículo :: 8
+- Comentarios ::
+  - ¡Muy bonito artículo el que elegiste, de la música por computadora! Si te
+    interesa ver un poco más de cerca cómo era programar música para equipos de
+    esta época, te invito a ver el manual que me dieron cuando –en 1986– llevé
+    el curso [[https://gwolf.org/files/C64_graficacion_y_sonido.pdf][Graficación y sonido para la Commodore 64]], particularmente a partir
+    de la página 10. Puedes jugar con un emulador en línea (como [[https://c64online.com/c64-online-emulator/][C64 Online]]) y
+    comprender cómo eran los sonidos que esta computadora podía crear con su
+    tres poderosas voces.
+  - ¡Y se ve que te atrapa el tema de la graficación! ☺ Excelente que revisaras
+    un segundo artículo. No sé qué tan relevante sea el primitivo mecanismo de
+    los /sprites/ hoy en día, pero sin duda fue muy importante en esa época — y
+    el nivel de soporte que brindaban resultaba un gran factor diferenciador
+    entre una computadora y otro.
+
+    Puedes revisar este tema también en el manual que te mencioné en el inciso
+    anterior, en las hojas previas al sonido.
+  - Pero... Te faltó revisar el artículo “central” de la revista, en que
+    presentan las “tripas” del Jupiter Ace 🙁
+- Calificación :: 8
+
+** Calderon Victor, Flores Brenda
+- Archivos :: [[./CalderonVictor-FloresBrenda/resena_MiComputer.txt][resena_MiComputer.txt]], [[./CalderonVictor-FloresBrenda/fasciculo.py][fasciculo.py]]
+- Fascículo :: 5
+- Comentarios ::
+  - ¡Qué gusto que disfruten de la lectura de este material! 😃
+  - Los artículos elegidos me parecen muy adecuados y alineados con lo que vemos
+    en la materia. ¡Bien!
+  - ...Pero faltó que revisaran, como se los pedí, el “artículo central” de la
+    revista, el que aborda un sistema de cómputo (en este caso, la BBC Modelo B) 🙁
+- Calificación :: 8
+
+** Camacho Violeta, Luna Darwin
+- Archivos :: [[./CamachoVioleta-LunaDarwin/CamachoVioleta-LunaDarwin.pdf][CamachoVioleta-LunaDarwin.pdf]]
+- Fascículo :: 2 (del /Home Computer _Advanced_ Course/)
+- Comentarios ::
+  - En primer término, me quedé rascándome la cabeza porque no entendía qué es
+    lo que habían leído: los artículos no corresponden con el
+    [[http://web8bits.com/Coleccion/Libros/Espanhol/MiComputer/Fasciculo_002.html][fascículo 2 en español]]... ¡ni con el
+    [[https://archive.org/details/The_Home_Computer_Course_01_and_02/mode/thumb][original en inglés]]!
+    - ...Hasta que encontré que estaban viendo
+      [[https://archive.org/details/The_Home_Computer_Advanced_Course_02/page/34/mode/thumb][el fascículo 2]] dela /segunda edición/ o /segunda parte/ del curso, el
+      /Home Computer _Advanced_ Course/!
+    - El /Advanced Course/ no presenta un equipo diferente en las hojas
+      centrales de cada revista, por lo cual les califico sobre los dos
+      artículos que eligieron, sin ninguna penalización.
+  - ¡Muy bonita presentación! Gracias por cuidar ese detalle.
+  - El articulo sobre los /Microdrives/ es muy interesante, a pesar de que es
+    una tecnología que se siguió desarrollando. ¡Tomen nota de las
+    particularidades de ese curioso medio, particularmente ahora que estamos
+    comenzanod a ver /Sistemas de Archivos/!
+  - El segundo artículo, sobre la conveniencia de comprar un monitor /de verdad/
+    o usar una TV, si bien tampoco podemos verlo como directamente aplicable a
+    nuestro día a día, sí presenta varios puntos que podríamos traer al día de
+    hoy
+    - Ojo: Si bien existían por ahí televisiones de bulbos en los 1980s (mis
+      abuelos tenían una, naturalmente blanco y negro 😉), las que se usaban
+      para equipos de cómputo eran televisiones de transistores.
+    - ¿Y hoy en día? Los televisores tienen características de resolución y
+      refresco muy similares a los monitores. ¿Por qué creen que no es más común
+      utilizar una televisión 2K o 4K como monitor para nuestras computadoras?
+      Mencionan muy categóricamente que /«Actualmente se conoce esta barrera
+      entre dos aplicaciones de una pantalla»/
+  - Y en efecto, muy bonito el artículo que va explicando las partes
+    fundacionales de la adición a nivel electrónico.
+- Calificación :: 10
+
+** De la Rosa Fernando, Cuevas Amir
+- Archivos :: [[./DelaRosaFernando-CuevasAmir/Proyecto1.SO.pdf][Proyecto1.SO.pdf]]
+- Fascículo :: 8
+- Comentarios ::
+  - Hacen un buen recuento y combinación de los artículos “Bien direccionada” y
+    “Totalmente funcional”, que hablan respectivamente del papel del
+    decodificadorde instrucciones del CPU y del lenguaje BASIC
+    - Me parece muy bien que lleven del material leído a lo que ustedes conocen
+      del desarrollo posterior del cómputo (QBASIC, Visual BASIC). En realidad,
+      el BASIC que incluían varios sistemas /cumplía con ciertas funciones/ de
+      un sistema operativo (por ejemplo, dar al programador la abstracción de
+      /archivos/; de tal manera, en varios sistemas el programador podía
+      especificar los archivos en sus programas BASIC tal como lo haríamos hoy
+      en día en lenguajes modernos.
+  - ...Pero faltó que revisaran, como se los pedí, el “artículo central la
+    reseña de un equipo de cómputo” 🙁 En este caso, el articulito que presenta
+    a la /Jupiter Ace/
+- Calificación :: 8
+
+** Garcia Ortega Fernanda, Lopez Hernandez Miriam Amisdai
+- Archivos :: [[./GarciaOrtegaFernanda_LopezHernandezMiriamAmisdai/proyecto1.pdf][proyecto1.pdf]]
+- Fascículo :: 6
+- Comentarios ::
+  - Entrega realizada sin seguir los estándares de nomenclatura especificados en
+    la práctica 1
+  - Buen resumen de los puntos principales de las Atari 400/800
+  - El segundo artículo que eligieron, /“El disco flexible”/, viene muy al caso
+    con lo que estaremos viendo a continuación en la materia. ¡Manténganlo en
+    mente ahora que lo vayamos comparando!
+- Calificación :: 9
+
+** Gayosso Sebastian, Perez Erandy
+- Archivos :: [[./GayossoSebastian-PerezErandy/Proyecto 1 SO.pdf][Proyecto 1 SO.pdf]]
+- Fascículo :: 9
+- Comentarios ::
+  - Jé, ¿brigada? Bueno... ¡asuman la identidad que mejor les plazca! 😉
+  - ¡Interesante máquina la Epson HX-20! Tendría que incluirla en la
+    presentación que hago en la /historia de los dispositivos móviles/...
+  - Buen punto el que mencionan respecto a la /reparabilidad/ que tenían los
+    dispositivos de esa época en contraste con el /úsese y tírese/ actual.
+  - Respecto al artículo de /Juegos de aventuras/: muy cierto, muchas personas
+    se interesaron por las computadoras a partir de tener experiencias con ellas
+    como equipos de videojuego en primer lugar.
+- Calificación :: 10
+
+** Gomez Guzman, Leon Gallardo
+- Archivos :: [[./GomezGuzman-LeonGallardo/proyecto1.pdf][proyecto1.pdf]]
+- Fascículo :: 1
+- Comentarios ::
+  - Entrega realizada sin seguir los estándares de nomenclatura especificados en
+    la práctica 1
+  - La Sinclair Spectrum es una computadora que siempre me intrigó... He
+    escuchado, como ustedes reseñan, que su BASIC era mucho mejor que el de
+    marcas que –al menos aquí en México– fueron mucho más populares, como
+    Commodore o Apple. Pero su hardware era... Muy raro. Desde un formato físico
+    sencillamente feo y difícil de usar, hasta el conjunto de periféricos
+    /rarísimos/ que podía utilizar.
+
+    Buena reseña ☺
+  - Respecto a /Controlling Computers/, resumen bien los puntos importantes.
+- Calificación :: 9
+
+** Gonzalez Emilio, Suarez Dayna
+- Archivos :: [[./GonzalezEmilio-SuarezDayna/Proyecto-1_GonzalezEmilio-SuarezDayna.pdf][Proyecto-1_GonzalezEmilio-SuarezDayna.pdf]]
+- Fascículo :: 11
+- Comentarios ::
+  - Entrega realizada sin seguir los estándares de nomenclatura especificados en
+    la práctica 1
+  - Jé... Comprenderás que, viniendo de la década que vengo, me cuesta mucho
+    aceptar que al día de hoy el uso del cómputo sea dirigido por /la relevancia
+    de la optimización de recursos/ 😉
+    - Si bien comprendo sin duda por qué los programas más sencillos hoy ocupan
+      /miles de veces/ más recurso que lo que ocupaban hace 40 años... no deja
+      de parecerme un desperdicio monumental.
+    - Buena reseña de la ZX81. Me gusta que te enfoques en la ULA, ¡un chip muy
+      interesante!
+    - El artículo que elegiste, /información clasificada/, resulta
+      particularmente relevante en conexión con el tema que estamos viendo en
+      /Sistemas de archivos/: los métodos de acceso.
+- Calificación :: 9
+
+** Gonzalez Pablo
+- Archivos :: [[./GonzalezPablo/Proyecto1_GonzalezPablo.pdf][Proyecto1_GonzalezPablo.pdf]]
+- Fascículo :: 4
+- Comentarios ::
+  - ¡Te lanzaste con la revista completa! ¡Muy bien! (aunque yo les había pedido
+    únicamente un artículo a su elección y el artículo central) 😉
+  - Buen resumen general, considerando que tuviste que resumir muchos más
+    artículos en el mismo espacio que tus compañeros escribieron sobre dos 🙃
+- Calificación :: 10
+
+** Guerrero Héctor, López Joel
+- Archivos :: [[./GuerreroHéctor-LópezJoel/Fasticulo14-GuerreroHéctor_LópezJoel.pdf][Fasticulo14-GuerreroHéctor_LópezJoel.pdf]]
+- Fascículo :: 14
+- Análisis de similitud :: [[./GuerreroHéctor-LópezJoel/certificado_originalidad.pdf][Certificado]] - 55%
+- Comentarios ::
+  - La Lisa fue, tal como lo dice el artículo y como lo recoges, una computadora
+    que parecía del futuro. El artículo no menciona que, tristemente, fue un
+    fracaso comercial que casi hizo desaparecer a Apple: Costaba US$10,000, y
+    tenía una serie de características que no serían comunes en computadoras
+    personales sino hasta 10 años más tarde (1MB de memoria, procesador de 32
+    bits, un sistema capaz de multitarea colaborativa, memoria virtual, entorno
+    operativo tipo escritorio)... Para 1984, las características de la Lisa se
+    recortaron fuertemente y se convirtieron en la Macintosh.
+  - Respecto a /Modelos de Comportamiento/: Muy bien, recoges los puntos
+    principales y haces un buen resumen. Y me parece excelente cómo lo vinculas
+    con los temas que hemos estado estudiando.
+- Calificación :: 10
+
+** Hernandez Daniel
+- Archivos :: [[./HernandezDaniel/HernandezDaniel.pdf][HernandezDaniel.pdf]]
+- Fascículo :: 11 del /Home Computer Advanced Course/
+- Comentarios ::
+  - ¡Interesante aparato la Sharp PC-5000! no la tenía bajo el radar... y
+    probablemente valdría la pena hablar un poco de ella (o de su clase de
+    equipos) cuano abordamos ese tema.
+    - No te impacientes... Hoy en día seguimos trabajando con estos “chips
+      traductores de medios hardware” que te llamaron la atención. Hacia el
+      final de la unidad de sistemas de archivos hablaremos del /Flash
+      Translation Layer/ (/Capa de Traducción de Flash/) que permite que los
+      dispositivos de estado sólido se presenten ante el sistema operativo como
+      si fueran discos magnéticos giratorios.
+  - ¡Me parece excelente que vincules los conocimientos que traen estas revistas
+    con lo que has aprendido en la carrera! Sí, en efecto, el mundo era muy
+    distinto 😉
+- Calificación :: 10
+
+** Hernandez Hector
+- Archivos :: [[./HernandezHector/Proyecto1.pdf][Proyecto1.pdf]]
+- Fascículo :: 4
+- Comentarios ::
+  - Buen resumen de los puntos principales de la Dragon 32. Se me hace
+    interesante que esta máquina, a diferencia de lo que les comenté en clase,
+    incluía la lógica y las líneas físicas para controlar el motor de la unidad
+    de cinta. ¡No entiendo por qué esto no fue más habitual!
+  - Muy interesante el artículo que eliges, del inicio de la automatización de
+    los automóviles. Hoy ya tenemos asumido que nuestros autos son controlados
+    por una serie de computadoras, pero hace 40 años sí resultaba increíble para
+    mucha gente que el auto ya no fuera /pura mecánica/.
+    - Ufff... ¡Qué patéticos eran esos sistemas de los autos de /alto lujo/ que
+      hablaban para reportar problemas! ¿Síntesis de voz? ¡Nada qué! Eran
+      grabaciones con tal vez una decena de variaciones... "La puerta está
+      abierta", "Queda poca gasolina", ... No tardó en demostrarse que es más
+      efectivo, eficiente (¡y barato!) notificar mediante una lucecita en el
+      panel.
+- Calificación :: 10
+
+** Jimenez Josue, Medina Santiago
+- Archivos :: [[./JimenezJosue-MedinaSantiago/JímenezJosué-MedinaSantiago.pdf][JímenezJosué-MedinaSantiago.pdf]], [[./JimenezJosue-MedinaSantiago/Foto de la ejecución.jpeg][Foto de la ejecución.jpeg]], [[./JimenezJosue-MedinaSantiago/Foto de programa en Python.jpeg][Foto de programa en Python.jpeg]]
+- Fascículo :: 10
+- Comentarios ::
+  - ¡Te lanzaste con la revista completa! ¡Muy bien! (aunque yo les había pedido
+    únicamente un artículo a su elección y el artículo central) 😉
+  - Me pareció interesante encontrar que esta revista de hace tanto tiempo
+    dedicara un artículo a Alan Turing, reconociendo sus méritos, y poniendo
+    claramente (aunque sea sin condenar) las razones que lo llevaron al
+    suicidio. La sociedad ha avanzado en la aceptación y la tolerancia de lo
+    diferente... Aunque queda mucho aún por avanzar.
+- Calificación :: 10
+
+** Leon Perez Aaron Rodrigo
+- Archivos :: [[./LeonPerezAaronRodrigo/proyecto1.pdf][proyecto1.pdf]]
+- Fascículo :: 24
+- Comentarios ::
+  - Entrega realizada sin seguir los estándares de nomenclatura especificados en
+    la práctica 1
+  - Elegiste un artícuo interesante, cómo se veía el futuro a partir de la
+    realidad de entonces. Podrás reconocer que, con la elección/promoción de
+    Prolog que hacían como visión de futuro, hace 40 años al igual que hoy
+    creían que la /Inteligencia Artificial/ estaba por cambiar cualitativamente
+    al mundo como lo conocemos. (Sí, soy un descreído de la supuesta revolución
+    de la IA hoy en día 😉)
+- Calificación :: 9
+
+** Medrano Enrique
+- Archivos :: [[./MedranoEnrique/Proyecto1_Enrique_Medrano.pdf][Proyecto1_Enrique_Medrano.pdf]]
+- Fascículo :: 10
+- Comentarios ::
+  - Buena reseña de la TI 99/4A. Yo no recordaba que fuera una computadora de 16
+    bits, muy superior a la mayor parte de las de su época. Creo que es una pena
+    que no tuviera más desarrollo esa arquitectura.
+  - La síntesis de voz tomó mucho tiempo. Conseguir programas que nos
+    permitieran “emitir voz” desde la computadora era siempre tema para presumir
+    y para envidiar 😉 Y claro, ha sido un avance lento y progresivo. Y al día
+    de hoy, casi no se utiliza voz sintetizada, sino que grabada (o, si acaso,
+    “ensamblada” a partir de fragmentos grabados).
+- Calificación :: 10
+
+** Miyasaki Yuichi
+- Archivos :: [[./MiyasakiYuichi/MiyasakiYuichi_Proyecto01.pdf][MiyasakiYuichi_Proyecto01.pdf]]
+- Fascículo :: 16
+- Comentarios ::
+  - Me parece curioso el tono crítico que usa este fascículo para hablar acerca
+    de la computadora Sharp que reseñaste. ¡Realmente se nota que le pareció de
+    baja calidad a los autores!
+  - Te sugiero que te enfoques en lograr una redacción más clara. Tu texto tiene
+    frases demasiado largas, va “paseando” por ideas como cuando vas teniendo
+    una conversación y vas divagando... pero resulta difícil para transmitir
+    ideas en comunicación escrita. Es una habilidad importante para lograr un
+    desempeño como profesional.
+    - Hay algunos detalles gramaticales que tendría que marcarte, pero considero
+      más “urgente” que trabajes en encontrar una manera de compartir tus ideas
+      de una forma más clara.
+  - Respecto a la duda que presentas, de qué puertos se utilizaban para el
+    almacenamiento en cinta: Depende de la arquitectura específica
+    utilizada. Como les mencioné en clase, algunas computadoras (como la
+    Timex-Sinclair que tengo) tienen un puerto de audio para entrada y uno para
+    salida, y tienen internamente algo muy parecido a un modem
+    (modulador-demodulador), que es un par de convertidores ADC y DAC
+    especializados para grabar la señal portadora. Estos convertidores se
+    conectan hacia el bus del sistema por una interfaz serial, que opera a la
+    velocidad a la que está configurado este modem.
+- Calificación :: 9
+
+** Pali Santiago
+- Archivos :: [[./PaliSantiago/Fasciculo.png][Fasciculo.png]], [[./PaliSantiago/PaliSantiago_Proyecto1.pdf][PaliSantiago_Proyecto1.pdf]]
+- Fascículo :: 17
+- Comentarios ::
+  - Ummm... No estoy seguro de qué pasó, pero los contenidos que me presentas
+    como reseña no corresponden con lo que yo encuentro en el fascículo 17. ¡Ni
+    siquiera siguiendo la liga que presentas como bibliografía!
+    - Pero no nos hacemos problema: el contenido es perfectamente acorde a lo
+      que esperaría de una reseña de esta revista. ¡la damos por buena!
+    - ¡Te lanzaste con la revista completa! ¡Muy bien! (aunque yo les había
+      pedido únicamente un artículo a su elección y el artículo central) 😉
+  - Haces una muy buena revisión global de los varios aspectos abordados. ¡Muy
+    bien!
+- Calificación :: 10
+
+** Perez Luis, Flores Claudio
+- Archivos :: [[./PerezLuis-FloresClaudio/PerezLuis_FloresClaudio_Proyecto1.pdf][PerezLuis_FloresClaudio_Proyecto1.pdf]]
+- Fascículo :: 6
+- Comentarios ::
+  - Me llama la atención lo que dices (y lo vi con otros compañeros, pero apenas
+    ahora reacciono), respecto a que los cartuchos tienen un /enfoque de
+    videojuegos/. ¡El cartucho es únicamente una manera más de distribuir
+    software de esa época! Había cartuchos con todo tipo de software – hojas de
+    cálculo, editores de texto, entornos de programación, sistemas operativos,
+    etc.
+  - ¿No te parece que un usuario de videojuegos se preocupa por los detalles
+    técnicos de su consola? Tal vez no conozcas los detalles específicos de la
+    PS5, de la última XBox o del Nintendo Switch... Pero puedes seguramente
+    reconocer que una tiene mayor capacidad que la otra, que una tiene mejor
+    motor 3D que la otra... O si no, ¿de qué se trata? 😉
+  - Buen resumen ☺
+- Calificación :: 10
+
+** Romero Christian
+- Archivos :: [[./RomeroChristian/Proyecto1_RomeroChristian.pdf][Proyecto1_RomeroChristian.pdf]]
+- Fascículo :: 24
+- Comentarios ::
+  - Respondiendo a tu pregunta: Hacia 1984, recuerdo que las tiendas Aurrerá
+    (hoy compradas por Walmart) comenzaron a vender computadoras marca Commodore
+    (ofrecían los modelos Commodore 16 y 64). Tenían un módulo, tal vez de 3×5
+    metros, en el que los clientes podían ir a usar y probar las
+    computadoras. ¡Me encantaba ir ahí mientras mi mamá hacía la compra! 😉
+
+    Hacia esa misma época, varias empresas vendían la serie Apple II, y muchas
+    escuelas privadas las fueron introduciendo; yo tuve taller de computación en
+    1986, en 4° de primaria. Había ya también varias escuelas de cómputo como
+    talleres vespertinos o vacacionales; hace varios años me encontré con el
+    material de algunos cursos que tomé, y los tengo
+    [[https://gwolf.org/2017/09/it-was-thirty-years-ago-today-and-a-bit-more-my-first-ever-public-speech.html][en
+    mi blog, por si te interesa verlo]]. Conocí gente que tenía otras
+    computadoras (como la Timex Sinclair que les mostré que tengo, o la Atari
+    800), pero no eran tan comunes.
+  - Jé, no confundas al siglo XIX (años 1800 a 1899) con el XXI (2000 a 2099) 😉
+  - ¡Buena reseña de las predicciones que hacían del futuro!
+- Calificación :: 10
+
+** Tenorio Martinez Jesus Alejandro
+- Archivos :: [[./TenorioMartinezJesusAlejandro/Reseña.pdf][Reseña.pdf]]
+- Fascículo :: 16
+- Comentarios ::
+  - ¡Me da mucho gusto que te pareciera una lectura interesante y /atrapante/!
+    😃
+  - Me parece curioso el tono crítico que usa este fascículo para hablar acerca
+    de la computadora Sharp que reseñaste. ¡Realmente se nota que le pareció de
+    baja calidad a los autores!
+  - No creo que la falta de control del motor de la unidad de cinta fuera por
+    una limitación del sistema operativo (que, a fin de cuentas, era diseñado a
+    medida del hardware). Era más bien, como les expliqué en casa, lo habitual
+    en la época. Los pocos modelos que incorporaban el control automatizado eran
+    más bien un /plus/ que brindaba mucha comodidad... pero lo normal era que no
+    lo tuvieran (así fuera incorporada la unidad en el diseño de la computadora,
+    como es este caso).
+  - Bonito segundo artículo, el del brazo robótico.
+- Calificación :: 10
+
+** Velazquez Diego
+- Archivos :: [[./VelazquezDiego/Proyecto1_SO.pdf][Proyecto1_SO.pdf]]
+- Fascículo :: 6 (del /Home Computer _Advanced_ Course/)
+- Comentarios ::
+  - ¡Qué interesante bicho el /bare board/ de la AIM65! No lo conocía. Hoy en
+    día existen varios /development boards/, sobre todo de arquitecturas ARM y
+    RISC-V, que llevan buena parte de este espíritu.
+  - Los primeros sistemas operativos de disco (DOS) eran, como muestras, muy
+    limitados en su funcionalidad. Pero, como justo estamos hablando en estos
+    días en clase, son un paso necesario para poder aprovechar un /medio de
+    acceso aleatorio/, como los discos flexibles.
+- Calificación :: 10
+

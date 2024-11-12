@@ -1,0 +1,15 @@
+El problema que decidí resolver fue el del elevador
+Se hizo mediante el lenguaje python y para poder ejecutar este programa unicamente se necesita tener python en cualquier equipo
+se utilizan dos mecanismos principales de sincronización para coordinar los hilos: Locks y Semáforos.
+
+Locks:
+
+Los locks se usan para garantizar que solo un hilo pueda acceder a una sección crítica del código a la vez. En el programa, se utiliza un lock para proteger el acceso a las variables compartidas del elevador, como la lista de pasajeros y el piso actual.
+
+Semáforos (threading.Semaphore)
+
+Un semáforo permite que un número limitado de hilos acceda a un recurso. En este caso, el semáforo se utiliza para coordinar la espera de los usuarios en cada piso.
+
+Observaciones:
+
+Cada piso tiene un semáforo que se utiliza para hacer que los usuarios esperen hasta que el elevador llegue a su piso. Los usuarios "adquieren" el semáforo (lo bloquean) cuando están esperando, y el elevador "libera" el semáforo cuando llega al piso, permitiendo que los usuarios suban o bajen.
