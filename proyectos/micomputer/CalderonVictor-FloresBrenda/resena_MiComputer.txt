@@ -1,0 +1,68 @@
+Para este documento decidimos hacer una reseña personal y después hacer una conclusión conjunta, esto sería con el objetivo de 
+tener una visión general de lo que leyeron ambos integrantes del equipo. Recordemos que cada uno está haciendo una reseña sobre los
+temas que más nos gustaron.
+
+Victor Calderón:
+El fascículo que nos toco se me hizo muy interesante en general, es más, me dieron ganas de seguir leyendo todos los demás disponibles.
+Esta serie de revistas dan una idea muy general y además especializada sobre muchas cosas sobre computación, sistemas y estructura de
+computadoras. Esto daba muchas pautas para aprender de forma técnica como es que funcionan las computadoras. Con base en eso, yo leí toda
+la revista, pero las secciones de las revistas que más me gustaron fueron:
+
+-Descifrando el código
+-Almacenamiento seguro
+
+--Almacenamiento seguro--
+Cada una de estas permitio que aprendiera un poco más sobre cosas que ya se habían visto en "Estructura y Prgramación de Computadoras", 
+pero también hace mucha referencia a cosas que se han visto en las clases de "Sistemas Operativos", un ejemplo de esto sería en la
+sección de "Almacenamiento Seguro", que mencionaba como es que las memorias funcionan, o como se operan o almacenan los datos en una
+computadora. Se hace mención del tipo de memoria ROM (Read-Only Memory) que es la memoria que se usa para almacenar a largo plazo, 
+mientras que también se hacia mención de la RAM (Random Access Memory), la cual son los datos de acceso rápido y eficiente, importante
+notar que se eliminan los datos al apagar la computadora. Considero que estos temas son un tanto interesantes, ya que también hacia uso
+y explicación de los bits para explicar la capacidad de una memoria, cosa relevante para el entendimiento de la computación.
+--Descifrando el código--
+Para este otro texto se hablaba de como es que al momento de escribir, o más bien, presionar una tecla, la computadora es capaz de
+procesar la tecla para después lograr hacer lo que se espera. Se me hizo especialmente interesante, debido a que hablaban sobre el 
+sistema operativo. Aquí se hacía una explicación de lo que sucedía: primero se detectaba el movimiento, luego se mandaba al sistema 
+operativo para después ejecutar la instrucción. Se me hacía curioso que también hablaban de los interpretes y compiladores de lenguajes
+de programación, esto porque son dos tipos de sistemas diferentes, uno interpretado hace que al momento de correr un programa, este
+se realiza al momento, es decir, se hace la "interpretación" del código, mientras que uno compilado hace esa "interpretación" una única
+vez, esto hace que el proceso de interpretación se haga una vez y por lo tanto es un código mucho más rápido y eficiente.
+
+Estos fueron los textos que más me llamaron la atención y por esos detalles, ya que me mostraron cosas que de verdad no conocía pero que
+se me hacen importante para conocer más sobre el tema y ver los sistemas operativos de una forma distinta e integral sobre todo el tema
+de la computación.
+
+Brenda Flores:
+
+Hoy se hablará del fascículo 5 de la revista MIcomputer la cual es la traduccion de la revista británica Home Computer Course en este
+fascículo se abordaron diversos temas desde los programas existentes en la época como una alternativa para el estudio de los más chicos 
+del hogar, hasta el funcionamiento y los tipos de memoria con los que cuentan las computadoras. 
+Se cree que esta revista debió de haber sido un boom en la década que fue pública puesto que abordan temas que, para la época, podrían
+ser algo complejos de comprender cuando no se tiene muchos conocimientos al respecto. Uno de los temas más interesantes y que se pueden 
+relacionar fácilmente con los temas abordados en clase, es la historia de los ordenadores modernos y como estos pudieron empezar a ser 
+desarrollados 100 años antes de los registros actuales por Charles Babbage, este tema se relaciona ampliamente por los temas vistos al 
+inicio del curso junto con el primer ordenador electromecánico del mundo desarrollada por Alan Turing para descifrar. 
+Junto con lo anterior es resaltable como la revista logra ilustrar al lector sobre la diferencia que existe entre lo que es un 
+interpretador y un compilador como con el primero se traduce instrucción por instrucción mientras con el segundo se traduce el programa 
+completo lo que también nos permite relacionarlo con las interrupciones en el programa, tema que fue desarrollado más a fondo dentro 
+de la clase. 
+Por último otro de los temas que se abordaron en la revista que se cree importante de resaltar son los tipos de almacenamiento que 
+tienen los ordenadores. Estos tipos de almacenamiento  se dividen en dos la memoria principal y la secundaria y se cree que haber 
+incluido esta información en la revista debió de haber sido de gran ayuda para los lectores de la época, puesto que así  pudieron 
+comprender, de una mejor forma, por que al apagar el ordenador los datos sin guardar de la manera apropiada se llegaban a perder.
+A lo largo de este fascículo se abordaron temas muy interesantes como los mencionados anteriormente  y se cree que la revista benefició 
+a una gran cantidad de personas que se encontraban interesadas en poder aprender un poco más de lo que hoy en día es tan común como lo 
+es una computadora. Uno de los aspectos más fascinantes es que, a pesar de haber sido escrita en la década de los ochenta, la revista 
+aborda temas que siguen siendo altamente relevantes hoy en día, ya que los principios fundamentales de los sistemas operativos han 
+permanecido casi inalterados.
+
+Conclusión conjunta:
+
+El fascículo 5 de la revista *MIcomputer* nos resultó muy interesante y educativo. Los temas sobre almacenamiento seguro y cómo se 
+ejecutan las instrucciones en el sistema operativo nos permitieron comprender mejor conceptos clave de la computación, como la memoria 
+RAM y ROM. También nos llamó la atención la explicación sobre la diferencia entre compiladores e intérpretes, lo que nos ayudó a 
+entender mejor cómo se procesan los programas.
+
+Además, nos pareció fascinante cómo la revista conecta la historia de los ordenadores, desde Charles Babbage hasta Alan Turing, con 
+temas que aún son relevantes hoy en día. Aunque fue escrita hace tiempo, sigue siendo muy útil para comprender los fundamentos de la 
+computación y los sistemas operativos.

@@ -1,0 +1,60 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* Android custom ROMs y SOs
+
+- Tema presentado por :: Esteban Arellanes
+- Calificación global :: Por favor revisen el resto de este archivo para ver de
+  dónde vienen todos estos números 😉
+
+|------------------------+------+--------------------+------+---------|
+| Evaluación  compañeros | Peso | Evaluación docente | Peso | *Total* |
+|------------------------+------+--------------------+------+---------|
+|                   9.56 |  0.3 |               8.38 |  0.7 |    8.73 |
+|------------------------+------+--------------------+------+---------|
+#+TBLFM: @2$5=$1*$2+$3*$4;f-2
+
+* Evaluación grupal
+
+|              | 1 | 2 | 3 | 4 | 5 | Total |
+|--------------+---+---+---+---+---+-------|
+| Originalidad | 0 | 0 | 0 | 0 | 9 | 10.00 |
+| Nivel        | 0 | 0 | 0 | 1 | 8 |  9.78 |
+| Relevancia   | 0 | 0 | 0 | 1 | 8 |  9.78 |
+| Claridad     | 0 | 0 | 0 | 4 | 5 |  9.11 |
+| Presencia    | 0 | 0 | 0 | 4 | 5 |  9.11 |
+|--------------+---+---+---+---+---+-------|
+|              |   |   |   |   |   |  9.56 |
+#+TBLFM: @2$7..@6$7=10 * (0.2*$2 + 0.4*$3 + 0.6*$4 + 0.8*$5 + $6 ) / vsum($2..$6); f-2::@7$7=vmean(@2$7..@6$7); f-2
+
+** Comentarios de los compañeros
+
+- Muy buena presentación, el material expuesto es interesante.
+
+* Evaluación por parte del docente
+
+| *Aspecto*              | *Peso* | *Evaluación* | *Puntos* |
+|------------------------+--------+--------------+----------|
+| Originalidad del tema  |    0.1 |          7.5 |     0.75 |
+| Material desarrollado  |    0.2 |          7.5 |      1.5 |
+| Contenido              |    0.2 |           10 |       2. |
+| Fuentes bibliográficas |    0.1 |          7.5 |     0.75 |
+| Uso del tiempo         |    0.1 |          7.5 |     0.75 |
+| Dominio del tema       |   0.15 |           10 |      1.5 |
+| Presencia              |   0.15 |          7.5 |    1.125 |
+|------------------------+--------+--------------+----------|
+| *Global*               |        |              |     8.38 |
+#+TBLFM: @<<$4..@>>$4=$2*$3::$4=vsum(@<<..@>>);f-2
+
+** Comentarios
+- Tu presentación, acompañada de música y con animaciones fluidas, y que
+  demuestra que le metiste trabajo a la edición y no únicamente la diste de
+  una. ¡Muy bien!
+  - Como te dije desde que me enviaste los avances, sin embargo... desarrollaste
+    un tema muy largo, yéndote demasiado a los aspectos introductorios,
+    no-técnicos 🙁.
+- Por lo menos en buena parte de la presentación, se nota claramente que ibas
+  leyendo el material que desarrollaste por escrito. La forma de redactar para
+  la comunicación escrita y la oral es diferente, y para atrapar la atención del
+  público, te sugiero enfocarte en diferentes maneras de transmitir la
+  información, sobre todo cuando presentas un tema largo..

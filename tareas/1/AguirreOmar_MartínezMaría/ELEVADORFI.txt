@@ -1,0 +1,138 @@
+# CREADO POR:
+# AGUIRRE CÓRDOVA OMAR GABRIEL (421032167)
+# MARTÍNEZ PAVÓN MARÍA GUADALUPE (318071280)
+
+import threading
+import time
+import random
+from collections import deque
+
+class Elevador:
+    def __init__(self, max_pasajeros=5, pisos=5):
+        self.pisos = pisos
+        self.max_pasajeros = max_pasajeros
+        self.piso_actual = 1
+        self.direccion = 1  # 1 para subir, -1 para bajar
+        self.pasajeros = 0
+        self.mutex = threading.Semaphore(1)  # Exclusión mutua para acceso a variables compartidas
+        self.espacio_disponible = threading.Semaphore(max_pasajeros)  # Controla la capacidad
+        self.llamadas = []  # Solicitudes de usuarios para distintos pisos
+        self.evento_llamada = threading.Event()  # Señal para cuando hay una nueva solicitud
+        self.viajes_consecutivos = 0  # Contador para viajes entre mismos pisos
+        self.ultimo_origen_destino = None  # Para rastrear el último viaje
+
+    def mover(self):
+        while True:
+            self.mutex.acquire()
+            if not self.llamadas:
+                print(f"Elevador esperando en piso {self.piso_actual}")
+                self.mutex.release()
+                self.evento_llamada.wait()  # Espera hasta que haya una llamada
+                self.evento_llamada.clear()
+                continue
+
+            # Ordenar las llamadas primero por dirección y luego por tiempo de espera (LOOK con envejecimiento)
+            llamadas_misma_direccion = [l for l in self.llamadas if (l['origen'] > self.piso_actual and self.direccion == 1) or (l['origen'] < self.piso_actual and self.direccion == -1)]
+
+            if llamadas_misma_direccion:
+                llamadas_misma_direccion.sort(key=lambda x: (abs(x['origen'] - self.piso_actual), -x['tiempo']))
+                llamada = llamadas_misma_direccion.pop(0)
+                self.llamadas.remove(llamada)
+            else:
+                # Si no hay llamadas en la misma dirección, cambiar de dirección y procesar
+                self.direccion *= -1
+                self.llamadas.sort(key=lambda x: (-x['tiempo']))
+                llamada = self.llamadas.pop(0)
+
+            origen = llamada['origen']
+            destino = llamada['destino']
+
+            # Limitar viajes consecutivos entre los mismos pisos
+            if self.ultimo_origen_destino == (origen, destino):
+                self.viajes_consecutivos += 1
+            else:
+                self.viajes_consecutivos = 0
+
+            if self.viajes_consecutivos > 3:
+                print("Elevador prioriza otras solicitudes para evitar monopolio")
+                self.llamadas.append(llamada)  # Reagrega la solicitud para después
+                self.mutex.release()
+                continue
+
+            self.ultimo_origen_destino = (origen, destino)
+            self.mutex.release()
+
+            # Mover el elevador hacia el origen
+            print(f"Elevador moviéndose de piso {self.piso_actual} a {origen}")
+            self.viajar_a(origen)
+
+            # Mover al destino del usuario
+            print(f"Elevador recogió a alguien en piso {origen} y va al piso {destino}")
+            self.viajar_a(destino)
+
+            # Reducir el número de pasajeros al llegar
+            self.mutex.acquire()
+            self.pasajeros -= 1
+            print(f"Elevador llegó al piso {destino}. Pasajeros actuales: {self.pasajeros}")
+            self.mutex.release()
+            self.espacio_disponible.release()  # Libera un espacio en el elevador
+
+    def viajar_a(self, piso):
+        while self.piso_actual != piso:
+            time.sleep(1)  # Simula el tiempo que tarda en moverse entre pisos
+
+            # Mover el elevador en la dirección actual
+            self.piso_actual += self.direccion
+
+            # Asegurarse de que no se pasa de los límites
+            if self.piso_actual < 1:
+                self.piso_actual = 1
+                self.direccion = 1  # Cambia la dirección a subir
+            elif self.piso_actual > self.pisos:
+                self.piso_actual = self.pisos
+                self.direccion = -1  # Cambia la dirección a bajar
+
+            print(f"Elevador en piso {self.piso_actual}")
+
+    def solicitar_elevador(self, origen, destino):
+        self.mutex.acquire()
+        if self.pasajeros < self.max_pasajeros:
+            timestamp = time.time()  # Captura el tiempo de la solicitud
+            self.llamadas.append({'origen': origen, 'destino': destino, 'tiempo': timestamp})
+            self.pasajeros += 1
+            print(f"Se hizo una llamada desde el piso {origen} hacia el piso {destino}")
+            self.evento_llamada.set()  # Despierta el elevador si está esperando
+        else:
+            print(f"Elevador lleno, usuario en piso {origen} debe esperar")
+        self.mutex.release()
+
+
+class Persona(threading.Thread):
+    def __init__(self, elevador, origen, destino, id_persona):
+        threading.Thread.__init__(self)
+        self.elevador = elevador
+        self.origen = origen
+        self.destino = destino
+        self.id_persona = id_persona
+
+    def run(self):
+        print(f"Persona {self.id_persona} está esperando en piso {self.origen} para ir al piso {self.destino}")
+        self.elevador.solicitar_elevador(self.origen, self.destino)
+
+
+# Inicializar el elevador
+elevador = Elevador()
+
+# Crear el hilo del elevador
+hilo_elevador = threading.Thread(target=elevador.mover)
+hilo_elevador.start()
+
+# Crear y lanzar hilos de personas que usan el elevador
+for i in range(10):
+    origen = random.randint(1, 5)
+    destino = random.randint(1, 5)
+    while destino == origen:
+        destino = random.randint(1, 5)  # Asegurarse de que origen y destino no sean iguales
+    persona = Persona(elevador, origen, destino, i + 1)
+    persona.start()
+    time.sleep(random.uniform(0.5, 2))  # Genera usuarios de forma aleatoria

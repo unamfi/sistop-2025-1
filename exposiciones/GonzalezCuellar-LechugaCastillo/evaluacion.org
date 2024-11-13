@@ -1,0 +1,24 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* Cloud Computing Virtualization
+
+- Tema presentado por :: Pablo Arturo González Cuéllar y Shareny Ixchel Lechuga
+  Castillo 
+
+** Comentarios
+
+- La presentación presenta conceptos bastante complejos únicamente
+  “platicaditos”, sin profundizar. Lo que esperamos para las exposiciones ante
+  sus compañeros no es presentar algo que probablemente ya conoce la mayoría,
+  sino la presentación de temas técnicos.
+- Después de ver el video, me llamó la atención que no había un reporte escrito
+  en que se hubieran basado, aunque el ritmo de exposición y construcciones
+  utilizadas indican lectura de un texto.
+  - Recibí el reporte por correo, después de la entrega del video.
+  - El reporte escrito no presenta referencias.
+  - De las tres referencias mencionadas en la presentación, una no existe, y las
+    otras dos presentan información no consistente con la de lo expuesto.
+- Realicé una verificación al reporte, y encontré que el [[./informe_de_analisis_originalidad.pdf][informe de análisis de
+  compilat.io]] arroja 93% de texto “posiblemente proveniente de IA”.
+- Desafortunadamente, no puedo considerar esta exposición como presentada

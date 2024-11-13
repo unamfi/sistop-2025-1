@@ -1,0 +1,17 @@
+Medrano Solano Enrique
+
+Problema 5 (El servidor web)
+Se realizo en Python 3.12.7 | windows 11 | IDE VS Code
+
+Se ejecuta como un archivo de python normal:
+MedranoEnrique.py
+
+La estrategia de sincronización que opte por utilizar fue con ayuda de las librerias de Python, en este caso con Theards y queue,
+en este caso se implementaron semaforos y condiciones para el cambio de estado de cada trabajador:
+Dormido = sin tarea asignada
+Despierto = tarea asignada
+En proceso = Tarea en realización
+terminado = Tarea finalizada
+Se esta manera se podía tener un mejor control de cada uno de los estados, en cuanto a los refinamientos no logré conseguirlo del todo
+aunque implemente una simulación sobre el tiempo de procesamiento de la actividad y a su vez la notificación de finalizada, no pude
+nostrar el rendimiento que tuvo cada tarea al terminar.
