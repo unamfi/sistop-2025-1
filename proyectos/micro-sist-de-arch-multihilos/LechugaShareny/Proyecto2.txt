@@ -1,0 +1,68 @@
+Función buscarArchivo
+Esta función se encarga de encontrar un archivo específico en FiUnamFS. Nos devuelve el tamaño del archivo y el "cluster inicial" (la posición en el archivo donde empieza) si lo encuentra. Si no lo encuentra, devuelve 0, 0.
+Paso 1: Mueve el puntero al inicio de la zona de directorio (donde están listados los archivos).
+Paso 2: Lee cada entrada del directorio en bloques de 64 bytes (como si cada bloque fuera un "registro" de archivo).
+Paso 3: Si encuentra un archivo con el nombre que buscamos, lee su tamaño y su cluster inicial y los devuelve.
+Paso 4: Si no encuentra el archivo, devuelve 0, 0.
+
+Función listarContenido
+Esta función recorre el directorio y muestra todos los archivos en FiUnamFS.
+Paso 1: Recorre el directorio en bloques de 64 bytes.
+Paso 2: Para cada bloque, lee el nombre del archivo.
+Paso 3: Si el archivo no está marcado como eliminado (usando el marcador "Xx.xXx.xXx.xXx."), muestra el nombre, tamaño y cluster inicial del archivo.
+
+Función copiarASistema
+Esta función copia un archivo desde FiUnamFS hacia nuestra computadora, como si estuviéramos "sacando" un archivo del sistema de archivos.
+Paso 1: Nos pide el nombre del archivo a copiar.
+Paso 2: Usa buscarArchivo para encontrar el archivo en FiUnamFS.
+Paso 3: Si lo encuentra, crea un nuevo archivo en la computadora y copia el contenido de FiUnamFS a ese archivo.
+Paso 4: Muestra un mensaje de éxito o de error si no encuentra el archivo.
+
+Función siguienteCluster
+Esta función calcula dónde empieza el próximo "cluster" disponible para un archivo, en caso de que necesitemos espacio para otro archivo. Los clusters son como bloques de almacenamiento donde guardamos partes de los archivos.
+
+Función espacioDirectorio
+Busca un espacio libre en el directorio (o sea, una posición donde podríamos añadir otro archivo).
+Paso 1: Recorre el área de directorio en bloques de 64 bytes.
+Paso 2: Si encuentra un bloque marcado como vacío ("Xx.xXx.xXx.xXx."), devuelve su posición para usarlo.
+Paso 3: Si no hay espacio, devuelve -1.
+Función clusterDisponible
+Esta función nos ayuda a encontrar un cluster disponible en el "disco virtual" para almacenar un archivo de un tamaño específico.
+
+Paso 1: Crea una lista de clusters ocupados.
+Paso 2: Recorre esa lista y verifica si hay espacio entre los clusters ocupados o después del último cluster.
+Paso 3: Si encuentra espacio suficiente, devuelve el inicio de un cluster disponible. Si no, devuelve -1.
+
+Función copiarAFiUnamFS
+Esta función copia un archivo de nuestra computadora hacia FiUnamFS, es decir, "sube" el archivo al sistema de archivos.
+Paso 1: Pide el nombre del archivo a copiar.
+Paso 2: Verifica que el nombre no sea mayor de 15 caracteres y que el archivo exista en la computadora.
+Paso 3: Busca un espacio libre en el directorio y un cluster disponible en FiUnamFS.
+Paso 4: Si hay espacio, guarda la información del archivo (nombre, tamaño, cluster inicial, fecha de creación y modificación) en el directorio de FiUnamFS.
+Paso 5: Copia el contenido del archivo desde la computadora al archivo fiunamfs.img.
+
+Función eliminarDeFiUnamFS
+Esta función elimina un archivo de FiUnamFS al marcarlo como eliminado en el directorio (básicamente lo "borra").
+Paso 1: Pide el nombre del archivo a eliminar.
+Paso 2: Recorre el directorio y busca el archivo.
+Paso 3: Si lo encuentra, cambia su nombre a "Xx.xXx.xXx.xXx." para indicar que está eliminado.
+Paso 4: Muestra un mensaje de éxito o de error si no encuentra el archivo.
+
+Función main
+Esta es la función principal que muestra un menú con opciones y llama a las funciones según la opción que elijamos. Es como el "control central" del programa.
+
+Define el tamaño del sector y del cluster.
+Abre el archivo fiunamfs.img en modo lectura y escritura binaria (r+b), que será nuestro sistema de archivos.
+Muestra un menú con las opciones disponibles:
+1: Listar el contenido de FiUnamFS.
+2: Copiar un archivo desde FiUnamFS hacia la computadora.
+3: Copiar un archivo desde la computadora hacia FiUnamFS.
+4: Eliminar un archivo en FiUnamFS.
+5: Salir del programa.
+Según la opción seleccionada, llama a la función correspondiente.
+Si seleccionamos "Salir", el programa termina.
+
+Flujo General del Programa
+Inicio: Al ejecutar el programa, se muestra el menú con las opciones.
+Gestión de archivos: Podemos listar, copiar desde/hacia FiUnamFS o eliminar archivos.
+Salir: El programa termina cuando seleccionamos la opción de salir.
