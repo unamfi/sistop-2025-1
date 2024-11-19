@@ -181,6 +181,7 @@ numerodeproces = 5
 tiempo_max_llegada = 5
 duracionmax = 5
 for i in range(rondas):
+    print(i+1, ":")
     print("-----------------------------------------------------------")
     procesos = generar_procesos(numerodeproces, tiempo_max_llegada, duracionmax)
     print("Descripcion de los procesos")
