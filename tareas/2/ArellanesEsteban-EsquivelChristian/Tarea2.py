@@ -77,6 +77,32 @@ def calcular_metricas(tiempos_finalizacion, procesos):
     penalizacion = sum([t / p.duracion for t, p in zip(tiempos_finalizacion, procesos)]) / n
     return tiempo_total, tiempo_espera, penalizacion
 
+def srr(procesos, quantum=2):
+    tiempo = 0
+    cola = deque([p for p in procesos if p.llegada <= tiempo])
+    procesos_pendientes = deque([p for p in procesos if p.llegada > tiempo])
+    tiempos_finalizacion = {}
+
+    while cola or procesos_pendientes:
+        if not cola and procesos_pendientes:
+            tiempo = procesos_pendientes[0].llegada
+            cola.append(procesos_pendientes.popleft())
+
+        proceso = cola.popleft()
+        tiempo_proceso = min(proceso.tiempo_restante, quantum)
+        proceso.tiempo_restante -= tiempo_proceso
+        tiempo += tiempo_proceso
+
+        if proceso.tiempo_restante == 0:
+            tiempos_finalizacion[proceso.nombre] = tiempo
+        else:
+            cola.append(proceso)
+
+        while procesos_pendientes and procesos_pendientes[0].llegada <= tiempo:
+            cola.append(procesos_pendientes.popleft())
+
+    return [tiempos_finalizacion[p.nombre] for p in procesos]
+
 def ejecutar_simulacion():
     procesos = generar_procesos(5)
     print("Procesos:")
