@@ -77,6 +77,29 @@ def calcular_metricas(tiempos_finalizacion, procesos):
     penalizacion = sum([t / p.duracion for t, p in zip(tiempos_finalizacion, procesos)]) / n
     return tiempo_total, tiempo_espera, penalizacion
 
+def fb(procesos, quantum=2, num_colas=3):
+    tiempo = 0
+    colas = [[] for _ in range(num_colas)]  # Crea num_colas colas vacías
+    for proceso in procesos:
+        colas[0].append(proceso)  # Coloca todos los procesos en la primera cola
+    
+    tiempos_finalizacion = {}
+    while any(colas):  # Mientras haya procesos en alguna de las colas
+        for i in range(num_colas):
+            if colas[i]:
+                proceso = colas[i].pop(0)  # Saca el primer proceso de la cola i
+                tiempo_proceso = min(proceso.tiempo_restante, quantum)
+                proceso.tiempo_restante -= tiempo_proceso
+                tiempo += tiempo_proceso
+
+                if proceso.tiempo_restante == 0:
+                    tiempos_finalizacion[proceso.nombre] = tiempo
+                else:
+                    if i + 1 < num_colas:
+                        colas[i + 1].append(proceso)  # Mueve el proceso a la siguiente cola
+
+    return [tiempos_finalizacion[p.nombre] for p in procesos]
+
 def srr(procesos, quantum=2):
     tiempo = 0
     cola = deque([p for p in procesos if p.llegada <= tiempo])
