@@ -84,25 +84,53 @@ def ejecutar_simulacion():
         print(f"{p.nombre}: llegada={p.llegada}, duración={p.duracion}")
     print(" ")
 
+    # FCFS
     print("- FCFS:")
     fcfs_resultados = fcfs(procesos)
     fcfs_metricas = calcular_metricas(fcfs_resultados, procesos)
     print(f"FCFS: T={fcfs_metricas[0]:.2f}, E={fcfs_metricas[1]:.2f}, P={fcfs_metricas[2]:.2f}")
+    print(mostrar_esquema_visual(procesos, fcfs_resultados, "FCFS"))
 
+    # RR1
     print("- RR1 (Quantum=1):")
     rr1_resultados = rr(procesos, quantum=1)
     rr1_metricas = calcular_metricas(rr1_resultados, procesos)
     print(f"RR1: T={rr1_metricas[0]:.2f}, E={rr1_metricas[1]:.2f}, P={rr1_metricas[2]:.2f}")
+    print(mostrar_esquema_visual(procesos, rr1_resultados, "RR1"))
 
+    # RR4
     print("- RR4 (Quantum=4):")
     rr4_resultados = rr(procesos, quantum=4)
     rr4_metricas = calcular_metricas(rr4_resultados, procesos)
     print(f"RR4: T={rr4_metricas[0]:.2f}, E={rr4_metricas[1]:.2f}, P={rr4_metricas[2]:.2f}")
+    print(mostrar_esquema_visual(procesos, rr4_resultados, "RR4"))
 
+    # SPN
     print("- SPN:")
     spn_resultados = spn(procesos)
     spn_metricas = calcular_metricas(spn_resultados, procesos)
     print(f"SPN: T={spn_metricas[0]:.2f}, E={spn_metricas[1]:.2f}, P={spn_metricas[2]:.2f}")
+    print(mostrar_esquema_visual(procesos, spn_resultados, "SPN"))
+
+    # FB
+    print("- FB:")
+    fb_resultados = fb(procesos)
+    fb_metricas = calcular_metricas(fb_resultados, procesos)
+    print(f"FB: T={fb_metricas[0]:.2f}, E={fb_metricas[1]:.2f}, P={fb_metricas[2]:.2f}")
+    print(mostrar_esquema_visual(procesos, fb_resultados, "FB"))
+
+    # SRR
+    print("- SRR:")
+    srr_resultados = srr(procesos, quantum=2)
+    srr_metricas = calcular_metricas(srr_resultados, procesos)
+    print(f"SRR: T={srr_metricas[0]:.2f}, E={srr_metricas[1]:.2f}, P={srr_metricas[2]:.2f}")
+    print(mostrar_esquema_visual(procesos, srr_resultados, "SRR"))
+
+# Ejecutar 5 veces
+for i in range(5):
+    print(f"\nRonda {i + 1}")
+    ejecutar_simulacion()
+
 
 #Ejecutar 5 veces
 for i in range(5):
