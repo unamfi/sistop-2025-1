@@ -126,6 +126,17 @@ def srr(procesos, quantum=2):
 
     return [tiempos_finalizacion[p.nombre] for p in procesos]
 
+def mostrar_esquema_visual(procesos, tiempos_finalizacion, algoritmo):
+    tiempo_actual = 0
+    cola = {p.nombre: " " * p.duracion for p in procesos}
+    resultado = []
+    for i, proceso in enumerate(procesos):
+        nombre = proceso.nombre
+        duracion = proceso.duracion
+        tiempo_actual = tiempos_finalizacion[i]  # Podría ser el tiempo de fin del proceso
+        resultado.append(f"{nombre: <4} : {'#' * duracion} - {algoritmo}")
+    return "\n".join(resultado)
+
 def ejecutar_simulacion():
     procesos = generar_procesos(5)
     print("Procesos:")
