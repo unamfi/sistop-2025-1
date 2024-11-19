@@ -29,14 +29,14 @@ def FCFS(carga: Dict):
             cola.append(key)
             carga[key][2] = carga[key][1]  # Actualiza el tiempo restante.
 
-    tik = 0  # Reloj del sistema.
-    while tik < t_total:
+    clock = 0  # Reloj del sistema.
+    while clock < t_total:
         if cola:  # Si hay procesos en cola.
             carga[cola[0]][2] -= 1  # Reduce el tiempo restante del proceso en ejecución.
             grafica += cola[0]  # Agrega el proceso actual al gráfico.
 
             if carga[cola[0]][2] == 0:  # Si el proceso termina.
-                carga[cola[0]][4] = tik + 1  # Tiempo de finalización.
+                carga[cola[0]][4] = clock + 1  # Tiempo de finalización.
                 carga[cola[0]][5] = carga[cola[0]][4] - carga[cola[0]][0]  # Tiempo total (T).
                 carga[cola[0]][6] = carga[cola[0]][5] - carga[cola[0]][1]  # Tiempo de espera (E).
                 carga[cola[0]][7] = carga[cola[0]][5] / carga[cola[0]][1]  # Proporción de penalización (P).
@@ -46,11 +46,11 @@ def FCFS(carga: Dict):
 
         # Agregar procesos que lleguen al instante actual.
         for key, value in list(carga.items()):
-            if value[0] == (tik + 1):
+            if value[0] == (clock + 1):
                 cola.append(key)
                 carga[key][2] = carga[key][1]
 
-        tik += 1  # Incrementa el reloj.
+        clock += 1  # Incrementa el reloj.
 
     # Calcula promedios para T, E y P.
     for tiempos in carga.values():
@@ -70,41 +70,41 @@ def RR(carga: Dict, quantum: int = 1): #Implementación similar a FCFS pero con 
     cola = []
     grafica = ""
     t_total = tiempoTotal(carga)
-    conta_tik = 0
+    conta_clock = 0
     
     for key, value in list(carga.items()):
         if value[0] == 0:
             cola.append(key)
             carga[key][2] = carga[key][1]
     
-    tik = 0
-    while tik < t_total:
+    clock = 0
+    while clock < t_total:
         if cola:
             carga[cola[0]][2] -= 1
             grafica += cola[0]
             
             if carga[cola[0]][2] == 0:
-                carga[cola[0]][4] = tik + 1
+                carga[cola[0]][4] = clock + 1
                 carga[cola[0]][5] = carga[cola[0]][4] - carga[cola[0]][0]
                 carga[cola[0]][6] = carga[cola[0]][5] - carga[cola[0]][1]
                 carga[cola[0]][7] = carga[cola[0]][5] / carga[cola[0]][1]
                 cola.pop(0)
-                conta_tik = 0
+                conta_clock = 0
             else:
-                conta_tik += 1
+                conta_clock += 1
         else:
             t_total += 1
         
         for key, value in list(carga.items()):
-            if value[0] == (tik + 1):
+            if value[0] == (clock + 1):
                 cola.append(key)
                 carga[key][2] = carga[key][1]
         
-        if conta_tik == quantum:
+        if conta_clock == quantum:
             cola.append(cola.pop(0))
-            conta_tik = 0
+            conta_clock = 0
         
-        tik += 1
+        clock += 1
     
     for tiempos in carga.values():
         resultados["T"] += tiempos[5]
@@ -124,11 +124,11 @@ def SPN(carga: Dict): # Similar a FCFS, pero organiza la cola según el tiempo r
     grafica = ""
     t_total = tiempoTotal(carga) + max(proceso[0] for proceso in carga.values())  # Considera los tiempos de llegada
 
-    tik = 0
-    while tik < t_total:
+    clock = 0
+    while clock < t_total:
         # Agregar procesos a la cola si han llegado
         for key, value in list(carga.items()):
-            if value[0] == tik:
+            if value[0] == clock:
                 cola.append(key)
                 carga[key][2] = value[1]  # Actualizar tiempo restante
 
@@ -142,7 +142,7 @@ def SPN(carga: Dict): # Similar a FCFS, pero organiza la cola según el tiempo r
 
             # Verificar si el proceso ha terminado
             if carga[cola[0]][2] == 0:
-                carga[cola[0]][4] = tik + 1  # Tiempo de fin
+                carga[cola[0]][4] = clock + 1  # Tiempo de fin
                 carga[cola[0]][5] = carga[cola[0]][4] - carga[cola[0]][0]  # Tiempo total
                 carga[cola[0]][6] = carga[cola[0]][5] - carga[cola[0]][1]  # Tiempo de espera
                 carga[cola[0]][7] = carga[cola[0]][5] / carga[cola[0]][1]  # Proporción de penalización
@@ -150,7 +150,7 @@ def SPN(carga: Dict): # Similar a FCFS, pero organiza la cola según el tiempo r
         else:
             pass
 
-        tik += 1
+        clock += 1
 
     # Calcular resultados promedio
     for tiempos in carga.values():
