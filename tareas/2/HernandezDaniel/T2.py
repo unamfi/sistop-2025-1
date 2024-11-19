@@ -1,4 +1,5 @@
 import random
+import copy
 from collections import deque
 class Proceso:
     def __init__(self, id, tiempo_llegada, duracion):
@@ -9,6 +10,7 @@ class Proceso:
         self.tiempo_comienzo = None
         self.tiempo_finalizacion = None
         self.espera = 0
+        self.prioridad = 0
     def __repr__(self):
         return f"P{self.id}(llegada={self.tiempo_llegada}, duracion={self.duracion})"
     
@@ -58,15 +60,25 @@ def representar_visualmente(procesos):
 
 def simular_rr(procesos, quantum):
     #sortemaos segun cuando llegaron
-    cola = deque(sorted(procesos, key=lambda p: p.tiempo_llegada)) 
+    cola = deque() 
     tiempo_actual = 0 
     # Para calcular las metricas una vez se procesaron los procesos
     completados =[] 
     #Para guardar el timeline
     TimeLine =[] 
-    while cola:
-        #sacamos un proceso
-        proceso = cola.popleft() 
+    #mientras haya procesos disponibles o esten en espera
+    while procesos or cola:
+        #encolar segun su llegada
+        while procesos and procesos[0].tiempo_llegada <= tiempo_actual:
+            cola.append(procesos.pop(0))
+        #sacamos un proceso si ya llego uno a la cola
+        if cola:
+            
+            proceso = cola.popleft() 
+        else:
+            #si no continuamos
+            tiempo_actual+=1
+            continue
         if tiempo_actual < proceso.tiempo_llegada:
             #set del tiempo actual
             tiempo_actual= proceso.tiempo_llegada 
@@ -85,54 +97,58 @@ def simular_rr(procesos, quantum):
             completados.append(proceso) 
         else:
             cola.append(proceso)
-        TimeLine.append("P" + str(proceso.id))
+        for _ in range(tiempo_ejecutado):
+            TimeLine.append("P" + str(proceso.id))
     return completados,TimeLine
 
 def simular_mlfq(procesos, quantum_0, quantum_1):
-    #Cola de alta prioridad
-    cola_0 = deque()  
-    #Cola de baja prioridad
-    cola_1 = deque()  
+    # Colas por nivel de prioridad
+
+    cola_0 = deque() 
+    cola_1 = deque()
     tiempo_actual = 0
-    completados =[]
+    completados = []
     timeline = []
-
-    #Inicializar la cola de alta prioridad con los procesos
-    cola_0.extend(procesos)
-
-    while cola_0 or cola_1:
-        #Agregar los procesos que ya han llegado a la cola de alta prioridad
-        while cola_0 and cola_0[0].tiempo_llegada <= tiempo_actual:
-            proceso = cola_0.popleft()
-            cola_0.append(proceso)
+    while procesos or cola_0 or cola_1:
+        #Procesar los procesos (vaya la redundancia), segun su tiempo de llegada
+        while procesos and procesos[0].tiempo_llegada <= tiempo_actual:
+            cola_0.append(procesos.pop(0))
+            
         if cola_0:
+            #Procesar desde la cola de alta prioridad
             proceso = cola_0.popleft()
-            #Cola 0 tiene mayor prioridad
-            quantum = quantum_0  
-        else:
-            #Cola 1 tiene menor prioridad
+            quantum = quantum_0
+        elif cola_1:
+            #Procesar desde la cola de baja prioridad
             proceso = cola_1.popleft()
-            quantum = quantum_1  
-        timeline.append("P" + str(proceso.id))
+            quantum = quantum_1
+        else:
+            #No hay procesos listos, avanzar el tiempo
+            tiempo_actual += 1
+            continue
+        
+
+        #Actualizar el tiempo de comienzo si es la primera vez que se ejecuta
+        if proceso.tiempo_comienzo is None:
+            proceso.tiempo_comienzo = tiempo_actual
+        #Ejecutar el proceso
         tiempo_ejecutado = min(proceso.restante, quantum)
         proceso.restante -= tiempo_ejecutado
-        tiempo_actual += tiempo_ejecutado
-
+        tiempo_actual += tiempo_ejecutado        
+        for _ in range(tiempo_ejecutado):
+            timeline.append("P" + str(proceso.id))
         if proceso.restante == 0:
+            #Proceso completado
             proceso.tiempo_finalizacion = tiempo_actual
-            proceso.espera = proceso.tiempo_comienzo - proceso.tiempo_llegada
+            proceso.espera = proceso.tiempo_finalizacion - proceso.tiempo_llegada - proceso.duracion
             completados.append(proceso)
         else:
-            #Si esta en la cola de alta prioridad
+            # over proceso a la cola correspondiente
             if proceso.prioridad == 0:
-                #Baja la prioridad  
-                proceso.prioridad = 1  
+                proceso.prioridad = 1
                 cola_1.append(proceso)
-                #Si ya está en cola 1
-            else:  
+            else:
                 cola_1.append(proceso)
-
-        
 
     return completados, timeline
 
@@ -171,14 +187,16 @@ for i in range(rondas):
     print(procesos)
     print("")
     #FCFS
-    fcfs = simular_fcfs(procesos.copy())
+
+    fcfs = simular_fcfs(copy.deepcopy(procesos))
+    
     T, E, P = calcular_metricas(fcfs)
     print(f"FCFS: T={T:.2f}, E={E:.2f}, P={P:.2f}")
     print(representar_visualmente(fcfs))
     print("")
     #RR
     quantum = 1
-    rr,tmrr = simular_rr(procesos.copy(), quantum)
+    rr,tmrr = simular_rr(copy.deepcopy(procesos), quantum)
     T, E, P = calcular_metricas(rr)
     print(f"RR: T={T:.2f}, E={E:.2f}, P={P:.2f}, Q={quantum:.2f}")
     for proceso in tmrr:
@@ -186,16 +204,20 @@ for i in range(rondas):
     print("")
     print("")
     #SPN
-    spn = simular_spn(procesos.copy())
+    
+    spn = simular_spn(copy.deepcopy(procesos))
     T, E, P = calcular_metricas(spn)
     print(f"SPN: T={T:.2f}, E={E:.2f}, P={P:.2f}")
     print(representar_visualmente(spn))
 
-#FB
-#quantum_0 = 1
-#quantum_1 = 2
-#fb, timeline_fb = simular_mlfq(procesos.copy(), quantum_0,quantum_1)
-#T, E, P = calcular_metricas(fb)
-#print(f"FB: T={T:.2f}, E={E:.2f}, P={P:.2f}")
-#for proceso in timeline_fb:
-#    print(proceso, end="")
+    #FB
+    quantum_0 = 1
+    quantum_1 = 2
+
+    fb, timeline_fb = simular_mlfq(copy.deepcopy(procesos), quantum_0,quantum_1)
+    T, E, P = calcular_metricas(fb)
+    print(f"FB: T={T:.2f}, E={E:.2f}, P={P:.2f}")
+    for proceso in timeline_fb:
+        print(proceso, end="")
+    print("")
+    print("")
