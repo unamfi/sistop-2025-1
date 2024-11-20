@@ -1,0 +1,511 @@
+[bante@trapd00r-server:~/Descargas/sistop-2025-1 - 2024-11-18 20:08:55]$ /bin/python3 /home/bante/Descargas/sistop-2025-1/tareas/2/ArellanesEsteban-EsquivelChristian/Tarea2.py
+
+Ronda 1
+Procesos:
+A: llegada=0, duración=2
+B: llegada=3, duración=2
+C: llegada=6, duración=7
+D: llegada=10, duración=6
+E: llegada=11, duración=2
+ 
+- FCFS:
+FCFS: T=12.00, E=2.20, P=3.80
+A    : ## - FCFS
+B    : ## - FCFS
+C    : ####### - FCFS
+D    : ###### - FCFS
+E    : ## - FCFS
+- RR1 (Quantum=1):
+RR1: T=12.20, E=2.40, P=3.56
+A    : ## - RR1
+B    : ## - RR1
+C    : ####### - RR1
+D    : ###### - RR1
+E    : ## - RR1
+- RR4 (Quantum=4):
+RR4: T=6.00, E=-3.80, P=1.90
+A    : ## - RR4
+B    : ## - RR4
+C    : ####### - RR4
+D    : ###### - RR4
+E    : ## - RR4
+- SPN:
+SPN: T=11.20, E=1.40, P=3.67
+A    : ## - SPN
+B    : ## - SPN
+C    : ####### - SPN
+D    : ###### - SPN
+E    : ## - SPN
+- FB:
+FB: T=0.00, E=-9.80, P=0.00
+A    : ## - FB
+B    : ## - FB
+C    : ####### - FB
+D    : ###### - FB
+E    : ## - FB
+- SRR:
+SRR: T=6.00, E=-3.80, P=1.90
+A    : ## - SRR
+B    : ## - SRR
+C    : ####### - SRR
+D    : ###### - SRR
+E    : ## - SRR
+
+Ronda 2
+Procesos:
+A: llegada=0, duración=3
+B: llegada=3, duración=4
+C: llegada=4, duración=4
+D: llegada=5, duración=7
+E: llegada=6, duración=4
+ 
+- FCFS:
+FCFS: T=12.20, E=4.20, P=2.71
+A    : ### - FCFS
+B    : #### - FCFS
+C    : #### - FCFS
+D    : ####### - FCFS
+E    : #### - FCFS
+- RR1 (Quantum=1):
+RR1: T=14.20, E=6.20, P=3.13
+A    : ### - RR1
+B    : #### - RR1
+C    : #### - RR1
+D    : ####### - RR1
+E    : #### - RR1
+- RR4 (Quantum=4):
+RR4: T=3.60, E=-4.40, P=0.79
+A    : ### - RR4
+B    : #### - RR4
+C    : #### - RR4
+D    : ####### - RR4
+E    : #### - RR4
+- SPN:
+SPN: T=11.60, E=3.60, P=2.63
+A    : ### - SPN
+B    : #### - SPN
+C    : #### - SPN
+D    : ####### - SPN
+E    : #### - SPN
+- FB:
+FB: T=0.00, E=-8.00, P=0.00
+A    : ### - FB
+B    : #### - FB
+C    : #### - FB
+D    : ####### - FB
+E    : #### - FB
+- SRR:
+SRR: T=3.60, E=-4.40, P=0.79
+A    : ### - SRR
+B    : #### - SRR
+C    : #### - SRR
+D    : ####### - SRR
+E    : #### - SRR
+
+Ronda 3
+Procesos:
+A: llegada=0, duración=4
+B: llegada=2, duración=2
+C: llegada=6, duración=4
+D: llegada=7, duración=5
+E: llegada=10, duración=2
+ 
+- FCFS:
+FCFS: T=10.40, E=2.00, P=3.60
+A    : #### - FCFS
+B    : ## - FCFS
+C    : #### - FCFS
+D    : ##### - FCFS
+E    : ## - FCFS
+- RR1 (Quantum=1):
+RR1: T=11.00, E=2.60, P=3.63
+A    : #### - RR1
+B    : ## - RR1
+C    : #### - RR1
+D    : ##### - RR1
+E    : ## - RR1
+- RR4 (Quantum=4):
+RR4: T=5.00, E=-3.40, P=1.78
+A    : #### - RR4
+B    : ## - RR4
+C    : #### - RR4
+D    : ##### - RR4
+E    : ## - RR4
+- SPN:
+SPN: T=9.80, E=1.40, P=3.48
+A    : #### - SPN
+B    : ## - SPN
+C    : #### - SPN
+D    : ##### - SPN
+E    : ## - SPN
+- FB:
+FB: T=0.00, E=-8.40, P=0.00
+A    : #### - FB
+B    : ## - FB
+C    : #### - FB
+D    : ##### - FB
+E    : ## - FB
+- SRR:
+SRR: T=5.00, E=-3.40, P=1.78
+A    : #### - SRR
+B    : ## - SRR
+C    : #### - SRR
+D    : ##### - SRR
+E    : ## - SRR
+
+Ronda 4
+Procesos:
+A: llegada=0, duración=7
+B: llegada=2, duración=5
+C: llegada=4, duración=5
+D: llegada=7, duración=6
+E: llegada=8, duración=3
+ 
+- FCFS:
+FCFS: T=17.00, E=7.60, P=3.86
+A    : ####### - FCFS
+B    : ##### - FCFS
+C    : ##### - FCFS
+D    : ###### - FCFS
+E    : ### - FCFS
+- RR1 (Quantum=1):
+RR1: T=21.40, E=12.00, P=4.50
+A    : ####### - RR1
+B    : ##### - RR1
+C    : ##### - RR1
+D    : ###### - RR1
+E    : ### - RR1
+- RR4 (Quantum=4):
+RR4: T=4.20, E=-5.20, P=1.01
+A    : ####### - RR4
+B    : ##### - RR4
+C    : ##### - RR4
+D    : ###### - RR4
+E    : ### - RR4
+- SPN:
+SPN: T=16.00, E=6.60, P=3.68
+A    : ####### - SPN
+B    : ##### - SPN
+C    : ##### - SPN
+D    : ###### - SPN
+E    : ### - SPN
+- FB:
+FB: T=0.00, E=-9.40, P=0.00
+A    : ####### - FB
+B    : ##### - FB
+C    : ##### - FB
+D    : ###### - FB
+E    : ### - FB
+- SRR:
+SRR: T=4.20, E=-5.20, P=1.01
+A    : ####### - SRR
+B    : ##### - SRR
+C    : ##### - SRR
+D    : ###### - SRR
+E    : ### - SRR
+
+Ronda 5
+Procesos:
+A: llegada=0, duración=2
+B: llegada=4, duración=5
+C: llegada=5, duración=3
+D: llegada=8, duración=3
+E: llegada=10, duración=7
+ 
+- FCFS:
+FCFS: T=12.00, E=2.60, P=2.99
+A    : ## - FCFS
+B    : ##### - FCFS
+C    : ### - FCFS
+D    : ### - FCFS
+E    : ####### - FCFS
+- RR1 (Quantum=1):
+RR1: T=13.20, E=3.80, P=3.28
+A    : ## - RR1
+B    : ##### - RR1
+C    : ### - RR1
+D    : ### - RR1
+E    : ####### - RR1
+- RR4 (Quantum=4):
+RR4: T=5.40, E=-4.00, P=1.31
+A    : ## - RR4
+B    : ##### - RR4
+C    : ### - RR4
+D    : ### - RR4
+E    : ####### - RR4
+- SPN:
+SPN: T=12.00, E=2.60, P=2.99
+A    : ## - SPN
+B    : ##### - SPN
+C    : ### - SPN
+D    : ### - SPN
+E    : ####### - SPN
+- FB:
+FB: T=0.00, E=-9.40, P=0.00
+A    : ## - FB
+B    : ##### - FB
+C    : ### - FB
+D    : ### - FB
+E    : ####### - FB
+- SRR:
+SRR: T=5.40, E=-4.00, P=1.31
+A    : ## - SRR
+B    : ##### - SRR
+C    : ### - SRR
+D    : ### - SRR
+E    : ####### - SRR
+
+Ronda 1
+Procesos:
+A: llegada=0, duración=7
+B: llegada=4, duración=4
+C: llegada=5, duración=7
+D: llegada=7, duración=4
+E: llegada=11, duración=4
+ 
+- FCFS:
+FCFS: T=16.80, E=6.20, P=3.66
+A    : ####### - FCFS
+B    : #### - FCFS
+C    : ####### - FCFS
+D    : #### - FCFS
+E    : #### - FCFS
+- RR1 (Quantum=1):
+RR1: T=19.60, E=9.00, P=4.13
+A    : ####### - RR1
+B    : #### - RR1
+C    : ####### - RR1
+D    : #### - RR1
+E    : #### - RR1
+- RR4 (Quantum=4):
+RR4: T=5.40, E=-5.20, P=1.24
+A    : ####### - RR4
+B    : #### - RR4
+C    : ####### - RR4
+D    : #### - RR4
+E    : #### - RR4
+- SPN:
+SPN: T=15.60, E=5.00, P=3.43
+A    : ####### - SPN
+B    : #### - SPN
+C    : ####### - SPN
+D    : #### - SPN
+E    : #### - SPN
+- FB:
+FB: T=0.00, E=-10.60, P=0.00
+A    : ####### - FB
+B    : #### - FB
+C    : ####### - FB
+D    : #### - FB
+E    : #### - FB
+- SRR:
+SRR: T=5.40, E=-5.20, P=1.24
+A    : ####### - SRR
+B    : #### - SRR
+C    : ####### - SRR
+D    : #### - SRR
+E    : #### - SRR
+
+Ronda 2
+Procesos:
+A: llegada=0, duración=6
+B: llegada=4, duración=6
+C: llegada=7, duración=3
+D: llegada=10, duración=6
+E: llegada=13, duración=6
+ 
+- FCFS:
+FCFS: T=16.20, E=4.00, P=3.20
+A    : ###### - FCFS
+B    : ###### - FCFS
+C    : ### - FCFS
+D    : ###### - FCFS
+E    : ###### - FCFS
+- RR1 (Quantum=1):
+RR1: T=18.20, E=6.00, P=3.50
+A    : ###### - RR1
+B    : ###### - RR1
+C    : ### - RR1
+D    : ###### - RR1
+E    : ###### - RR1
+- RR4 (Quantum=4):
+RR4: T=6.80, E=-5.40, P=1.37
+A    : ###### - RR4
+B    : ###### - RR4
+C    : ### - RR4
+D    : ###### - RR4
+E    : ###### - RR4
+- SPN:
+SPN: T=16.20, E=4.00, P=3.20
+A    : ###### - SPN
+B    : ###### - SPN
+C    : ### - SPN
+D    : ###### - SPN
+E    : ###### - SPN
+- FB:
+FB: T=0.00, E=-12.20, P=0.00
+A    : ###### - FB
+B    : ###### - FB
+C    : ### - FB
+D    : ###### - FB
+E    : ###### - FB
+- SRR:
+SRR: T=6.80, E=-5.40, P=1.37
+A    : ###### - SRR
+B    : ###### - SRR
+C    : ### - SRR
+D    : ###### - SRR
+E    : ###### - SRR
+
+Ronda 3
+Procesos:
+A: llegada=0, duración=2
+B: llegada=2, duración=6
+C: llegada=4, duración=2
+D: llegada=8, duración=6
+E: llegada=9, duración=4
+ 
+- FCFS:
+FCFS: T=11.20, E=2.60, P=3.00
+A    : ## - FCFS
+B    : ###### - FCFS
+C    : ## - FCFS
+D    : ###### - FCFS
+E    : #### - FCFS
+- RR1 (Quantum=1):
+RR1: T=11.80, E=3.20, P=2.93
+A    : ## - RR1
+B    : ###### - RR1
+C    : ## - RR1
+D    : ###### - RR1
+E    : #### - RR1
+- RR4 (Quantum=4):
+RR4: T=4.60, E=-4.00, P=1.18
+A    : ## - RR4
+B    : ###### - RR4
+C    : ## - RR4
+D    : ###### - RR4
+E    : #### - RR4
+- SPN:
+SPN: T=10.80, E=2.20, P=2.93
+A    : ## - SPN
+B    : ###### - SPN
+C    : ## - SPN
+D    : ###### - SPN
+E    : #### - SPN
+- FB:
+FB: T=0.00, E=-8.60, P=0.00
+A    : ## - FB
+B    : ###### - FB
+C    : ## - FB
+D    : ###### - FB
+E    : #### - FB
+- SRR:
+SRR: T=4.60, E=-4.00, P=1.18
+A    : ## - SRR
+B    : ###### - SRR
+C    : ## - SRR
+D    : ###### - SRR
+E    : #### - SRR
+
+Ronda 4
+Procesos:
+A: llegada=0, duración=4
+B: llegada=3, duración=3
+C: llegada=4, duración=2
+D: llegada=6, duración=4
+E: llegada=8, duración=3
+ 
+- FCFS:
+FCFS: T=9.80, E=2.40, P=3.28
+A    : #### - FCFS
+B    : ### - FCFS
+C    : ## - FCFS
+D    : #### - FCFS
+E    : ### - FCFS
+- RR1 (Quantum=1):
+RR1: T=10.60, E=3.20, P=3.47
+A    : #### - RR1
+B    : ### - RR1
+C    : ## - RR1
+D    : #### - RR1
+E    : ### - RR1
+- RR4 (Quantum=4):
+RR4: T=4.20, E=-3.20, P=1.43
+A    : #### - RR4
+B    : ### - RR4
+C    : ## - RR4
+D    : #### - RR4
+E    : ### - RR4
+- SPN:
+SPN: T=9.40, E=2.00, P=3.17
+A    : #### - SPN
+B    : ### - SPN
+C    : ## - SPN
+D    : #### - SPN
+E    : ### - SPN
+- FB:
+FB: T=0.00, E=-7.40, P=0.00
+A    : #### - FB
+B    : ### - FB
+C    : ## - FB
+D    : #### - FB
+E    : ### - FB
+- SRR:
+SRR: T=4.20, E=-3.20, P=1.43
+A    : #### - SRR
+B    : ### - SRR
+C    : ## - SRR
+D    : #### - SRR
+E    : ### - SRR
+
+Ronda 5
+Procesos:
+A: llegada=0, duración=5
+B: llegada=3, duración=4
+C: llegada=7, duración=5
+D: llegada=9, duración=5
+E: llegada=10, duración=4
+ 
+- FCFS:
+FCFS: T=14.00, E=3.60, P=3.12
+A    : ##### - FCFS
+B    : #### - FCFS
+C    : ##### - FCFS
+D    : ##### - FCFS
+E    : #### - FCFS
+- RR1 (Quantum=1):
+RR1: T=16.20, E=5.80, P=3.56
+A    : ##### - RR1
+B    : #### - RR1
+C    : ##### - RR1
+D    : ##### - RR1
+E    : #### - RR1
+- RR4 (Quantum=4):
+RR4: T=5.80, E=-4.60, P=1.29
+A    : ##### - RR4
+B    : #### - RR4
+C    : ##### - RR4
+D    : ##### - RR4
+E    : #### - RR4
+- SPN:
+SPN: T=13.80, E=3.40, P=3.08
+A    : ##### - SPN
+B    : #### - SPN
+C    : ##### - SPN
+D    : ##### - SPN
+E    : #### - SPN
+- FB:
+FB: T=0.00, E=-10.40, P=0.00
+A    : ##### - FB
+B    : #### - FB
+C    : ##### - FB
+D    : ##### - FB
+E    : #### - FB
+- SRR:
+SRR: T=5.80, E=-4.60, P=1.29
+A    : ##### - SRR
+B    : #### - SRR
+C    : ##### - SRR
+D    : ##### - SRR
+E    : #### - SRR
