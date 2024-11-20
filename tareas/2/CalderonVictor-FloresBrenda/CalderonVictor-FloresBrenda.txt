@@ -1,0 +1,49 @@
+Tarea 2: Comparación de planificadores
+
+1. Descripción General
+   Este programa implementa y compara tres algoritmos de planificación de procesos en sistemas operativos: 
+   First-Come, First-Served (FCFS), Round Robin (RR), y Shortest Process Next (SPN). Además, genera cargas de 
+   procesos aleatorios y muestra los resultados para diferentes conjuntos de pruebas.
+
+2. Lenguaje y Entorno de Desarrollo
+   El programa fue desarrollado en Python 3.12.5 y ejecutado en un sistema operativo Windows 11 Pro. Dado el soporte 
+   multiplataforma de Python, este programa también es compatible con otros sistemas operativos como MacOS y Linux. 
+   Para ejecutarlo, utiliza el siguiente comando:
+   py CalderonVictor-FloresBrenda.py
+   Para detener la ejecución, usa Ctrl + C.
+
+3. Algoritmos Implementados
+   - FCFS (First-Come, First-Served): Ejecuta los procesos en el orden de llegada.
+   - Round Robin (RR): Asigna un quantum de tiempo fijo a cada proceso, permitiendo su ejecución por turnos.
+   - SPN (Shortest Process Next): Prioriza los procesos con la duración más corta disponible.
+
+4. Generación de Cargas de Procesos
+   - Los procesos se generan aleatoriamente con tiempos de llegada entre 0 y 10, y duraciones entre 1 y 10.
+   - Cada conjunto de pruebas incluye 5 procesos.
+
+5. Visualización de Resultados
+   - Cada algoritmo genera:
+     - Una secuencia de ejecución que muestra cómo se procesan las tareas.
+     - Métricas promedio:
+       - T: Turnaround time (Tiempo total).
+       - E: Waiting time (Tiempo de espera).
+       - P: Penalty ratio (Razón de penalización).
+
+6. Ejecución y Uso
+   1. Configuración: Asegúrate de tener instalada una versión de Python 3.
+   2. Ejecución: Ejecuta el programa con py CalderonVictor-FloresBrenda.py.
+   3. Resultados: Observa la salida en la consola, que incluye las métricas y la secuencia de cada algoritmo.
+   4. Modificación: Puedes cambiar el número de procesos o cargas generadas ajustando las variables num_cargas y num_procesos.
+
+7. Estructura del Código
+   - Funciones principales:
+     - fcfs: Simula el algoritmo First-Come, First-Served.
+     - round_robin: Simula el algoritmo Round Robin con quantum fijo.
+     - spn: Simula el algoritmo Shortest Process Next.
+     - comparar_algoritmos: Genera cargas aleatorias y ejecuta los algoritmos sobre ellas.
+   - Generación de Procesos:
+     - La función generar_procesos crea procesos aleatorios con tiempos de llegada y duración.
+
+8. Requerimientos
+   - Python 3.x: Requerido para ejecutar el programa.
+   - Memoria y CPU: El programa es eficiente y puede ejecutarse en entornos con recursos limitados.
