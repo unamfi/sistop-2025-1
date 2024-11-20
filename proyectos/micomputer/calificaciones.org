@@ -320,6 +320,18 @@
     velocidad a la que está configurado este modem.
 - Calificación :: 9
 
+** Ximena Ortiz y Jenyfer Sánchez
+- Archivos :: [[./OrtizXimena-SanchezJenyfer/Reseña micomputer.pdf][Reseña micumputer.pdf]]
+- Fascículo :: 2
+- Comentarios ::
+  - ¡Ojo con la redacción! La palabra “demasiado” siempre denota algo
+    negativo. No pueden decir que /esta capacidad gráfica era demasiado para la
+    época/ (como no sea para indicar que era tan avanzada que hizo que el
+    sistema fuera muy caro y fracasara, o algo por el estilo). Me parece que
+    querían decir que “era _muy_ avanzada”.
+  - Fuera de eso, buen resumen 🙂
+- Calificación :: 10
+
 ** Pali Santiago
 - Archivos :: [[./PaliSantiago/Fasciculo.png][Fasciculo.png]], [[./PaliSantiago/PaliSantiago_Proyecto1.pdf][PaliSantiago_Proyecto1.pdf]]
 - Fascículo :: 17
