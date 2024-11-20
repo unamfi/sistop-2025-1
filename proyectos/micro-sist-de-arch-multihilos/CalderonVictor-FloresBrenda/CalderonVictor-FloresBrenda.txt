@@ -1,0 +1,58 @@
+Documentación del Proyecto: (Micro) sistema de archivos multihilos
+
+1. Descripción General
+
+Este proyecto implementa un sistema de archivos básico. El sistema permite listar, copiar, y eliminar archivos dentro de un archivo binario que actúa como un disco simulado (`fiunamfs.img`). También permite copiar archivos entre el sistema local y `FiUnamFS`.
+
+El sistema fue diseñado en Python, empleando estructuras de datos de bajo nivel (`struct`) y funciones de manejo de archivos. Además, incorpora mecanismos de sincronización para asegurar que las operaciones se ejecuten de forma segura en entornos concurrentes.
+
+2. Funcionalidades Principales
+
+El sistema de archivos incluye las siguientes operaciones:
+
+- Listar contenido en FiUnamFS: Muestra los archivos guardados en el sistema `FiUnamFS`, incluyendo el nombre y tamaño de cada archivo.
+- Listar archivos en el sistema local: Muestra los archivos en un directorio especificado del sistema local, con su nombre y tamaño.
+- Copiar archivo de FiUnamFS al sistema local: Permite copiar un archivo desde `FiUnamFS` al sistema local.
+- Copiar archivo del sistema local a FiUnamFS: Permite copiar un archivo del sistema local a `FiUnamFS`.
+- Eliminar archivo de FiUnamFS: Marca un archivo como eliminado en `FiUnamFS`, liberando el espacio correspondiente.
+
+3. Estructura y Explicación del Código
+
+- verificar_superbloque: Verifica la validez del archivo `fiunamfs.img`, revisando el identificador y la versión del sistema de archivos. Esta función asegura que el archivo sea compatible con `FiUnamFS`.
+- inicializar_mapa_almacenamiento: Inicializa el mapa de almacenamiento del sistema de archivos, marcando los primeros clusters como ocupados para el superbloque y el directorio. El resto de los clusters están disponibles para almacenar archivos.
+- listar_directorio: Recorre el directorio de `FiUnamFS` y muestra los archivos válidos, ignorando las entradas vacías. La función asegura que los archivos se lean correctamente usando un bloqueo de sincronización.
+- listar_archivos_locales: Lista los archivos en un directorio local especificado, permitiendo ver qué archivos están disponibles para copiar a `FiUnamFS`.
+- copiar_desde_fiunamfs: Busca un archivo en `FiUnamFS` y lo copia al sistema local. La comparación de nombres se realiza ignorando la extensión, permitiendo al usuario ingresar solo el nombre base del archivo.
+- copiar_a_fiunamfs: Copia un archivo del sistema local a `FiUnamFS`, encontrando el primer espacio disponible en el directorio. Además, escribe la metadata del archivo, incluyendo la fecha de creación y modificación.
+- eliminar_archivo: Marca un archivo como eliminado en `FiUnamFS`. La comparación de nombres también ignora la extensión, y se usa un marcador especial (`#`) para indicar que la entrada fue eliminada.
+
+4. Estructura del Menú Interactivo
+
+El programa presenta un menú interactivo que permite al usuario elegir entre las diferentes operaciones. Las opciones del menú son:
+
+1. Listar contenido del directorio en FiUnamFS
+2. Listar archivos en el sistema local
+3. Copiar archivo de FiUnamFS al sistema local
+4. Copiar archivo del sistema local a FiUnamFS
+5. Eliminar archivo de FiUnamFS
+6. Salir
+
+Cada opción del menú llama a la función correspondiente, proporcionando una interfaz fácil de usar para interactuar con el sistema de archivos.
+
+5. Ejecución y Uso
+
+1. Preparación: La ruta para el archivo "fiunamfs.img" debe estar en "../fiunamfs.img" o modificar la variable `FIUNAMFS_IMG` en el archivo `fiunamfs.py` con la ruta correcta. Se consideró esta forma, debido a la estructura de los archivos respecto a las entregas anteriores.
+2. Ejecución: Ejecuta el programa en un entorno Python compatible. El comando a usar es `python CalderonVictor-FloresBrenda.py`.
+3. Interacción: Selecciona la operación deseada en el menú, ingresando el número correspondiente. Sigue las instrucciones para cada opción (por ejemplo, ingresa el nombre del archivo cuando se te solicite).
+4. Salir: Selecciona la opción `6` para salir del programa.
+
+6. Consideraciones Técnicas
+
+- Sincronización: Se implementó un bloqueo (`Lock`) en las funciones críticas que manejan el sistema de archivos (`listar_directorio`, `copiar_desde_fiunamfs`, `copiar_a_fiunamfs`, `eliminar_archivo`) para evitar problemas en entornos concurrentes.
+- Manipulación de Nombres de Archivos: Las funciones de copia y eliminación comparan los nombres de archivo ignorando la extensión, permitiendo que el usuario ingrese solo la parte inicial del nombre del archivo.
+- Errores de Acceso: El código maneja errores comunes como archivos no encontrados (`FileNotFoundError`) y permisos denegados (`PermissionError`) al listar archivos en el sistema local.
+
+7. Requerimientos y Dependencias
+
+- Python 3.x: El programa está diseñado para Python 3.
+- Permisos de Lectura y Escritura: Asegúrate de tener permisos de lectura y escritura en el directorio donde se encuentra `fiunamfs.img` y en el directorio donde deseas copiar los archivos.

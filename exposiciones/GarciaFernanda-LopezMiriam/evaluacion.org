@@ -1,0 +1,63 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* Sistemas operativos móviles: Comparación entre Android, iOS y otros
+
+- Tema presentado por :: 
+- Calificación global :: Por favor revisen el resto de este archivo para ver de
+  dónde vienen todos estos números 😉
+
+|------------------------+------+--------------------+------+---------|
+| Evaluación  compañeros | Peso | Evaluación docente | Peso | *Total* |
+|------------------------+------+--------------------+------+---------|
+|                    9.7 |  0.3 |               8.25 |  0.7 |    8.69 |
+|------------------------+------+--------------------+------+---------|
+#+TBLFM: @2$5=$1*$2+$3*$4;f-2
+
+* Evaluación grupal
+
+|              | 1 | 2 | 3 | 4 | 5 | Total |
+|--------------+---+---+---+---+---+-------|
+| Originalidad | 0 | 0 | 0 | 2 | 6 |  9.50 |
+| Nivel        | 0 | 0 | 0 | 1 | 7 |  9.75 |
+| Relevancia   | 0 | 0 | 0 | 1 | 7 |  9.75 |
+| Claridad     | 0 | 0 | 0 | 1 | 7 |  9.75 |
+| Presencia    | 0 | 0 | 0 | 1 | 7 |  9.75 |
+|--------------+---+---+---+---+---+-------|
+|              |   |   |   |   |   |  9.70 |
+#+TBLFM: @2$7..@6$7=10 * (0.2*$2 + 0.4*$3 + 0.6*$4 + 0.8*$5 + $6 ) / vsum($2..$6); f-2::@7$7=vmean(@2$7..@6$7); f-2
+
+** Comentarios de los compañeros
+
+* Evaluación por parte del docente
+
+| *Aspecto*              | *Peso* | *Evaluación* | *Puntos* |
+|------------------------+--------+--------------+----------|
+| Originalidad del tema  |    0.1 |          7.5 |     0.75 |
+| Material desarrollado  |    0.2 |          7.5 |      1.5 |
+| Contenido              |    0.2 |          7.5 |      1.5 |
+| Fuentes bibliográficas |    0.1 |          7.5 |     0.75 |
+| Uso del tiempo         |    0.1 |          7.5 |     0.75 |
+| Dominio del tema       |   0.15 |           10 |      1.5 |
+| Presencia              |   0.15 |           10 |      1.5 |
+|------------------------+--------+--------------+----------|
+| *Global*               |        |              |     8.25 |
+#+TBLFM: @<<$4..@>>$4=$2*$3::$4=vsum(@<<..@>>);f-2
+
+** Comentarios
+- Lectura directa o casi-directa
+  - A ratos, se ve que no lo habían leído del todo antes de presentarlo (por
+    atorarse al leerlo)... ¿Es contenido realmente suyo? 😰
+  - Asimetría entre lo que presenta una y la otra
+- Cada vez que le dicen “librería” a lo que en realidad se llama “biblioteca”,
+  Dios mata a un gatito 🙁 Por favor... ¡Piensen en los gatitos! 🐈🐈🐈😿😿😿
+- Las capas de un SO (kernel / bibliotecas de sistema / aplicaciones de usuario)
+  son iguales independientemente de si se trata de un SO tradicional o móvil.
+- Mencionan un par de veces que el Linux de Android ha sido modificado. Esto es
+  falso: algo que buscan tanto Google como los desarrolladores centrales de
+  Linux es trabajar /sobre un mismo árbol/ e ir /convirgiendo/.
+- Comprendo la estructura general que le quieren dar a la presentación, pero
+  presentaron muy reiteradamente varios temas, repitiendo varios puntos y
+  haciendo más tediosa la presentación completa.
+- ¿Y todas esas referencias? Incluyen tantas referencias, varias de ellas
+  inconsistentes con el tema presentado, que no parece creíble 😕

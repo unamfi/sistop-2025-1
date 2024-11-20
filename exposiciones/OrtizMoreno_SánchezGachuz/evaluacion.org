@@ -1,0 +1,73 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* Aplicaciones de realidad aumentada, procesamiento de gráficos en tiempo real y la integración con dispositivos
+
+- Tema presentado por :: Jenyfer Estefanya Sánchez Gachuz y Ximena Ortiz Moreno
+- Calificación global :: Por favor revisen el resto de este archivo para ver de
+  dónde vienen todos estos números 😉
+
+|------------------------+------+--------------------+------+---------|
+| Evaluación  compañeros | Peso | Evaluación docente | Peso | *Total* |
+|------------------------+------+--------------------+------+---------|
+|                   7.13 |  0.3 |               6.25 |  0.7 |    6.51 |
+|------------------------+------+--------------------+------+---------|
+#+TBLFM: @2$5=$1*$2+$3*$4;f-2
+
+* Evaluación grupal
+
+|              | 1 | 2 | 3 | 4 | 5 | Total |
+|--------------+---+---+---+---+---+-------|
+| Originalidad | 2 | 0 | 0 | 2 | 7 |  8.18 |
+| Nivel        | 3 | 1 | 2 | 2 | 3 |  6.18 |
+| Relevancia   | 3 | 0 | 1 | 2 | 5 |  7.09 |
+| Claridad     | 3 | 0 | 0 | 2 | 6 |  7.45 |
+| Presencia    | 3 | 0 | 1 | 4 | 3 |  6.73 |
+|--------------+---+---+---+---+---+-------|
+|              |   |   |   |   |   |  7.13 |
+#+TBLFM: @2$7..@6$7=10 * (0.2*$2 + 0.4*$3 + 0.6*$4 + 0.8*$5 + $6 ) / vsum($2..$6); f-2::@7$7=vmean(@2$7..@6$7); f-2
+
+** Comentarios de los compañeros
+- Siento que para el tema propuesto, el video deberia ser un poco mas extenso,
+  ya que en si la tematica es buena.
+- Un vídeo que dura 3 min es muy poco para el tema que abarcan ,ya que pudieron
+  haber conseguido buena información acerca de ello pero dejo mucho que desear
+  :/
+- El vídeo es muy corto y la verdad viendo el trabajo de otros compañeros y por
+  las especificaciones que se piden si deja mucho que desear la exposición no
+  estuvo preparado.
+
+* Evaluación por parte del docente
+
+| *Aspecto*              | *Peso* | *Evaluación* | *Puntos* |
+|------------------------+--------+--------------+----------|
+| Originalidad del tema  |    0.1 |          7.5 |     0.75 |
+| Material desarrollado  |    0.2 |           10 |       2. |
+| Contenido              |    0.2 |            5 |       1. |
+| Fuentes bibliográficas |    0.1 |            0 |       0. |
+| Uso del tiempo         |    0.1 |            5 |      0.5 |
+| Dominio del tema       |   0.15 |            5 |     0.75 |
+| Presencia              |   0.15 |            5 |     0.75 |
+|------------------------+--------+--------------+----------|
+| *Global*               |        |              |     5.75 |
+#+TBLFM: @<<$4..@>>$4=$2*$3::$4=vsum(@<<..@>>);f-2
+
+** Comentarios
+
+- Me dejó completamente sorprendido el video que presentaron. ¿Tres minutos? ¿Es
+  en serio todo lo que hay por decir del tema? Tenemos algunos alumnos a quienes
+  critiqué por sobrepasar los 30 minutos (cuando les pido que sea de entre 15 y
+  20). Pero nunca había recibido un video tan corto y poco comprometido 🙁
+  - El video resulta de la lectura directa y lineal de la presentación, ¡ni
+    siquiera de porciones del documento que prepararon!
+- La bibliografía que presentan no cuadra con el material
+  desarrollado.
+  - Mencionaron únicamente algunas características del tiempo real (sin llegar
+    a definirlo) en las láminas 8 y 9. No llega a entenderse a qué se refiere.
+  - En las láminas 10 y 11 presentan conceptos que llevan ese título pero /no
+    están relacionados/ con el tiempo real como se le entiende en cómputo, y
+    mucho menos en particular con sistemas operativos.
+- Me sorprende en sobremanera el poco empeño puesto en la exposición; se
+  acercaron con buen tiempo para elegir tema, y prepararon un documento que, si
+  bien no aborda (como debería) aspectos técnicos, muestra algo más de
+  trabajo... pero la exposición quedó fuertemente debajo del nivel esperado 🙁

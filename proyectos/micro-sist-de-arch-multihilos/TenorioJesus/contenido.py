@@ -3,31 +3,31 @@ from datetime import datetime
 
 def contenido_archivo(archivo):
 
-    A = [" ","-",":"]
+    A = [" ","-",":"] #Arreglo para guardar caracteres que vamos a elimiar de la fecha
 
-    # Obtener contenido del archivo
+    # Obtenemos contenido del archivo
     with open(archivo, 'r') as file:
         content = file.read()
 
-    _ , name = os.path.split(archivo)
+    _ , name = os.path.split(archivo) # Obtenenemos el nombre del archivo
 
-    # Obtener la fecha de creación del archivo
+    # Obtenemos la fecha de creación del archivo
     fecha_creacion = os.path.getctime(archivo)
 
     fecha = str(datetime.fromtimestamp(fecha_creacion))
 
     i = 0
 
-    for letra in fecha:
+    for letra in fecha: #Eliminamos cadenas no deseados
         if letra == ".":
             fecha = fecha[0:i]
             break
         i = i+1
     
-    for simbolo in A:
+    for simbolo in A: #Eliminaos caracteres no deseados 
         fecha = fecha.replace(simbolo,'')
     
-    return content,fecha,name
+    return content,fecha,name 
 
 
 if __name__ == "__main__":
