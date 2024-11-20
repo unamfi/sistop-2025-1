@@ -1,0 +1,19 @@
+Explicación:
+Generación de Cargas:
+
+Se generan procesos con un identificador único (id) y un tiempo de ejecución aleatorio.
+Retroalimentación Multinivel (FB):
+
+Utiliza varias colas de prioridad. Cada nivel tiene un quantum diferente.
+Los procesos que no terminan dentro de su quantum se mueven a niveles inferiores (con mayor quantum).
+Ronda Egoísta (SRR):
+
+Todos los procesos comparten una cola única.
+Se usa un quantum fijo, y los procesos no terminados se devuelven al final de la cola.
+Simulaciones:
+
+Cada ejecución genera un conjunto de procesos y muestra cómo son gestionados por ambos algoritmos.
+Los resultados muestran cuándo termina cada proceso y en qué nivel de prioridad (para FB).
+Análisis:
+
+Comparar los tiempos totales y las tendencias para analizar cuál algoritmo se adapta mejor a diferentes cargas.
