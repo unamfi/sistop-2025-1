@@ -94,7 +94,6 @@
 - Interfaz :: Menú en interfaz conversacional/textual
 - Comentarios ::
   - No implementas hilos ni sincronización 🙁
-  - No implementa desfragmentación 🙁
     - Me parece que la lógica de la función que documentas es válida...
     - La llamé a mano, pero marca error por no tener abierto el archivo en la
       línea 125. Y hasta ahí llegó mi exploración 😉 Si lo omitiste marcando que
@@ -149,8 +148,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.25 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.50 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |       7.5 |        |     0.75 |
 |------------------------+-----------+--------+----------|
@@ -168,7 +167,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |         5 |        |     0.33 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     8.67 |
+| *TOTAL*                |           |        |     8.92 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -231,12 +230,11 @@
     - La función =find_free_cluster()= entrega el primer cluster disponible,
       pero este es un sistema de archivos /de asignación ligada/: No podemos
       asumir que el cluster siguiente a uno libre esté también libre.
-  - No implementan la desfragmentación.
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     1.75 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.00 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |       7.5 |        |     0.75 |
 | Interfaz usuario       |         5 |        |     0.50 |
 |------------------------+-----------+--------+----------|
@@ -254,7 +252,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |         5 |        |     0.33 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     8.00 |
+| *TOTAL*                |           |        |     8.25 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -327,8 +325,7 @@
     en la fecha correcta y les faltaba únicamente el /pull request/, pero tengo
     que penalizar con 1 punto 🙁
   - Falta implementar las operaciones de copiado de archivos desde y hacia el
-    sistema de archivos (les doy por buena la creación como “copia hacia”) y la
-    desfragmentación 🙁
+    sistema de archivos (les doy por buena la creación como “copia hacia”) 🙁
   - Al especificar el nombre de un archivo a crear, tras escribir el nombre,
     dejan el resto del espacio preexistente, sin vaciar la cadena:
     #+begin_src text
@@ -402,7 +399,6 @@
   - Tu programa incluye cuatro archivos en Python, pero tu documentación no
     indica cuál o cuáles debo utilizar para ejecutar tu programa o para evaluar
     tu desarrollo.
-  - No implementas desfragmentación.
   - Listar el directorio del sistema que les di como ejemplo lanza una excepción
     por intentar hacer un =struct.unpack('IQ', entrada[24:32])=
   - Copiar desde el FS y eliminar no funcionan sin tener funcionalidad de
@@ -423,8 +419,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.00 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.25 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |         5 |        |     0.50 |
 | Interfaz usuario       |        10 |        |     1.00 |
 |------------------------+-----------+--------+----------|
@@ -442,7 +438,7 @@
 | Entorno y dependencias |         5 |        |     0.33 |
 | Historia en Git        |         5 |        |     0.33 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     7.41 |
+| *TOTAL*                |           |        |     7.66 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 ** Amir Cuevas, Fernando De La Rosa
@@ -464,7 +460,6 @@
     - La confusión viene en buena medida de que en inglés /library/ significa
       /biblioteca/, aunque suena más parecido a /librería/ (que se dice /book
       store/).
-  - No implementa la desfragmentación 🙁
   - Al listar el directorio, no omiten las entradas de directorio que están
     marcadas como /vacías/. ¿Qué sentido tiene mostrárselas al usuario?
   - Al copiar un archivo de FiUnamFS hacia mi computadora, lo genera siempre de
@@ -472,8 +467,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.50 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.75 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |        10 |        |     1.00 |
 |------------------------+-----------+--------+----------|
@@ -491,7 +486,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |        10 |        |     0.67 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     9.51 |
+| *TOTAL*                |           |        |     9.76 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -508,7 +503,6 @@
 - Comentarios ::
   - Hicieron un buen trabajo para formatear la salida de forma agradable, con
     manejo de colores, centrando dependiendo del ancho de la terminal, etc. 😃
-  - No implementan desfragmentación 🙁
   - La copia desde/copia hacia/eliminación están implementadas, pero no
     funcionan 🙁
     - No entiendo por qué al intentar /eliminar un archivo/ el mensaje de error
@@ -624,7 +618,6 @@
     - Como lo tienen, haría falta apenas modificar un poco la función
       =validate_and_read_superblock()= para que llenara las estructuras que
       llenaron “en duro”.
-  - No implementan desfragmentación 🙁
   - Hay un par de problemas al verificar límites en los nombres de archivos
     - Al presentar el listado de archivos, presentan los nombres junto con el
       caracter de espacio, y /se pasan/ en uno al leer, presentando nombres de
@@ -634,8 +627,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.75 |
-| Cumplimiento           |       7.5 |        |     0.75 |
+| *Proyecto*             |           |    0.3 |     3.00 |
+| Cumplimiento           |        10 |        |     1.00 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |        10 |        |     1.00 |
 |------------------------+-----------+--------+----------|
@@ -653,7 +646,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |        10 |        |     0.67 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     9.51 |
+| *TOTAL*                |           |        |     9.76 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -675,7 +668,7 @@
       store/).
   - Cuando te solicito que la entrega conste de varios /commits/ en Git no se
     vale agregar, eliminar y volver a agregar exactamente el mismo archivo :-Þ
-  - No implementas desfragmentación, eliminación, copia desde ni copia hacia 🙁
+  - No implementas eliminación, copia desde ni copia hacia 🙁
     - Únicamente listado de archivos 🙁
   - La ruta a la imagen no existe si no es en tu computadora
     - Para futuros desarrollos, sugiero que usen archivos relativos al
@@ -778,14 +771,63 @@
     los aspectos relevantes.
     - Incluyendo las apreciaciones que haces respecto a cuándo es pertinente o
       no un mutex 😉
-  - Faltó implementar defragmentación 🙁
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.3 |     3.00 |
+| Cumplimiento           |        10 |        |     1.00 |
+| Claridad de desarrollo |        10 |        |     1.00 |
+| Interfaz usuario       |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *Desarrollo*           |           |    0.3 |     3.00 |
+| Directorio de proyecto |        10 |        |     1.00 |
+| Código válido          |        10 |        |     1.00 |
+| Comentarios            |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     2.00 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Documentación externa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Historia en Git        |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |    10.01 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
+
+** Hector Hernandez, Yuichi Miyasaki
+- Documentación :: [[./HernandezHector-MiyasakiYuichi/HernandezHector-MiyasakiYuichi_ReporteProyecto2.pdf][HernandezHector-MiyasakiYuichi_ReporteProyecto2.pdf]]
+- Programas :: [[./HernandezHector-MiyasakiYuichi/HernandezHector-MiyasakiYuichi_Proyecto2.py][HernandezHector-MiyasakiYuichi_Proyecto2.py]]
+- Otros archivos ::
+- Concurrencia / sincronización ::
+  Un mutex para proteger modificaciones al directoio, otro para proteger al
+  superbloque. Un semáforo usado como mutex para verificación de archivos. Hilos
+  separados para ejecutar cada una de las acciones.
+- Interfaz :: Menú en interfaz conversacional/textual
+- Comentarios ::
+  - Es válido que establezcan “en duro” los parámetros del sistema de archivos
+    para esta ejecución “de prueba”. Sin embargo, si les dí los parámetros como
+    campos del superbloque, un buen programa controlador los leería de la imagen
+    al inicializazrse. De esa manera podrían lidiar con archivos de diferentes
+    características que fueran sistemas de archivos válidos 🙂
+  - ¡Muy bien estructurado el desarrollo!
+  - Recuerden intentar ocupar un mutex por /el menor tiempo posible/, para no
+    crear contención. Si ya obtuvieron la información relevante (p.ej. línea 109
+    en =listar_directorio()=, pueden entregar de inmediato al mutex antes de
+    entregar los resultados al usuario.
+    - Creo que =sem_superbloque= y =lock_verificacion= no son verdaderamente
+      necesarios
+  - Excelente documentación. Excesiva, me atrevo a decir, pero cubriendo todos
+    los aspectos relevantes.
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
 | *Proyecto*             |           |    0.3 |     2.75 |
-| Cumplimiento           |       7.5 |        |     0.75 |
+| Cumplimiento           |        10 |        |     1.00 |
 | Claridad de desarrollo |        10 |        |     1.00 |
-| Interfaz usuario       |        10 |        |     1.00 |
+| Interfaz usuario       |       7.5 |        |     0.75 |
 |------------------------+-----------+--------+----------|
 | *Desarrollo*           |           |    0.3 |     3.00 |
 | Directorio de proyecto |        10 |        |     1.00 |
@@ -805,57 +847,6 @@
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
-** Hector Hernandez, Yuichi Miyasaki
-- Documentación :: [[./HernandezHector-MiyasakiYuichi/HernandezHector-MiyasakiYuichi_ReporteProyecto2.pdf][HernandezHector-MiyasakiYuichi_ReporteProyecto2.pdf]]
-- Programas :: [[./HernandezHector-MiyasakiYuichi/HernandezHector-MiyasakiYuichi_Proyecto2.py][HernandezHector-MiyasakiYuichi_Proyecto2.py]]
-- Otros archivos ::
-- Concurrencia / sincronización ::
-  Un mutex para proteger modificaciones al directoio, otro para proteger al
-  superbloque. Un semáforo usado como mutex para verificación de archivos. Hilos
-  separados para ejecutar cada una de las acciones.
-- Interfaz :: Menú en interfaz conversacional/textual
-- Comentarios ::
-  - No implementan la desfragmentación 🙁
-  - Es válido que establezcan “en duro” los parámetros del sistema de archivos
-    para esta ejecución “de prueba”. Sin embargo, si les dí los parámetros como
-    campos del superbloque, un buen programa controlador los leería de la imagen
-    al inicializazrse. De esa manera podrían lidiar con archivos de diferentes
-    características que fueran sistemas de archivos válidos 🙂
-  - ¡Muy bien estructurado el desarrollo!
-  - Recuerden intentar ocupar un mutex por /el menor tiempo posible/, para no
-    crear contención. Si ya obtuvieron la información relevante (p.ej. línea 109
-    en =listar_directorio()=, pueden entregar de inmediato al mutex antes de
-    entregar los resultados al usuario.
-    - Creo que =sem_superbloque= y =lock_verificacion= no son verdaderamente
-      necesarios
-  - Excelente documentación. Excesiva, me atrevo a decir, pero cubriendo todos
-    los aspectos relevantes.
-
-| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
-|------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.50 |
-| Cumplimiento           |       7.5 |        |     0.75 |
-| Claridad de desarrollo |        10 |        |     1.00 |
-| Interfaz usuario       |       7.5 |        |     0.75 |
-|------------------------+-----------+--------+----------|
-| *Desarrollo*           |           |    0.3 |     3.00 |
-| Directorio de proyecto |        10 |        |     1.00 |
-| Código válido          |        10 |        |     1.00 |
-| Comentarios            |        10 |        |     1.00 |
-|------------------------+-----------+--------+----------|
-| *Legibilidad*          |           |    0.2 |     2.00 |
-| Estructura             |        10 |        |     1.00 |
-| Nomenclatura           |        10 |        |     1.00 |
-|------------------------+-----------+--------+----------|
-| *Entrega*              |           |    0.2 |     2.01 |
-| Documentación externa  |        10 |        |     0.67 |
-| Entorno y dependencias |        10 |        |     0.67 |
-| Historia en Git        |        10 |        |     0.67 |
-|------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     9.51 |
-|------------------------+-----------+--------+----------|
-#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
-
 ** Josué Jimenez, Santiago Medina
 - Documentación :: [[./JimenezJosue-MedinaSantiago/DocumentaciónProyectoSistop25-1.pdf][DocumentaciónProyectoSistop25-1.pdf]]
 - Programas :: [[./JimenezJosue-MedinaSantiago/directory.py][directory.py]], [[./JimenezJosue-MedinaSantiago/file_operations.py][file_operations.py]], [[./JimenezJosue-MedinaSantiago/filesystem.py][filesystem.py]], [[./JimenezJosue-MedinaSantiago/main.py][main.py]]
@@ -863,7 +854,6 @@
 - Concurrencia / sincronización ::
 - Interfaz :: Menú en interfaz conversacional/textual
 - Comentarios ::
-  - No implementan la desfragmentación 🙁
   - No implementan manejo de hilos, concurrencia o sincronización 🙁
   - ¡Muy buena estructura! No /hace falta/ separar por módulos, pero /ayuda
     mucho/ a mantener un desarrollo más limpio.
@@ -888,8 +878,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.25 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.50 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |       7.5 |        |     0.75 |
 |------------------------+-----------+--------+----------|
@@ -907,7 +897,7 @@
 | Entorno y dependencias |         5 |        |     0.33 |
 | Historia en Git        |         5 |        |     0.33 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     8.33 |
+| *TOTAL*                |           |        |     8.58 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -970,14 +960,13 @@
   no hay concurrencia.
 - Interfaz :: GUI con Tk
 - Comentarios ::
-  - No implementas desfragmentación 🙁
   - Haces verificación de límites (por lo menos, en la longitud del nombre del
     archivo a crear). ¡Muy bien! 😃
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.50 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.75 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |        10 |        |     1.00 |
 |------------------------+-----------+--------+----------|
@@ -995,7 +984,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |         5 |        |     0.33 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     8.67 |
+| *TOTAL*                |           |        |     8.92 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -1009,7 +998,6 @@
   =Lock=.
 - Interfaz :: Menú en interfaz conversacional/textual
 - Comentarios ::
-  - No implementas desfragmentación 🙁
   - Recuerda que debes proteger las /secciones críticas/ más mínimas
     posibles. Al implementar tus funciones =lista_directorio_thead()=,
     =copiar_fiunamfs_a_local_therad() y =eliminar_archivo_thread()= como una
@@ -1020,8 +1008,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.50 |
-| Cumplimiento           |       7.5 |        |     0.75 |
+| *Proyecto*             |           |    0.3 |     2.75 |
+| Cumplimiento           |        10 |        |     1.00 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |       7.5 |        |     0.75 |
 |------------------------+-----------+--------+----------|
@@ -1039,7 +1027,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |        10 |        |     0.67 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     9.01 |
+| *TOTAL*                |           |        |     9.26 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -1052,7 +1040,6 @@
   es innecesaria).
 - Interfaz :: GUI con Tk
 - Comentarios ::
-  - No implementan desfragmentación 🙁
   - En la documentación prometieron uso de variables de condición e hilos para
     las diferentes accciones, pero no los encontré 🙁
   - Buena implementación, bastante sólida; hacen varias verificaciones de
@@ -1067,8 +1054,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.50 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.75 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |        10 |        |     1.00 |
 |------------------------+-----------+--------+----------|
@@ -1086,7 +1073,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |        10 |        |     0.67 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     9.51 |
+| *TOTAL*                |           |        |     9.76 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -1102,7 +1089,6 @@
 
   - Entregado fuera del directorio solicitado 🙁 Tengo que cobrarme *-1 punto*
     por ello...
-  - No implementas desfragmentación 🙁
   - ¡Muy bueno que implementes la inicialización de un sistema de archivos, sin
     que lo solicitara! 😃
   - Tu envío no incluye el archivo =requirements.txt= que menciona tu
@@ -1111,8 +1097,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.50 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.75 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |        10 |        |     1.00 |
 |------------------------+-----------+--------+----------|
@@ -1130,8 +1116,8 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |         5 |        |     0.33 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     8.92 |
-| -1 por directorio      |           |        |     7.92 |
+| *TOTAL*                |           |        |     9.17 |
+| -1 por directorio      |           |        |     8.17 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2::@18$4=@17$4 - 1 ; f-2
 
@@ -1144,7 +1130,6 @@
   comunican el contenido empleando un =Queue=.
 - Interfaz :: Menú en interfaz conversacional/textual
 - Comentarios ::
-  - No implementan desfragmentación 🙁
   - ¡Muy bonito que hagan caché del directorio!
   - ¡Bonita también la estrategia para ubicar espacio disponible!
   - Ingenioso el uso de =Queue= 😃
@@ -1153,8 +1138,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     2.50 |
-| Cumplimiento           |       7.5 |        |     0.75 |
+| *Proyecto*             |           |    0.3 |     2.75 |
+| Cumplimiento           |        10 |        |     1.00 |
 | Claridad de desarrollo |        10 |        |     1.00 |
 | Interfaz usuario       |       7.5 |        |     0.75 |
 |------------------------+-----------+--------+----------|
@@ -1172,7 +1157,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |        10 |        |     0.67 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     9.26 |
+| *TOTAL*                |           |        |     9.51 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
@@ -1185,7 +1170,6 @@
   simultáneamente, pero no forma parte de la entrega principal.
 - Interfaz :: CLI en interfaz conversacional/textual
 - Comentarios ::
-  - No implementas desfragmentación 🙁
   - Copiar archivos del sistema hacia /afuera/ falla al intentar desempacar un
     no-iterable (en =ReconocerEntradas.py=)
   - ¡Ojo con lo que incluyes en tus /commits/! Enviaste el /archivo temporal/
@@ -1210,8 +1194,8 @@
 
 | *Rubro*                | *Parcial* | *Peso* | *Puntos* |
 |------------------------+-----------+--------+----------|
-| *Proyecto*             |           |    0.3 |     1.75 |
-| Cumplimiento           |         5 |        |     0.50 |
+| *Proyecto*             |           |    0.3 |     2.00 |
+| Cumplimiento           |       7.5 |        |     0.75 |
 | Claridad de desarrollo |       7.5 |        |     0.75 |
 | Interfaz usuario       |         5 |        |     0.50 |
 |------------------------+-----------+--------+----------|
@@ -1229,7 +1213,7 @@
 | Entorno y dependencias |        10 |        |     0.67 |
 | Historia en Git        |        10 |        |     0.67 |
 |------------------------+-----------+--------+----------|
-| *TOTAL*                |           |        |     8.01 |
+| *TOTAL*                |           |        |     8.26 |
 |------------------------+-----------+--------+----------|
 #+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@2+@6+@10+@13 ; f-2
 
