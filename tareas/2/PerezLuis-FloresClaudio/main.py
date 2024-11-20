@@ -171,6 +171,7 @@ def SPN(carga: Dict): # Similar a FCFS, pero organiza la cola según el tiempo r
 
 def FB(carga: Dict):
     resultados = {"T": 0, "E": 0, "P": 0}
+    #Colas para prioridad 0 = max prioridad, 4 = min prioridad
     colas = [[],
             [],
             [],
@@ -180,22 +181,13 @@ def FB(carga: Dict):
     grafica = ""
     t_total = tiempoTotal(carga) + max(proceso[0] for proceso in carga.values())  # Considera los tiempos de llegada
     
-    #print(list(carga.items()))
-    # for key, values in list(carga.items()):
-    #     print(key,'  ',values)
-    #     if values[0] == 0:
-    #         cola[values[8]].append(key)
-    #         #carga[key][2] = carga[key][1]
-    # print(cola)
-    
     clock = 0
     while clock<t_total:
         #Carga los procesos conforme llegan
         for key, values in list(carga.items()):
-            #print(key,'  ',values)
             if values[0] == clock:
                 colas[values[8]].append(key)
-        print(colas)
+
         #Recorre las colas de mayor a menor prioridad
         for q in colas:
             #Si hay elementos en la cola q
@@ -203,22 +195,19 @@ def FB(carga: Dict):
                 carga[q[0]][2]-=1
                 carga[q[0]][9]-=1 #Numero de veces que se ha ejecutado con esta prioridad
 
-                grafica+= q[0]
-                #print('mamada',carga[q[0]][2])
+                grafica+= q[0] #Representacion grafica de la actividad
                 if (carga[q[0]][2]==0):
-                    #print('asdasd',q)
                     carga[q[0]][4] = clock + 1  # Tiempo de fin
                     carga[q[0]][5] = carga[q[0]][4] - carga[q[0]][0]  # Tiempo total
                     carga[q[0]][6] = carga[q[0]][5] - carga[q[0]][1]  # Tiempo de espera
                     carga[q[0]][7] = carga[q[0]][5] / carga[q[0]][1]  # Proporción de penalización
-                    q.pop(0)
+                    q.pop(0) #Termina el proceso
                 elif carga[q[0]][9] == 0 and carga[q[0]][8]<4:
-                    #print('lkjlk',q)
                     carga[q[0]][8]+=1 #Reduccion de prioridad
-                    carga[q[0]][9]=3
-                    colas[ carga[q[0]][8] ].append(q.pop(0))
-                    
-                
+                    carga[q[0]][9]=3  #Reinicio del contador
+                    colas[ carga[q[0]][8] ].append(q.pop(0)) #Se mete a la cola inferior
+
+                #Break para asegurar que solo se ejecute un proceso por tick
                 break
         #print(clock,"/",t_total)
         clock += 1
