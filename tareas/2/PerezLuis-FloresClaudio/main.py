@@ -45,7 +45,6 @@ def FCFS(carga: Dict):
                 carga[cola[0]][7] = carga[cola[0]][5] / carga[cola[0]][1]  # Proporción de penalización (P).
                 cola.pop(0)  # Elimina el proceso de la cola.
         else:
-            grafica += "□"
             t_total += 1  # Aumenta el tiempo total si no hay procesos listos.
 
         # Agregar procesos que lleguen al instante actual.
