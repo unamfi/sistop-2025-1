@@ -266,6 +266,24 @@
     diferente... Aunque queda mucho aún por avanzar.
 - Calificación :: 10
 
+** Lechuga Shareny
+- Archivos :: [[./proyectos/LechugaShareny/LechugaShareny.pdf][LechugaShareny.pdf]]
+- Fascículo :: 13 y 19 (?)
+- Comentarios ::
+  - ¿Por qué elegiste dos fascículos?
+  - ¡Claro que la expansión por cartuchos ha evolucionado y se mantiene de
+    cierta manera!
+    - Un cartucho es, a fin de cuentas, sólo una interfaz estándar al bus del
+      CPU.
+    - Por un lado, si hablamos de software, bueno... ¡hay tantas maneras de
+      conseguir software hoy en día!
+    - Por otro lado, algunos (pocos) cartuchos ampliaban el hardware
+      disponible. De ahí podrías ver una evolución a todos los dispositivos
+      /conectables/ que hay hoy — ya sea los que conectas por USB, incluso los
+      inalámbricos...
+    - Veo que te seguiste con la lectura por mero gusto. ¡Excelente! 😃
+- Calificación :: 10
+
 ** Leon Perez Aaron Rodrigo
 - Archivos :: [[./LeonPerezAaronRodrigo/proyecto1.pdf][proyecto1.pdf]]
 - Fascículo :: 24
