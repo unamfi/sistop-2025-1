@@ -1,0 +1,12 @@
+Medrano Solano Enrique
+
+Tarea 2 - Comparación de planificadores
+Se realizo en Python 3.12.7 | Windows 11 Home 
+IDE: VS Code
+
+Se ejecuta de la siguiente manera:
+Tarea2_MSE.py
+
+Haciendo esta tarea la mayor dificultad que tuve fue al tratar de aplicar el método de FB, y el uso de las colas, ya que al principio tuve problemas con la transición entre estas por lo que no se median bien los procesos por lo que no terminaban de ejecutarse, finalmente encontré una posible solución que se baso en agregar algunas condiciones de seguridad en casos que no había contemplado.
+
+De esta manera se genera adecuadamente los procesos aleatorios y la comparación del rendimientos entre los distintos métodos utilizados.
