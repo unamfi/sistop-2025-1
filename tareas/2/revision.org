@@ -1,0 +1,269 @@
+** Aquino Gabriela
+- Documentación :: [[./AquinoGabriela/README.md][README.md]]
+- Archivos :: [[./AquinoGabriela/Algoritmos de planificación de procesos.py][Algoritmos de planificación de procesos.py]], [[./AquinoGabriela/Tarea2.py][Tarea2.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✗
+  - /Global/ :: 9
+
+** Arellanes Esteban, Esquivel Christian
+- Documentación :: [[./ArellanesEsteban-EsquivelChristian/Evidencia1.png][Evidencia1.png]], [[./ArellanesEsteban-EsquivelChristian/comandos_prueba_de_ejecución.txt][comandos_prueba_de_ejecución.txt]]
+- Archivos :: [[./ArellanesEsteban-EsquivelChristian/Tarea2.py][Tarea2.py]]
+- Comentarios :: Habría que revisar algunos detalles en tu código, porque
+  frecuentemente te entrega resultados con =E= negativa... cosa que es imposible
+  😐 Supongo que en su línea 76 (donde asignas =tiempo_espera= haciendo un
+  =sum()= sobre un =zip()=...
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Bohorquez Nancy
+- Documentación :: [[./BohorquezNancy/Tarea2.pdf][Tarea2.pdf]]
+- Archivos :: [[./BohorquezNancy/Tarea2.py][Tarea2.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Calderon Victor, Flores Brenda
+- Documentación :: [[./CalderonVictor-FloresBrenda/CalderonVictor-FloresBrenda.txt][CalderonVictor-FloresBrenda.txt]]
+- Archivos :: [[./CalderonVictor-FloresBrenda/CalderonVictor-FloresBrenda.py][CalderonVictor-FloresBrenda.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✗
+  - /Global/ :: 9
+
+** Cornejo Mauricio
+- Documentación :: [[./CornejoMauricio/T2.txt][T2.txt]]
+- Archivos :: [[./CornejoMauricio/Tarea2.py][Tarea2.py]]
+- Comentarios ::
+  - ¿Qué hago ahora? Implementaste los algoritmos de colas múltiples, pero no
+    los sencillos 🫤
+  - Ojo: tu ronda egoísta reporta que todos los procesos van terminando =en
+    tiempo 0=, y no reportan ir aumentando sus prioridades relativas (tengo que
+    asumir que no está completa su implementación)
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✗
+  - Multicolas :: ✓✗
+  - /Global/ :: 7.5
+
+** Cuevas Amir, De La Rosa Fernando
+- Documentación :: [[./CuevasAmir-DeLaRosaFernando/Documentacion_Tarea2.pdf][Documentacion_Tarea2.pdf]]
+- Archivos :: [[./CuevasAmir-DeLaRosaFernando/Tarea2.py][Tarea2.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Gayosso Sebastian, Perez Erandy
+- Documentación :: [[./GayossoSebastian-PerezErandy/Tarea2.pdf][Tarea2.pdf]]
+- Archivos :: [[./GayossoSebastian-PerezErandy/Tarea2.py][Tarea2.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Gomez Guzman, Leon Gallardo
+- Documentación :: [[./GomezGuzman-LeonGallardo/Documentacion.pdf][Documentacion.pdf]]
+- Archivos :: [[./GomezGuzman-LeonGallardo/Tarea2.py][Tarea2.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Gonzalez Pablo, Castillo Shareny
+- Documentación :: [[./GonzalezPablo-CastilloShareny/Tarea02_SO.pdf][Tarea02_SO.pdf]]
+- Archivos :: [[./GonzalezPablo-CastilloShareny/tarea2_CompPlan.py][tarea2_CompPlan.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✗
+  - /Global/ :: 9
+
+** González Emilio, Suarez Dayna
+- Documentación :: [[./GonzálezEmilio-SuarezDayna/Tarea2_GonzalezEmilio-SuarezDayna.pdf][Tarea2_GonzalezEmilio-SuarezDayna.pdf]]
+- Archivos :: [[./GonzálezEmilio-SuarezDayna/Tarea2.zip][Tarea2.zip]], [[./GonzálezEmilio-SuarezDayna/Tarea2_GonzalezEmilio-SuarezDayna.py][Tarea2_GonzalezEmilio-SuarezDayna.py]]
+- Comentarios :: ¡Buen detalle el de generar un archivo CSV con los resultados!
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Guerrero Héctor, López Joel
+- Archivos :: [[./GuerreroHéctor_LópezJoel/GuerreroHector_LopezJoel_T2.py][GuerreroHector_LopezJoel_T2.py]]
+- Comentarios ::
+  - El “esquema visual” no es únicamente el “orden de ejecución” que presentas,
+    sino que representa por cuántos /ticks/ debe ejecutarse cada uno de los
+    procesos antes de ser reemplazado (es necesario para poder comparar
+    visualmente).
+  - Revisen la lógica de totalización: ¿Cómo puede ser que varios algoritmos
+    generen =E ≤ 0=?
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ½
+  - Multicolas :: ✗
+  - /Global/ :: 8.2
+
+** Hernandez Daniel
+- Documentación :: [[./HernandezDaniel/Readme.md][Readme.md]]
+- Archivos :: [[./HernandezDaniel/T2.py][T2.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Jimenez Josué, Medina Santiago
+- Documentación :: [[./JimenezJosué-MedinaSantiago/JiménezJosué_MedinaSantiago_Tarea02.pdf][JiménezJosué_MedinaSantiago_Tarea02.pdf]]
+- Archivos :: [[./JimenezJosué-MedinaSantiago/JiménezJosué_MedinaSantiago_Tarea02.py][JiménezJosué_MedinaSantiago_Tarea02.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✗
+  - /Global/ :: 9
+
+** Leon Aaron
+- Documentación :: [[./LeonAaron/LeonAaron_Tarea2.pdf][LeonAaron_Tarea2.pdf]]
+- Archivos :: [[./LeonAaron/LeonAaron_Tarea2.py][LeonAaron_Tarea2.py]]
+- Comentarios :: 
+  - Revisen la lógica de totalización: ¿Cómo puede ser que varios algoritmos
+    generen =E ≤ 0=?
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✗
+  - /Global/ :: 9
+
+** Lopez Miriam, Garcia Fernanda
+- Documentación :: [[./LopezMiriam-GarciaFernanda/GarciaFernanda-LopezMiriam_Tarea2.pdf][GarciaFernanda-LopezMiriam_Tarea2.pdf]]
+- Archivos :: [[./LopezMiriam-GarciaFernanda/AdministradorProcesos.java][AdministradorProcesos.java]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Luna Darwin
+- Documentación :: [[./LunaDarwin/LunaDarwin_T2_Documento.pdf][LunaDarwin_T2_Documento.pdf]]
+- Archivos :: [[./LunaDarwin/LunaDarwin_T2_Codigo.py][LunaDarwin_T2_Codigo.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✗
+  - /Global/ :: 9
+
+** Martínez María
+- Documentación :: [[./MartínezMaría/318071280.pdf][318071280.pdf]]
+- Archivos :: [[./MartínezMaría/Tarea2.py][Tarea2.py]]
+- Comentarios ::
+  - ¡Qué bonito el uso de =matplotlib=! 😃
+  - ¿Qué hago ahora? Implementaste un algoritmo de colas múltiples (FB), pero no
+    los sencillos 🫤
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✗
+  - Multicolas :: ✗
+  - /Global/ :: 7.5
+
+** Medrano Enrique
+- Documentación :: [[./MedranoEnrique/Tarea2_MSE.txt][Tarea2_MSE.txt]]
+- Archivos :: [[./MedranoEnrique/Tarea2_MSE.py][Tarea2_MSE.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Miyasaki Yuichi
+- Documentación :: [[./MiyasakiYuichi/MiyasakiYuichi_Tarea2Reporte.pdf][MiyasakiYuichi_Tarea2Reporte.pdf]]
+- Archivos :: [[./MiyasakiYuichi/MiyasakiYuichi_Tarea2.py][MiyasakiYuichi_Tarea2.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Ortiz Ximena, Sanchez Jennyfer
+- Documentación :: [[./OrtizXimena-SanchezJennyfer/Evidencias de ejecución.pdf][Evidencias de ejecución.pdf]]
+- Archivos :: [[./OrtizXimena-SanchezJennyfer/tarea2.py][tarea2.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✗
+  - /Global/ :: 9
+
+** Pali Santiago, Hernandez Hector
+- Documentación :: [[./PaliSantiago-HernandezHector/PaliSantiago-HernandezHector_Tarea2.pdf][PaliSantiago-HernandezHector_Tarea2.pdf]]
+- Archivos :: [[./PaliSantiago-HernandezHector/PaliSantiago-HernandezHector_Tarea2.py][PaliSantiago-HernandezHector_Tarea2.py]]
+- Comentarios :: ¿Y por qué FCFS y SPN no tienen también esquema visual? 😉
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Perez Luis, Flores Claudio
+- Archivos :: [[./PerezLuis-FloresClaudio/main.py][main.py]]
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 10
+
+** Tenorio Jesus
+- Archivos :: [[./TenorioJesus/FB.py][FB.py]], [[./TenorioJesus/FIFO.py][FIFO.py]], [[./TenorioJesus/Main.py][Main.py]], [[./TenorioJesus/MergeSort.py][MergeSort.py]], [[./TenorioJesus/Promedio.py][Promedio.py]], [[./TenorioJesus/RR.py][RR.py]], [[./TenorioJesus/procesos.py][procesos.py]], [[./TenorioJesus/spn.py][spn.py]]
+- Comentarios :: Ojo: el tiempo total de ejecución debe ser exactamente igual
+  con los diferentes algoritmos. En tu programa, en general FIFO sale más corto,
+  RR más largo... ¿Por qué? No sé, pero no es una ejecución correcta 🙁
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ½
+  - Esquema visual :: ✓
+  - Multicolas :: ✓
+  - /Global/ :: 8.5
+
+** Velázquez Diego
+- Archivos :: [[./VelazquezDiego/T2.py][T2.py]], [[./VelazquezDiego/comparacion_planificadores.pdf][comparacion_planificadores.pdf]], [[./VelazquezDiego/grafico_retornos.png][grafico_retornos.png]]
+- Comentarios :: ¡Excelente uso de =FPDF=! La comparación visual sobre las cinco
+  rondas resulta interesante. Cabe sólo mencionar que esta /no cubre/ el
+  requisito del esquema visual (que es lo que permite a ojo estar seguros de que
+  la implementación sea correcta)
+- Evaluación ::
+  - Entrega :: ✓
+  - Funcional :: ✓
+  - Esquema visual :: ✗
+  - Multicolas :: ✓
+  - /Global/ :: 9
+
