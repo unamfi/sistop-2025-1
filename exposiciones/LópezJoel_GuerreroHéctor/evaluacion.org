@@ -1,0 +1,89 @@
+#+title: Evaluación de la exposición
+#+author: Gunnar Wolf
+
+* Inteligencia Artificial implementada en sistemas operativos
+
+- Tema presentado por :: Joel Ángel López Ramírez y Héctor Guerrero Gutiérrez
+- Calificación global :: Por favor revisen el resto de este archivo para ver de
+  dónde vienen todos estos números 😉
+
+|------------------------+------+--------------------+------+---------|
+| Evaluación  compañeros | Peso | Evaluación docente | Peso | *Total* |
+|------------------------+------+--------------------+------+---------|
+|                   9.87 |  0.3 |                8.5 |  0.7 |    8.91 |
+|------------------------+------+--------------------+------+---------|
+#+TBLFM: @2$5=$1*$2+$3*$4;f-2
+
+* Evaluación grupal
+
+|              | 1 | 2 | 3 | 4 | 5 | Total |
+|--------------+---+---+---+---+---+-------|
+| Originalidad | 0 | 0 | 0 | 1 | 5 |  9.67 |
+| Nivel        | 0 | 0 | 0 | 0 | 6 | 10.00 |
+| Relevancia   | 0 | 0 | 0 | 0 | 6 | 10.00 |
+| Claridad     | 0 | 0 | 0 | 0 | 6 | 10.00 |
+| Presencia    | 0 | 0 | 0 | 1 | 5 |  9.67 |
+|--------------+---+---+---+---+---+-------|
+|              |   |   |   |   |   |  9.87 |
+#+TBLFM: @2$7..@6$7=10 * (0.2*$2 + 0.4*$3 + 0.6*$4 + 0.8*$5 + $6 ) / vsum($2..$6); f-2::@7$7=vmean(@2$7..@6$7); f-2
+
+** Comentarios de los compañeros
+- Muy interesesante el tema en general.
+
+
+* Evaluación por parte del docente
+
+| *Aspecto*              | *Peso* | *Evaluación* | *Puntos* |
+|------------------------+--------+--------------+----------|
+| Originalidad del tema  |    0.1 |          7.5 |     0.75 |
+| Material desarrollado  |    0.2 |            5 |       1. |
+| Contenido              |    0.2 |           10 |       2. |
+| Fuentes bibliográficas |    0.1 |           10 |       1. |
+| Uso del tiempo         |    0.1 |          7.5 |     0.75 |
+| Dominio del tema       |   0.15 |           10 |      1.5 |
+| Presencia              |   0.15 |           10 |      1.5 |
+|------------------------+--------+--------------+----------|
+| *Global*               |        |              |     8.50 |
+#+TBLFM: @<<$4..@>>$4=$2*$3::$4=vsum(@<<..@>>);f-2
+
+** Comentarios
+
+- Uy... ¡17 páginas de resumen! ¡y ni siquiera me lo mandaron por anticipado! 😰
+- ¿Consideran a ChatGPT como IA General? Me temo desinflar ese balón... Estamos
+  todavía lejos, muy lejos de ello. Los modelos grandes de lenguaje (LLMs)
+  pueden ser impresionantes, pero no son IA General. Tampoco aprenden por sí
+  sólos (la cantidad de curaduría que requiere el conjunto de entrenamiento de
+  ChatGPT es _tremendo_, y “no pueden” ver la red completa, sólo el conjunto de
+  datos que ya fue filtrado para su entrenamiento; pueden observar que un LLM no
+  aprende ni evoluciona a partir de la interacción que podamos tener con él.
+  - La “prueba de Turing” fue pasada por primera vez en 1965, por el sistema
+    ELIZA. Diferentes sistemas a lo largo del tiempo lo han hecho. Demuestra más
+    que otra cosa que... nosotros los humanos estamos /sesgados/ para reconocer
+    inteligencia ahí donde no hay.
+- Les vuelvo a hacer la precisión: El que Siri /corra sobre/ el sistema
+  operativo de Apple, u otros varios similares, no significa que su IA asista
+  /al sistema/, sino que únicamente ayuda /al usuario final/; el sistema
+  operativo está muy por debajo, permitiendo que esta IA exista. y tal como lo
+  menncionan en el resumen: estos /asistentes IA/ pueden interactuar con varias
+  aplicaciones de forma autónoma, /pero no controlan/ aspectos operativos del
+  SO.
+  - ...Piensen en los peligros que conlleva la /alucinación/...
+- Cuando hablan de que las /supercomputadoras/ tienen /una nueva parte que se
+  llama GPU/... Están retrocediendo unos 40 años en el tiempo. Primero, por el
+  hablar de supercomputadoras (que es una categoría que existe en realidad, sí,
+  pero hace muchas décadas no /monopoliza/ ya el uso de GPUs.
+
+  Prácticamente todas las computadoras que han salido al mercado en los últimos
+  25 años tienen un GPU decentemente poderoso; ATi y nVidia han sido de las
+  mayores protagonistas, pero no las únicas.
+  - Ya que mencionan que los GPUs se pueden utilizar para el aprendizaje por
+    computadora (ML, /Machine Learning/)... Sería importante que indicaran /por
+    qué/ puede utilizarse para este fin. ¿Qué operaciones son las que realiza?
+    ¿Por qué se optimizan? → Son particularmente las operaciones vectoriales /
+    superescalares. Y la arquitectura de GPUs parece que va bajando su
+    dominación para esta actividad, para írsela cediendo a los TPUs (que
+    permiten operar con matrices de alta dimensionalidad)
+
+- Pero bueno... Me parece que entenderán que yo soy un /descreyente/ de los
+  /grandísimos avances/ de la IA. Pero mi opinión personal... Déjenme quedármela
+  para mí mismo 😉 ¡Buen trabajo! ¡Felicidades!
